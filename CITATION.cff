@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying paper when using the mathematical framework."
+title: Ordinatics
+type: software
+version: 0.1.0
+authors:
+  - family-names: Roost
+    given-names: Tyler
+repository-code: "https://github.com/TimeLordRaps/ordinatics"
+license: MIT
+preferred-citation:
+  type: manuscript
+  title: "Ordinal Arithmetic: An Ordinal-First Metalanguage Approach to Definable Arithmetic Truth"
+  authors:
+    - family-names: Roost
+      given-names: Tyler
+  year: 2026
+  url: "https://github.com/TimeLordRaps/ordinatics/blob/main/paper/ordinal_arithmetic.pdf"

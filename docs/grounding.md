@@ -96,6 +96,30 @@ after preserving the receipt bundle; the earlier report cannot override it.
 All mathematical objects and logical statuses here are dimensionless. Timeout
 values are seconds per subprocess; they do not bound big-integer complexity.
 
+## Finite-trace evidence and the remaining bridge
+
+Hypermath's `finite_trace` audit process checks its constructive finite-trace
+proofs and concrete probes in `lean4/Hypermath/Trace.lean` and
+`lean4/TraceChecks.lean`. Traces carry edge evidence and matching endpoints;
+their lengths are computed from the recorded steps. The proofs cover composition
+identities and associativity, length addition, and preservation under mappings
+that justify every translated edge. Reusable trace expressions contain existing
+witnesses, and expansion preserves their edge sequence and derived length.
+
+The foundation's `DEntry x y` supplies a finite apply-trace whose every step
+preserves native congruence; `D x y` states that such a witness exists. The
+self-read is an explicit zero-step witness with composition identities.
+A nonzero closed trace still requires preservation evidence for every
+intermediate apply-step. An endpoint-return statement, even at the stronger
+simulation relation, leaves that obligation open. The zero-step self-read
+alone supplies no positive-length cycle.
+
+These checks can pass while self-derivation remains unresolved. Native `Form`
+reification, transfinite paths, the interpretation into Ordinatics arithmetic,
+and recursive arithmetic completeness remain separate proof obligations.
+The finite-trace result therefore does not promote `foundation_status`,
+`bridge_status`, or `completeness_status` to `PASS` by itself.
+
 ## Explicit requirements and rejection boundaries
 
 ```python

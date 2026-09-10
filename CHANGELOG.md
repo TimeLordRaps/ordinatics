@@ -7,6 +7,12 @@
 - Finite-trace proof evidence for witnessed composition, structural length, and
   reusable expression expansion; endpoint return still requires separate
   intermediate-step preservation evidence to establish a nonzero closed trace.
+- Native finite-closure and Form-valued trace-length evidence, including
+  composition and reuse preservation. The ordinal limit refutes universal
+  finite ground-spanning; its admitted theorem is withdrawn, not proved.
+- Required observation and full-model audit processes. The model covers the
+  declared logical clauses, without establishing stronger prose descriptions
+  or source-language adequacy.
 - Separate software and mathematical CI gates, installed-wheel checks, and
   publication dependent on the complete checks workflow.
 - The arithmetic interpretation and recursively grounded completeness proof

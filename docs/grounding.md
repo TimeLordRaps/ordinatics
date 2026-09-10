@@ -96,7 +96,7 @@ after preserving the receipt bundle; the earlier report cannot override it.
 All mathematical objects and logical statuses here are dimensionless. Timeout
 values are seconds per subprocess; they do not bound big-integer complexity.
 
-## Finite-trace evidence and the remaining bridge
+## Finite foundation evidence and the remaining bridge
 
 Hypermath's `finite_trace` audit process checks its constructive finite-trace
 proofs and concrete probes in `lean4/Hypermath/Trace.lean` and
@@ -114,11 +114,31 @@ intermediate apply-step. An endpoint-return statement, even at the stronger
 simulation relation, leaves that obligation open. The zero-step self-read
 alone supplies no positive-length cycle.
 
+The reviewed foundation also defines `finiteApplyFromGround` as the least finite
+closure of the existing `ground` under `f2f`. Its Form-valued trace-length
+observation uses those same finite iterates and preserves the arithmetic of
+composition and reusable-expression expansion. This does not assert that distinct
+iteration counts denote distinct Forms, or that native `ordinalApply` agrees
+with the observation.
+
+Under the declared logical clauses, `ordinalLimit` lies outside that finite
+closure and cannot be reached from ground through the finite `D` relation.
+Universal finite ground-spanning is therefore refuted. The corresponding
+admitted theorem was withdrawn; its proposition remains an explicit claim.
+This withdrawal is distinct from completing its proof.
+
+The fresh audit requires the `observation` and `full_model` processes as well as
+the finite-trace checks. Observation probes exercise preservation and cases where
+an endpoint alone cannot determine the recorded length. The full-model process
+checks an interpretation of every declared logical axiom clause. Its coverage
+does not extend to stronger prose descriptions, admitted theorems, or adequacy
+of the native source language.
+
 These checks can pass while self-derivation remains unresolved. Native `Form`
 reification, transfinite paths, the interpretation into Ordinatics arithmetic,
 and recursive arithmetic completeness remain separate proof obligations.
-The finite-trace result therefore does not promote `foundation_status`,
-`bridge_status`, or `completeness_status` to `PASS` by itself.
+These results therefore do not promote the self-derivation, interpretation-bridge,
+or completeness claims to `PASS` by themselves.
 
 ## Explicit requirements and rejection boundaries
 

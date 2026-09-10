@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ordinatics"
-version = "0.1.0"
+version = "0.2.0.dev0"
 description = "Exact ordinal arithmetic, symbolic specialization, and bounded typed satisfaction"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,10 +24,11 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Mathematics",
   "Typing :: Typed",
 ]
-dependencies = ["sympy>=1.13.3,<2"]
+dependencies = ["sympy>=1.13.3,<2", "hypermath-foundations==0.1.0"]
 
 [project.optional-dependencies]
 scientific = ["numpy>=1.26", "scipy>=1.11"]
+verification = ["hypermath-foundations[verification]==0.1.0"]
 dev = ["pytest>=8", "pytest-timeout>=2.3", "ruff>=0.11", "build>=1.2", "twine>=6"]
 
 [project.urls]
@@ -40,8 +41,11 @@ Paper = "https://github.com/TimeLordRaps/ordinatics/blob/main/paper/ordinal_arit
 [tool.hatch.build.targets.wheel]
 packages = ["src/ordinatics"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"verification/hypermath.json" = "ordinatics/_data/hypermath.json"
+
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "examples", "docs", "paper/ordinal_arithmetic.tex", "paper/ordinal_arithmetic.md", "scripts/build_paper.py", "CITATION.cff", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
+include = ["src", "tests", "examples", "docs", "verification", "paper/ordinal_arithmetic.tex", "paper/ordinal_arithmetic.md", "scripts", "CITATION.cff", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

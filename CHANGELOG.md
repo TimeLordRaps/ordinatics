@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0.dev0 — unreleased
+
+- Required `hypermath-foundations` dependency built from a reviewed Git commit.
+- Fresh source-bound grounding checks and Verifier Standard evidence integration.
+- Separate software and mathematical CI gates, installed-wheel checks, and
+  publication dependent on the complete checks workflow.
+- The arithmetic interpretation and recursively grounded completeness proof
+  remain unestablished; the existing numerical and bounded semantic APIs retain
+  their documented scope.
+
 ## 0.1.0
 
 Initial experimental release:

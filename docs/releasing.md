@@ -10,6 +10,14 @@ revision, including its mathematical gate. An expected failure remains a failure
 The workflow retains the evidence and never treats unresolved mathematics as a
 passing release condition.
 
+The checks workflow separates two propositions. **grounding integrity (audit and
+replay)** passes when the exact pinned Hypermath audit completes and its Verifier
+Standard evidence replay succeeds; it does not assert self-derivation or arithmetic
+completeness. **foundation and completeness gate** requires those stronger claims and
+therefore remains the fail-closed publication condition. Both jobs retain their
+distinct evidence bundles for 90 days. A passing integrity job does not qualify a
+release while the completeness gate fails.
+
 ## Build locally
 
 ```console

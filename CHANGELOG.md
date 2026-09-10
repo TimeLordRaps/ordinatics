@@ -3,11 +3,21 @@
 ## 0.2.0.dev0 — unreleased
 
 - Required `hypermath-foundations` dependency built from a reviewed Git commit.
+- Advanced the exact foundation pin to `4352a54d8198afc745c048a211ae4681f57d2799`.
+  Its mandatory eighth process checks primitive source-syntax records,
+  record-only acceptance, relative soundness, and finite rule-reinstantiation.
+  The new semantic counterexample prevents identifying retained syntax with
+  interpreted `Form` values. Ranked acceptance and full arithmetic coverage
+  remain open; the paper now describes this bounded construction explicitly.
 - Checked observation-factorization and finite-reuse preservation results from
   Hypermath. Preserving all standard numeral-equality queries requires injective
   native numeral representation; the existing countermodel refutes a decoder
   for those queries. These results do not discharge the arithmetic bridge.
 - Fresh source-bound grounding checks and Verifier Standard evidence integration.
+- Grounding integrity now rejects failed, missing, or unattempted assumption
+  policy checks even when native execution completes and replay agrees. The
+  foundation also preserves its primitive Lean checker bytes in fresh Windows
+  checkouts. Mathematical `UNKNOWN` outcomes remain distinct from these errors.
 - Finite-trace proof evidence for witnessed composition, structural length, and
   reusable expression expansion; endpoint return still requires separate
   intermediate-step preservation evidence to establish a nonzero closed trace.
@@ -30,7 +40,8 @@
   successor, and path-length computation claims. Their exact propositions remain
   named `Claim` definitions; their withdrawal is not proof completion. The
   reviewed foundation retains 16 admissions and 67 declared assumptions; its
-  fresh audit binds 51 stable inputs and checks 34 proved milestone declarations.
+  fresh audit binds 53 stable inputs and checks 35 proved milestone declarations,
+  plus 23 primitive source-syntax dependency reports.
 - Separate software and mathematical CI gates, installed-wheel checks, and
   publication dependent on the complete checks workflow.
 - Wheel and source-distribution qualification now require the exact committed

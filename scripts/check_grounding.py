@@ -36,6 +36,10 @@ def main() -> int:
         return 124
     if report["execution"]["completed"] is not True:
         return 1
+    policy = report["checks"].get("assumption_policy", {})
+    if policy.get("status") != "PASS" or policy.get("attempted") is not True:
+        print("Grounding integrity gate is not satisfied: assumption policy did not pass", flush=True)
+        return 1
     if args.require_complete and result.completeness_status != "PASS":
         print("Publication gate is not satisfied: arithmetic bridge or completeness proof missing",
               flush=True)

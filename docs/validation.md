@@ -10,8 +10,8 @@ Package Index publication, or evidence that the open completeness target holds.
 The primary local environment used Windows, Python 3.12.8, SymPy 1.14.0,
 NumPy 2.5.3, and SciPy 1.18.1.
 
-- `python -m pytest tests -vv -s --durations=10 --timeout=60`: 231 passed in
-  18.42 seconds.
+- `python -m pytest tests -vv -s --durations=10 --timeout=60`: 237 passed in
+  21.05 seconds with the updated foundation installed.
 - Both examples, Ruff, and `python -m pip check` passed.
 - Build and Twine checks passed for the wheel and source distribution.
 - Both artifacts retained the exact committed Hypermath pin; the archive
@@ -22,8 +22,8 @@ NumPy 2.5.3, and SciPy 1.18.1.
 ## Grounding
 
 The locked Hypermath commit is
-[`3614e4adfb8244477dd8e5f2f0b14b515e6a509e`](https://github.com/TimeLordRaps/hypermath/tree/3614e4adfb8244477dd8e5f2f0b14b515e6a509e).
-Its fresh audit and replay completed: all seven native processes and the
+[`4352a54d8198afc745c048a211ae4681f57d2799`](https://github.com/TimeLordRaps/hypermath/tree/4352a54d8198afc745c048a211ae4681f57d2799).
+Its fresh audit and replay completed: all eight native processes and the
 assumption policy passed. Proof admissibility failed because the current
 self-derivation proof still depends on admissions. Self-derivation, source
 adequacy, and recursive arithmetic completeness remained `UNKNOWN`.
@@ -34,13 +34,29 @@ preservation of all standard numeral-equality queries. Its six-form model
 refutes an equality-query decoder for the current encoding. These checked
 results identify requirements for the arithmetic bridge; they do not supply it.
 
+The new `ground_syntax` process checks 23 dependency reports for the primitive
+record checker, round-trip decoding, soundness relative to four source rules,
+and finite rule-reinstantiation. Three additional countermodel results show
+that interpreted semantic values need not retain these records. The audit
+binds 53 stable inputs and retains 67 source assumptions and 16 admission sites.
+This source-syntax fragment does not construct ranked acceptance derivations
+or an arithmetic interpretation.
+
+The integrity commands now reject an absent, unattempted, or non-passing
+assumption-policy result even when all native processes finish. The foundation
+also preserves the two new checker-source files as line-feed bytes on Windows.
+Regression tests reproduce both failure modes. Matching replay alone can
+reproduce a policy failure; it must not be treated as an integrity pass.
+
 ## Paper
 
 `python scripts/build_paper.py --render` completed two LaTeX passes and rendered
-14 pages. All pages were visually inspected. The PDF title is exact, all 17
+15 pages. All pages were visually inspected. The PDF title is exact, all 17
 bibliography entries are cited, and no clipping or overlap was observed.
+Proposition 6.7 gives the primitive-record result with its proof and semantic
+interpretation boundary; the conditional coverage result remains Theorem 6.6.
 
-PDF SHA-256: `41FFB4B1A9D095612FD8315CCC823440C0F15978B118CC4D16B37C509A67569F`.
+PDF SHA-256: `E4F7CD5B75B7C41DC55890AEBC3F1D6D2BB3B6A10D7E0115B71EB9BB017FAAC3`.
 
 Hosted results must be read from the
 [checks workflow](https://github.com/TimeLordRaps/ordinatics/actions/workflows/ci.yml)

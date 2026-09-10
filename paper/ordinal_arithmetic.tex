@@ -34,7 +34,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function value layer with partial specialization $W(X)=-1/2$. To formalize the stronger objective of G\"odelian completeness through fractal meta-representations, we specify a ranked self-closing meta-surface in which closed derivations and their acceptance derivations can be reified at successive ranks. We formalize observation-exactness as an information-preservation condition, compare the target with Feferman's completeness theorem for transfinite reflection progressions, and prove a conditional record-coverage theorem whose conclusion quantifies over native records alone. A checked finite fragment encodes primitive Hypermath rule instances, verifies their conclusions, and preserves them through specified finite reuse. A full Hypermath-derived ranked realization, arithmetic checker agreement, arithmetic interpretation, and soundness proof remain open. The contribution is an explicit interface, bounded constructions, and proof-obligation analysis; it does not establish arithmetic completeness.
+Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function value layer with partial specialization $W(X)=-1/2$. To formalize the stronger objective of G\"odelian completeness through fractal meta-representations, we specify a ranked self-closing meta-surface in which closed derivations and their acceptance derivations can be reified at successive ranks. We formalize observation-exactness as an information-preservation condition, compare the target with Feferman's completeness theorem for transfinite reflection progressions, and prove a conditional record-coverage theorem whose conclusion quantifies over native records alone. A checked finite calculus retains composed rule trees, encodes records and formulas as single free ground terms, and checks packed numerical representations. One explicit model of all current source clauses preserves those records, while its path relation does not implement their direct transition to conclusions. A full Hypermath-derived ranked realization, arithmetic checker agreement, arithmetic interpretation, and soundness proof remain open. The contribution is an explicit interface, bounded constructions, and proof-obligation analysis; it does not establish arithmetic completeness.
 \end{abstract}
 \noindent\textbf{Keywords:} Ordinatics; ordinal arithmetic; satisfaction; ramified truth; uniform reflection; fractal meta-representation; derivation paths.
 
@@ -443,8 +443,9 @@ specialization uses the existing source parameters and four primitive clauses,
 with no new native axiom, admission, or classical-choice dependency.
 Lean's inductive types, recursion, propositional extensionality, and quotient
 equality principle remain explicit host infrastructure. This construction
-represents primitive instances; it does not encode composed derivations,
-internalize the checker, or derive its own acceptance statements at a new rank.
+represents primitive instances. The extension below encodes composed derivations;
+neither construction internalizes the checker or derives its own acceptance
+statements at a new rank.
 
 Free terms must also be distinguished from their semantic interpretation as
 \texttt{Form} values. In the six-Form model of all 38 source clauses, the
@@ -456,6 +457,120 @@ hold in the model; the obstruction concerns record recovery, not consistency
 of the primitive rules. A native reification theorem must preserve the
 observations required after interpretation. The finite construction does not
 discharge that obligation or the hypotheses of the conditional coverage theorem.
+
+\paragraph{Composed records and retained formation trees.}
+Extend the finite formula grammar with similarity, negated simulation, and
+conjunction. A typed derivation is generated by the four primitive schemata,
+the forward directions of the three source predicate closes, conjunction
+introduction, and the two projections. The closes infer similarity to ground
+from continuation to ground, negated simulation from structural distinctness,
+and similarity of $\operatorname{apply}^2(t)$ to $t$ from its structural orbit.
+Conjunction has the host logical interpretation already used by the source;
+adequacy for its native proposition type remains an obligation.
+
+A raw record retains every rule name, term argument, premise record, and
+projection annotation. Let $K(r,s)$ first check every premise and required
+annotation, then compare the computed conclusion with $s$. Let $q(d)$ quote
+a typed derivation as a raw record, and let $\rho(r)$ reconstruct the typed
+derivation after successful checking. Reconstruction takes the record alone;
+its Boolean check supplies the evidence needed by the typed constructor.
+
+\begin{proposition}[Composed checking and exact record reconstruction]
+Every typed derivation $d$ with conclusion $c(d)$ satisfies
+$K(q(d),c(d))=1$. Every accepted record satisfies $q(\rho(r))=r$.
+Consequently all observations of its formation tree survive reconstruction.
+A formula has an accepted record exactly when it is derivable in this finite
+calculus. Every accepted conclusion holds in each interpretation satisfying
+the four primitive and three predicate-close premises.
+\end{proposition}
+\begin{proof}
+Induct on the typed derivation for acceptance and soundness. Primitive cases
+use their corresponding source clauses, closes use the stated forward
+implications, and conjunction rules use introduction or elimination.
+For reconstruction, induct on the raw record. Its acceptance check gives
+accepted premises with the required conclusions; reconstruct them inductively
+and apply the indicated typed rule. Quoting that result returns the same rule,
+arguments, annotations, and premise records. The two constructions give the
+representability equivalence. Composing the exact round trip with any function
+of a record proves observation preservation.
+\end{proof}
+
+The equivalence is checker coverage of the specified calculus, not semantic
+completeness for its models or arithmetic truth. Checking a projection includes
+its entire conjunction premise; a valid selected branch cannot hide a failed
+unselected branch.
+
+\paragraph{Single-term codes and their cost.}
+Represent each constructor and its arguments by a tagged finite binary tree.
+Encode a leaf by bit $0$, and a fork by bit $1$ followed by its two child codes.
+The parser must consume the complete input. Pack a bit list into a natural
+number by $P([])=0$, $P(0::b)=2P(b)+1$, and $P(1::b)=2P(b)+2$.
+Tag the outer record and formula trees differently. Write $E(r)$ and $F(s)$
+for the resulting numbers; the corresponding free ground terms have those
+depths. Let $\widehat K$ decode both numbers and then run $K$, rejecting either
+decoding failure.
+
+\begin{proposition}[Encoded composed checking]
+The record and formula encodings have exact decoders, hence are injective in
+their respective sorts. Every observation of a record is recoverable from
+its single free ground term, and
+\[
+\widehat K(E(r),F(s))=K(r,s).
+\]
+For a prefix of length $b$ with packed value $n$,
+$2^b\le n+1$ and $n+2\le 2^{b+1}$.
+\end{proposition}
+\begin{proof}
+The first packed bit is determined by parity, and removing it strictly
+decreases the remaining number. Induction gives unpacking after packing.
+Structural induction on a tree gives the prefix-parser round trip; requiring
+empty remaining input excludes trailing data. Constructor tags then give
+record and formula recovery by structural induction, including all premises
+and annotations. The free term of a given depth is unique. Recovery proves
+injectivity and observation preservation; the definition of $\widehat K$
+gives checker agreement. Induction on the bit list proves the two bounds.
+\end{proof}
+
+Thus materializing the unary term is exponential in the prefix length. The
+executable interface works on packed numbers: one checked separation record
+has 81 prefix bits but unary depth $2820815200072616987372202$. This is not a
+compression or performance theorem. Repeated subrecords remain stored in full.
+The Lean dependency report exposes classical choice in the size-bound proof;
+the executable decoder and checker do not use it.
+
+\begin{proposition}[Faithful model and an operational boundary]
+There is a model of all 38 current logical clauses in which the composed
+record and formula codes retain their full decoded objects and encoded
+checking agrees with $K$. In that same model, the current finite
+congruence-preserving path relation cannot carry any encoded record to any
+encoded formula.
+\end{proposition}
+\begin{proof}
+Use the existing two-chain model, with forms $(n,\varepsilon)$ for
+$n\in\mathbb N$ and $\varepsilon\in\{0,1\}$, ground $(0,0)$, and
+application $(n,\varepsilon)\mapsto(n+1,\varepsilon)$. Congruence and
+simulation are equality; similarity is universal. The remaining parameter
+interpretations and all 38 clause checks are explicit in
+\texttt{FullAxiomModel.lean} \cite{hypermath}. The record and formula values
+are $(E(r),0)$ and $(F(s),0)$, exactly the interpretations of their free
+ground terms. Reading their first coordinates gives the required decoders
+and checker; values on the second chain are rejected.
+
+The current preserving edge from $x$ to $y$ requires both
+$y=\operatorname{apply}(x)$ and congruence of $y$ with $x$. Here that would
+require $n+1=n$, so every preserving path is empty and has equal endpoints.
+The distinct record and formula envelopes give unequal values. No such path
+can therefore perform their direct transition.
+\end{proof}
+
+The model is a compatibility witness, not a proof that all interpretations
+are faithful or that it captures the intended native semantics. Its decoders
+and checker are host functions on model values. The path obstruction concerns
+that direct transition in this specified model; it does not exclude a different
+native computation mechanism or ranked acceptance construction. Together with
+the collapsing model, it separates possible record retention from retention
+entailed by the clauses. Internal acceptance, source adequacy, arithmetic
+interpretation, transfinite realization, and coverage remain open.
 
 \section{Why a truth stage cannot certify its own full truth}
 \begin{theorem}[Undefinability at each stage]
@@ -505,6 +620,8 @@ Four formal questions remain. First, a derivation from the $\square$ axioms need
 
 The mathematically supportable thesis is therefore that ordinal structure can organize a typed foundation for arithmetic satisfaction while preserving both operational distinctions and semantic limits. The present reconstruction makes that thesis explicit. Its elementary obstructions and constructive model are offered as a technical foundation note; independent mathematical review and a broader novelty assessment remain appropriate before a stronger research claim.
 
+\begingroup
+\small
 \begin{thebibliography}{99}
 \small
 \bibitem{tarski} Alfred Tarski. The Semantic Conception of Truth and the Foundations of Semantics. \emph{Philosophy and Phenomenological Research} 4(3), 341--376, 1944. \href{https://doi.org/10.2307/2102968}{doi:10.2307/2102968}. Author's article available as a \href{https://www.jfsowa.com/logic/tarski.htm}{web transcription}.
@@ -522,7 +639,8 @@ The mathematically supportable thesis is therefore that ordinal structure can or
 \bibitem{beeson} Michael Beeson. Lecture 13: The First Incompleteness Theorem. Stanford logic lecture slides, especially the self-reference lemma and undefinability discussion. \href{https://www.michaelbeeson.com/teaching/StanfordLogic/Lecture13Slides.pdf}{Author-hosted slides}, accessed September 6, 2026.
 \bibitem{stacks} The Stacks Project Authors. Section 10.9: Localization. \href{https://stacks.math.columbia.edu/tag/00CM}{Tag 00CM}, accessed September 7, 2026.
 \bibitem{nist} National Institute of Standards and Technology. Digital Library of Mathematical Functions, Section 4.2: Definitions, Logarithm, Exponential, Powers. \href{https://dlmf.nist.gov/4.2}{DLMF Section 4.2}, accessed September 7, 2026.
-\bibitem{hypermath} Tyler Roost. \emph{Hypermath: Fractal meta-representation and G\"odelian completeness research target}. Development source and proof audit at commit \href{https://github.com/TimeLordRaps/hypermath/tree/4352a54d8198afc745c048a211ae4681f57d2799}{4352a54d8198afc745c048a211ae4681f57d2799}, 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
+\bibitem{hypermath} Tyler Roost. \emph{Hypermath: Fractal meta-representation and G\"odelian completeness research target}. Development source and proof audit at commit \href{https://github.com/TimeLordRaps/hypermath/tree/34c9c99345bb3cdeac7be9a67713d9aa0c99d6da}{34c9c99345bb3cdeac7be9a67713d9aa0c99d6da}, 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
 \bibitem{roost} Tyler Roost. Unpublished working notes on Ordinatics: \emph{Ordinatics} (Chapter 48), \emph{The Wrap Operation W} (Chapter 50), \emph{The Four-Level Ordinate Hierarchy} (Chapter 97), and \emph{Dimensional Transition Operators} (Chapter 98), with accompanying ordinal-extension specifications. Manuscripts consulted September 6, 2026; Chapters 97--98 dated August 6, 2026. These are sources of the research proposal, not independently validated proof certificates. All definitions required for the present results are given in this paper.
 \end{thebibliography}
+\endgroup
 \end{document}

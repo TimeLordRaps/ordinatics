@@ -3,12 +3,14 @@
 ## 0.2.0.dev0 — unreleased
 
 - Required `hypermath-foundations` dependency built from a reviewed Git commit.
-- Advanced the exact foundation pin to `4352a54d8198afc745c048a211ae4681f57d2799`.
-  Its mandatory eighth process checks primitive source-syntax records,
-  record-only acceptance, relative soundness, and finite rule-reinstantiation.
-  The new semantic counterexample prevents identifying retained syntax with
-  interpreted `Form` values. Ranked acceptance and full arithmetic coverage
-  remain open; the paper now describes this bounded construction explicitly.
+- Advanced the exact foundation pin to `34c9c99345bb3cdeac7be9a67713d9aa0c99d6da`.
+  Ten mandatory native processes now include primitive records, composed
+  derivations with complete rule-tree recovery, and single-term record encodings.
+  One model of all 38 clauses retains the encoded records faithfully, but its
+  congruence-preserving paths cannot implement a direct record-to-formula
+  transition. The checker remains a host function; native ranked acceptance
+  and full arithmetic coverage remain open. Paper Propositions 6.8–6.10 give
+  these bounded results and their proofs.
 - Checked observation-factorization and finite-reuse preservation results from
   Hypermath. Preserving all standard numeral-equality queries requires injective
   native numeral representation; the existing countermodel refutes a decoder
@@ -40,8 +42,10 @@
   successor, and path-length computation claims. Their exact propositions remain
   named `Claim` definitions; their withdrawal is not proof completion. The
   reviewed foundation retains 16 admissions and 67 declared assumptions; its
-  fresh audit binds 53 stable inputs and checks 35 proved milestone declarations,
-  plus 23 primitive source-syntax dependency reports.
+  fresh audit binds 58 stable inputs and checks 35 proved milestone declarations,
+  plus separate groups of 23 primitive, 26 composed-calculus, 45 encoded-record,
+  and 20 full-model dependency reports. Exact dependency checks retain classical
+  choice where used; none of these four groups uses an admission.
 - Separate software and mathematical CI gates, installed-wheel checks, and
   publication dependent on the complete checks workflow.
 - Wheel and source-distribution qualification now require the exact committed

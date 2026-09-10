@@ -4,6 +4,9 @@
 
 - Required `hypermath-foundations` dependency built from a reviewed Git commit.
 - Fresh source-bound grounding checks and Verifier Standard evidence integration.
+- Finite-trace proof evidence for witnessed composition, structural length, and
+  reusable expression expansion; endpoint return still requires separate
+  intermediate-step preservation evidence to establish a nonzero closed trace.
 - Separate software and mathematical CI gates, installed-wheel checks, and
   publication dependent on the complete checks workflow.
 - The arithmetic interpretation and recursively grounded completeness proof

@@ -54,6 +54,10 @@ jobs:
       - run: python examples/typed_truth.py
       - run: python -m ruff check src tests examples scripts
       - run: python -m build
+      - name: Check packaged dependency pin identity
+        run: >-
+          python -u scripts/check_packaged_pin.py
+          --lock verification/hypermath.json --dist dist
       - run: python -m twine check dist/*
       - name: Build the pinned foundation wheel for an isolated installation
         run: python -m pip wheel --no-deps .dependencies/hypermath --wheel-dir build/foundation-wheels
@@ -70,6 +74,46 @@ jobs:
         with:
           name: distributions-${{ matrix.os }}-${{ matrix.python }}
           path: dist/*
+          if-no-files-found: error
+
+  paper:
+    name: paper source and reading copy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Refresh the manuscript package index
+        run: sudo apt-get update
+      - name: Install the bounded manuscript toolchain
+        run: >-
+          sudo apt-get install -y --no-install-recommends
+          lmodern poppler-utils texlive-fonts-recommended texlive-latex-base
+          texlive-latex-extra
+      - name: Install the pinned Markdown converter
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 --max-time 120 \
+            https://github.com/jgm/pandoc/releases/download/3.10.1/pandoc-3.10.1-linux-amd64.tar.gz \
+            --output "$RUNNER_TEMP/pandoc.tar.gz"
+          printf '%s  %s\n' '72948bf5784f560d5ad1876709daca27e0667f262da727bb33f77b58e52df2f5' "$RUNNER_TEMP/pandoc.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/pandoc.tar.gz" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/pandoc-3.10.1/bin" >> "$GITHUB_PATH"
+      - name: Compile the manuscript and render every page
+        run: python -u scripts/build_paper.py --render
+      - name: Require the generated Markdown reading copy to be current
+        run: git diff --exit-code -- paper/ordinal_arithmetic.md
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: paper-build
+          path: |
+            paper/ordinal_arithmetic.pdf
+            paper/ordinal_arithmetic.md
+            paper/render/page-*.png
           if-no-files-found: error
 
   foundation-artifacts:

@@ -127,11 +127,21 @@ composition and reusable-expression expansion. This does not assert that distinc
 iteration counts denote distinct Forms, or that native `ordinalApply` agrees
 with the observation.
 
-Write `E(n) = f2f^n(ground)`. Addition of these finite numeral representations
-respects equality unconditionally: if `E(m) = E(n)` and `E(p) = E(q)`, then
-`E(m+p) = E(n+q)`. Equal numeral representations also act equally on every
-starting Form in the finite ground orbit. Neither result requires numeral
-injectivity or an action on all Forms.
+Write `E(n) = f2f^n(ground)`. Addition and multiplication of these finite
+numeral representations respect equality unconditionally: if `E(m) = E(n)`
+and `E(p) = E(q)`, then `E(m+p) = E(n+q)` and
+`E(m * p) = E(n * q)`.
+Multiplication here is repeated host-level addition. Equal numeral
+representations also act equally on every starting Form in the finite ground
+orbit. These results require neither numeral injectivity nor an action on all
+Forms.
+
+The witnessed finite orbit has a surjective encoding from natural numbers and
+a classically selected decoder. If the explicit `FiniteOrbitInjective`
+proposition is supplied, these maps form a two-sided set correspondence and
+the numeral representation is compatible with exact iteration on every Form.
+The reviewed axioms do not prove that injectivity premise or arithmetic
+preservation through the correspondence.
 
 An exact action on every Form satisfying `A(E(n), x) = f2f^n(x)` exists if and
 only if equal numeral Forms induce equal iterates on every starting Form:
@@ -144,9 +154,9 @@ The foundation's six-form countermodel satisfies all 38 current logical
 clauses, with Congruent an equivalence relation, but refutes both exact and
 congruence-valued uniform finite actions. Ground's first and third numeral
 Forms coincide, while one and three applications to a Form on another cycle
-give noncongruent results. This leaves finite-orbit addition intact. The model
-does not encode the stronger, unformalized native intent that all Forms arise
-from ground.
+give noncongruent results. This leaves finite-orbit addition and multiplication
+intact. The model does not encode the stronger, unformalized native intent that
+all Forms arise from ground.
 
 The same model shows that the former admitted `ordinalZeroIdentity`,
 `ordinalSuccApplies`, and `pathLengthArithmetic` statements do not follow from
@@ -155,7 +165,7 @@ the declared clauses. Their exact propositions remain named definitions:
 `pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
 does not prove them. The reviewed foundation retains 16 admissions and
 67 declared assumptions: 29 source parameters and 38 logical clauses. Its
-fresh audit binds 51 stable inputs and checks 29 individually reviewed proved
+fresh audit binds 51 stable inputs and checks 34 individually reviewed proved
 milestone declarations.
 
 Under the declared logical clauses, `ordinalLimit` lies outside that finite
@@ -172,11 +182,14 @@ alone cannot determine the recorded length. Both full-clause models cover the
 38 declared logical clauses; their coverage does not extend to stronger prose
 descriptions, admitted theorems, or adequacy of the native source language.
 
-These checks can pass while self-derivation remains unresolved. Native
-generativity, correspondence with `ordinalApply`, source adequacy, and recursive
-arithmetic completeness remain unestablished (`UNKNOWN`). Native `Form`
-reification, transfinite paths, and the interpretation into Ordinatics arithmetic
-remain separate proof obligations.
+These checks can pass while self-derivation remains unresolved. The full-clause
+countermodel also satisfies the exact proposition currently exported as
+`Hypermath.selfDerivation` while refuting the uniform finite action and all
+three proposed ordinal computation laws. Thus that target alone cannot supply
+the required arithmetic bridge. Native generativity, correspondence with
+`ordinalApply`, source adequacy, and recursive arithmetic completeness remain
+unestablished (`UNKNOWN`). Native `Form` reification, transfinite paths, and the
+interpretation into Ordinatics arithmetic remain separate proof obligations.
 These results therefore do not promote the self-derivation, interpretation-bridge,
 or completeness claims to `PASS` by themselves.
 

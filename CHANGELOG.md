@@ -10,22 +10,30 @@
 - Native finite-closure and Form-valued trace-length evidence, including
   composition and reuse preservation. The ordinal limit refutes universal
   finite ground-spanning; its admitted theorem is withdrawn, not proved.
-- Finite-orbit numeral addition respects representation equality without an
-  injectivity assumption. An exact action on every Form exists precisely when
-  equal numeral Forms induce equal iterates on every starting Form; the
-  conditional existence construction uses classical choice.
+- Finite-orbit numeral addition and multiplication respect representation
+  equality without an injectivity assumption. Under explicit numeral
+  injectivity, encode/decode gives a set correspondence with natural numbers
+  and equal numeral Forms act identically on every starting Form. An exact action
+  exists precisely when that global action compatibility holds; its construction
+  uses classical choice.
 - Required `finite_action` as the seventh native audit process, alongside the
   observation and full-model checks. Its six-form model satisfies all 38 current
   logical clauses with Congruent an equivalence relation, yet refutes exact and
-  congruence-valued uniform finite actions. It does not encode the stronger
-  unformalized native generativity intent.
+  congruence-valued uniform finite actions. The same model satisfies the current
+  self-derivation target while the tested arithmetic bridges fail. It does not
+  encode the stronger unformalized native generativity intent.
 - The model also refutes entailment of the former admitted ordinal zero,
   successor, and path-length computation claims. Their exact propositions remain
   named `Claim` definitions; their withdrawal is not proof completion. The
   reviewed foundation retains 16 admissions and 67 declared assumptions; its
-  fresh audit binds 51 stable inputs and checks 29 proved milestone declarations.
+  fresh audit binds 51 stable inputs and checks 34 proved milestone declarations.
 - Separate software and mathematical CI gates, installed-wheel checks, and
   publication dependent on the complete checks workflow.
+- Wheel and source-distribution qualification now require the exact committed
+  Hypermath pin bytes and reject ambiguous, unsafe, linking, oversized, or
+  cross-platform-colliding archive paths.
+- Paper CI compiles the LaTeX source, regenerates the Markdown reading copy,
+  renders every PDF page, rejects Markdown drift, and retains review artifacts.
 - A passable grounding-integrity job now checks complete native execution and
   the versioned `audit-replay-2` report comparison independently of the strict
   self-derivation and completeness gate. Both evidence bundles are retained for

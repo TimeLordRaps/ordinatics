@@ -54,6 +54,14 @@ isolated installation using that indexed dependency. Only the final
 upload job has permission to request a publishing token. It does not run on
 ordinary pushes and uses no long-lived token committed to the repository.
 
+The comparison first validates every wheel file against its `RECORD` manifest.
+It permits manifest row order, the `WHEEL` Generator header, and Windows versus
+Unix line endings in generated `METADATA`. All other payload bytes, including
+the Python checker, proof policy, metadata text, entry points and license, must
+match. Python source line endings are fixed by the foundation's Git attributes.
+The normal checks workflow also compares its independently built Linux and
+Windows foundation wheels, so this portability contract is exercised before release.
+
 A missing project at PyPI's JSON endpoint does not guarantee that its name is available for registration; the registry's upload response is authoritative. Existing version files cannot be overwritten. Increment the version in `pyproject.toml` and `src/ordinatics/__init__.py` for subsequent releases, and update the changelog.
 
 ## After publication

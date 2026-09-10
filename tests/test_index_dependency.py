@@ -93,6 +93,45 @@ def test_record_generator_and_zip_compression_may_differ(pair):
     checker.compare_wheels(qualified, published)
 
 
+def test_metadata_line_endings_may_differ_with_valid_raw_record(pair):
+    qualified, published = pair
+    members = payload()
+    members[f"{DIST_INFO}/METADATA"] = members[f"{DIST_INFO}/METADATA"].replace(b"\n", b"\r\n")
+    write_wheel(published, members)
+    checker.compare_wheels(qualified, published)
+
+
+def test_metadata_line_ending_normalization_cannot_hide_invalid_raw_record(pair):
+    qualified, published = pair
+    members = payload()
+    stale_record = record_bytes(members)
+    members[f"{DIST_INFO}/METADATA"] = members[f"{DIST_INFO}/METADATA"].replace(b"\n", b"\r\n")
+    write_wheel(published, members, record=stale_record)
+    with pytest.raises(checker.WheelQualificationError, match="RECORD hash"):
+        checker.compare_wheels(qualified, published)
+
+
+def test_semantic_metadata_change_is_rejected_after_line_ending_normalization(pair):
+    qualified, published = pair
+    members = payload()
+    members[f"{DIST_INFO}/METADATA"] = members[f"{DIST_INFO}/METADATA"].replace(
+        b"Description", b"Changed description",
+    ).replace(b"\n", b"\r\n")
+    write_wheel(published, members)
+    with pytest.raises(checker.WheelQualificationError, match="METADATA"):
+        checker.compare_wheels(qualified, published)
+
+
+def test_source_line_endings_are_not_normalized(pair):
+    qualified, published = pair
+    members = payload()
+    name = "hypermath_foundations/_baseline.py"
+    members[name] = members[name].replace(b"\n", b"\r\n")
+    write_wheel(published, members)
+    with pytest.raises(checker.WheelQualificationError, match="_baseline.py"):
+        checker.compare_wheels(qualified, published)
+
+
 @pytest.mark.parametrize("name", [
     "hypermath_foundations/__init__.py", "hypermath_foundations/_baseline.py",
     f"{DIST_INFO}/METADATA", f"{DIST_INFO}/entry_points.txt", f"{DIST_INFO}/licenses/LICENSE",

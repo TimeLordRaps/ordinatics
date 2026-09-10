@@ -165,7 +165,7 @@ the declared clauses. Their exact propositions remain named definitions:
 `pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
 does not prove them. The reviewed foundation retains 16 admissions and
 67 declared assumptions: 29 source parameters and 38 logical clauses. Its
-fresh audit binds 51 stable inputs and checks 35 individually reviewed proved
+fresh audit binds 53 stable inputs and checks 35 individually reviewed proved
 milestone declarations.
 
 The reviewed observation layer also checks decoder factorization, uniqueness on
@@ -188,10 +188,35 @@ Universal finite ground-spanning is therefore refuted. The corresponding
 admitted theorem was withdrawn; its proposition remains an explicit claim.
 This withdrawal is distinct from completing its proof.
 
-The fresh audit requires seven native processes: `lean_build`,
+The foundation also provides a finite source-syntax record checker in
+`lean4/Hypermath/GroundSyntax.lean`. Its free `ground`/`apply` terms retain
+formation syntax separately from interpreted `Form` values. It encodes exactly
+four primitive source-rule schemata, decodes the record without an external
+proof argument, and checks its exact syntactic conclusion. The checked
+round-trip and injectivity results preserve every observation of that primitive
+instance. `check_sound` proves soundness in every interpretation satisfying the
+four rules; `native_check_sound` uses the six existing native parameters, those
+four clauses, and Lean's propositional extensionality and quotient equality
+principle. It adds no native axiom or admitted proof.
+
+The concrete reuse operation reinstantiates a primitive rule at the next
+generated argument. `reuse_many_encode` proves exact record preservation after
+any finite number of these steps. Its 23 dependency reports are a separate
+group from the 35 production milestones. The construction does not yet encode
+composed derivations, represent the checker internally, or derive its own
+acceptance claims. Lean recursion and inductive types remain host infrastructure.
+
+The six-form model now also identifies the interpretations of the different
+records `diff ground` and `box ground`. No decoder from that semantic value
+alone recovers every primitive instance under this encoding. The three new
+countermodel results have no axiom dependencies. They constrain this encoding,
+not every possible alternative representation.
+
+The fresh audit requires eight native processes: `lean_build`,
 `dependency_output`, `countermodel`, `finite_trace`, `observation`, `full_model`,
-and `finite_action`. The last checks the six-form countermodel and its failure
-witnesses. Observation probes exercise preservation and cases where an endpoint
+`finite_action`, and `ground_syntax`. The last requires the primitive-record
+checker and reuse reports; `finite_action` checks the six-form countermodel and
+its failure witnesses. Observation probes exercise preservation and cases where an endpoint
 alone cannot determine the recorded length. Both full-clause models cover the
 38 declared logical clauses; their coverage does not extend to stronger prose
 descriptions, admitted theorems, or adequacy of the native source language.

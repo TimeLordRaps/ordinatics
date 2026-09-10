@@ -188,6 +188,27 @@ If a decoder exists, equal records receive equal decoded outcomes, which gives t
 
 Literal recovery of an entire derivation is sufficient for this criterion, but is not necessary. A pointer to a retained derivation preserves its information only because the pointed-to store remains part of the representation. If an encoding collapses records that differ on stage, formula, dependency, branch, or global-trace evidence, then those features cannot be recovered by a decoder. In particular, the value $W(j(\alpha))$ cannot replace the ordinal rank and derivation record; Lemma 4.1 already shows the obstruction when comparable ranks collapse.
 
+#### Proposition 6.4 (Preservation under finite reuse).
+
+Fix an observation-exact encoding $e:\mathcal D\to\mathcal R$ for $b$. Let $(c_i:\mathcal D\to\mathcal D)_{i\in I}$ be permitted reuse operations such that $$e(d)=e(d')\quad\Longrightarrow\quad e(c_i(d))=e(c_i(d'))
+\qquad(i\in I).$$ For every finite composite $c=c_{i_n}\circ\cdots\circ c_{i_1}$, including the identity, the observations $(d,q)\mapsto b(c(d),q)$ factor through $e$.
+
+#### Proof.
+
+Induction on the number of operations shows that $e(d)=e(d')$ implies $e(c(d))=e(c(d'))$. Observation-exactness then gives $b(c(d),q)=b(c(d'),q)$ for every $q$. Apply the factorization criterion.
+
+The premise about each operation is essential to this sufficient condition. For example, projecting a pair of bits onto its first bit preserves first-bit queries and remains adequate under arbitrary first-bit flips. Swapping the bits exposes the discarded second bit: $(0,0)$ and $(0,1)$ have the same encoded record but yield different observations after the swap. A correct base decoder alone therefore does not certify reuse. This proposition concerns finite contexts for a fixed encoding. Applying it to ranked self-closing surfaces still requires suitable typed representations and operation laws; it supplies no limit-stage rule or native acceptance constructor.
+
+#### Proposition 6.5 (Native numeral equality requires separation).
+
+For an encoding $E:\mathbb N\to\mathcal F$, put $b(n,k)=1$ when $n=k$ and $b(n,k)=0$ otherwise. These equality queries have an exact decoder on $E[\mathbb N]$ if and only if $E$ is injective.
+
+#### Proof.
+
+If $E(n)=E(m)$, the factorization criterion gives $b(n,n)=b(m,n)$. The left side is $1$, so $m=n$. Conversely, injectivity makes every fiber contain exactly one input, and hence the criterion holds for these queries.
+
+These results have checked Lean counterparts in the reviewed Hypermath source \[16\]. Decoder existence uses classical choice, including when factorization is applied after reuse. The generic lemmas for finite-reuse preservation of equal observations and equivalence of injectivity with the equality-query factorization premise have no axiom dependencies. Specializing $E(n)=\mathrm{f2f}^{n}(\mathrm{ground})$ uses the existing native parameters without adding a logical clause. In the six-Form model of all 38 declared logical clauses, $E(1)=E(3)$, so no such equality-query decoder exists, although addition and multiplication respect equality of represented values. The model refutes this encoding's adequacy for the original natural-number equality observations. It does not exclude every alternative native encoding. Injectivity, when available, would still leave the native checker, arithmetic operations, quantifiers, and soundness to be connected.
+
 The semantic hierarchy of Section 5 contains no proof predicate or recursively axiomatized progression. The nearest established proof-theoretic comparison starts with Peano arithmetic, abbreviated $\mathsf{PA}$, and iterates full uniform reflection. Schematically, if $U$ is a recursively presented arithmetic theory, its full uniform reflection scheme contains $$\forall \vec x\bigl(\operatorname{Pr}_{U}(\ulcorner
 \varphi(\dot{\vec x})\urcorner)\to\varphi(\vec x)\bigr)$$ for each arithmetic formula $\varphi$, where $\operatorname{Pr}_{U}$ is the arithmetized proof predicate and the dots denote numeral substitution. A notation-indexed progression has $U_0=\mathsf{PA}$, adds this scheme at successor notations, and takes the indicated union at limit notations. This description is schematic until the ordinal-notation system, predecessor relation, limit presentation, proof coding, and accepted well-foundedness evidence are fixed.
 
@@ -200,7 +221,7 @@ The connection between iterated Tarskian truth and reflection is itself establis
 
 This comparison gives a precise reading of the project's phrase *Gödelian complete ordinal arithmetic*: sound external coverage of standard arithmetic truth by a transfinite family of stages, with notation and derivation evidence retained. It does not mean decidability, truth definable in its own object language, or a recursively enumerable theory that proves every arithmetic truth.
 
-#### Theorem 6.4 (Conditional record coverage).
+#### Theorem 6.6 (Conditional record coverage).
 
 Let $\mathcal O$ be an accepted notation class and $(U_a)_{a\in\mathcal O}$ have the external coverage property above. Let $\mathcal A$ be the set of arithmetic sentences and let $$\mathcal D=\{(a,p):a\in\mathcal O,\ p\in\mathbb N\}$$ be the set of notation and candidate-proof-code pairs. Define the proof observation $b:\mathcal D\times\mathcal A\to\{0,1\}$ by $$b((a,p),\varphi)=1
 \quad\Longleftrightarrow\quad
@@ -335,7 +356,7 @@ National Institute of Standards and Technology. Digital Library of Mathematical 
 
 #### \[16\]
 
-Tyler Roost. *Hypermath: Fractal meta-representation and Gödelian completeness research target*. Development source and proof audit at commit [6b050fc292ca2e9fc3169dce70388e3b79431bea](https://github.com/TimeLordRaps/hypermath/tree/6b050fc292ca2e9fc3169dce70388e3b79431bea), 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
+Tyler Roost. *Hypermath: Fractal meta-representation and Gödelian completeness research target*. Development source and proof audit at commit [3614e4adfb8244477dd8e5f2f0b14b515e6a509e](https://github.com/TimeLordRaps/hypermath/tree/3614e4adfb8244477dd8e5f2f0b14b515e6a509e), 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
 
 #### \[17\]
 

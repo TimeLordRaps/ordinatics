@@ -3,6 +3,10 @@
 ## 0.2.0.dev0 — unreleased
 
 - Required `hypermath-foundations` dependency built from a reviewed Git commit.
+- Checked observation-factorization and finite-reuse preservation results from
+  Hypermath. Preserving all standard numeral-equality queries requires injective
+  native numeral representation; the existing countermodel refutes a decoder
+  for those queries. These results do not discharge the arithmetic bridge.
 - Fresh source-bound grounding checks and Verifier Standard evidence integration.
 - Finite-trace proof evidence for witnessed composition, structural length, and
   reusable expression expansion; endpoint return still requires separate

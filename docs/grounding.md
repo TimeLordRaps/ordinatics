@@ -165,8 +165,22 @@ the declared clauses. Their exact propositions remain named definitions:
 `pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
 does not prove them. The reviewed foundation retains 16 admissions and
 67 declared assumptions: 29 source parameters and 38 logical clauses. Its
-fresh audit binds 51 stable inputs and checks 34 individually reviewed proved
+fresh audit binds 51 stable inputs and checks 35 individually reviewed proved
 milestone declarations.
+
+The reviewed observation layer also checks decoder factorization, uniqueness on
+the encoding's image, and preservation through every finite sequence of reuse
+operations that respect equality of encoded inputs. The last condition must be
+proved for the actual operations. A two-bit example demonstrates how an otherwise
+correct base decoder can fail after reuse exposes discarded information.
+
+For the existing native finite numerals, preserving every standard
+equality-to-a-numeral query is equivalent to numeral injectivity. The six-form
+model identifies `E(1)` and `E(3)` and refutes a decoder for these queries even
+though the finite-orbit operation laws hold. This identifies an additional
+arithmetic interpretation obligation. The generic observation reports include
+22 results without axiom dependencies and two with explicit classical choice
+for decoder existence; no executable native decoder follows from that choice.
 
 Under the declared logical clauses, `ordinalLimit` lies outside that finite
 closure and cannot be reached from ground through the finite `D` relation.

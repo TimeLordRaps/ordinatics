@@ -11,7 +11,7 @@ The primary local environment used Windows, Python 3.12.8, SymPy 1.14.0,
 NumPy 2.5.3, and SciPy 1.18.1.
 
 - `python -m pytest tests -vv -s --durations=10 --timeout=60`: 231 passed in
-  272.07 seconds.
+  18.42 seconds.
 - Both examples, Ruff, and `python -m pip check` passed.
 - Build and Twine checks passed for the wheel and source distribution.
 - Both artifacts retained the exact committed Hypermath pin; the archive
@@ -22,18 +22,25 @@ NumPy 2.5.3, and SciPy 1.18.1.
 ## Grounding
 
 The locked Hypermath commit is
-[`6b050fc292ca2e9fc3169dce70388e3b79431bea`](https://github.com/TimeLordRaps/hypermath/tree/6b050fc292ca2e9fc3169dce70388e3b79431bea).
-Its audit completed and preserved `UNKNOWN` for self-derivation, source adequacy,
-and recursive arithmetic completeness. The strict gate returned nonzero and
-reported that the arithmetic bridge or completeness proof is missing, as intended.
+[`3614e4adfb8244477dd8e5f2f0b14b515e6a509e`](https://github.com/TimeLordRaps/hypermath/tree/3614e4adfb8244477dd8e5f2f0b14b515e6a509e).
+Its fresh audit and replay completed: all seven native processes and the
+assumption policy passed. Proof admissibility failed because the current
+self-derivation proof still depends on admissions. Self-derivation, source
+adequacy, and recursive arithmetic completeness remained `UNKNOWN`.
+
+The reviewed foundation now includes decoder factorization, finite-reuse
+preservation, and the equivalence between native numeral injectivity and
+preservation of all standard numeral-equality queries. Its six-form model
+refutes an equality-query decoder for the current encoding. These checked
+results identify requirements for the arithmetic bridge; they do not supply it.
 
 ## Paper
 
 `python scripts/build_paper.py --render` completed two LaTeX passes and rendered
-13 pages. All pages were visually inspected. The PDF title is exact, all 17
+14 pages. All pages were visually inspected. The PDF title is exact, all 17
 bibliography entries are cited, and no clipping or overlap was observed.
 
-PDF SHA-256: `1A1B25489CF3352E1FFD6510193CD76171B6A5BCD87E1CE7CC14E7D7C94A7D36`.
+PDF SHA-256: `41FFB4B1A9D095612FD8315CCC823440C0F15978B118CC4D16B37C509A67569F`.
 
 Hosted results must be read from the
 [checks workflow](https://github.com/TimeLordRaps/ordinatics/actions/workflows/ci.yml)

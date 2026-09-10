@@ -6,7 +6,7 @@ Manuscript draft, September 10, 2026
 
 ## Abstract
 
-Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function value layer with partial specialization $W(X)=-1/2$. To formalize the stronger objective of Gödelian completeness through fractal meta-representations, we specify a ranked self-closing meta-surface in which closed derivations and their acceptance derivations can be reified at successive ranks. We formalize observation-exactness as an information-preservation condition, compare the target with Feferman's completeness theorem for transfinite reflection progressions, and prove a conditional record-coverage theorem whose conclusion quantifies over native records alone. A checked finite calculus retains composed rule trees, encodes records and formulas as single free ground terms, and checks packed numerical representations. One explicit model of all current source clauses preserves those records, while its path relation does not implement their direct transition to conclusions. A full Hypermath-derived ranked realization, arithmetic checker agreement, arithmetic interpretation, and soundness proof remain open. The contribution is an explicit interface, bounded constructions, and proof-obligation analysis; it does not establish arithmetic completeness.
+Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function value layer with partial specialization $W(X)=-1/2$. To formalize the stronger objective of Gödelian completeness through fractal meta-representations, we specify a ranked self-closing meta-surface in which closed derivations and their acceptance derivations can be reified at successive ranks. We formalize observation-exactness as an information-preservation condition, compare the target with Feferman's completeness theorem for transfinite reflection progressions, and prove a conditional record-coverage theorem whose conclusion quantifies over native records alone. A checked finite calculus retains composed rule trees, encodes records and formulas as single free ground terms, and checks packed numerical representations. One explicit model of all current source clauses preserves those records, while its path relation does not implement their direct transition to conclusions. A full Hypermath-derived ranked realization, arithmetic checker agreement, arithmetic interpretation, and soundness proof remain open. The contribution is an explicit interface, bounded constructions, and proof-obligation analysis; it does not establish arithmetic completeness. An explicit instruction machine checks finite inference trees and their execution traces; native form closure alone cannot certify those records.
 
 **Keywords:** Ordinatics; ordinal arithmetic; satisfaction; ramified truth; uniform reflection; fractal meta-representation; derivation paths.
 
@@ -304,6 +304,40 @@ The current preserving edge from $x$ to $y$ requires both $y=\operatorname{apply
 
 The model is a compatibility witness, not a proof that all interpretations are faithful or that it captures the intended native semantics. Its decoders and checker are host functions on model values. The path obstruction concerns that direct transition in this specified model; it does not exclude a different native computation mechanism or ranked acceptance construction. Together with the collapsing model, it separates possible record retention from retention entailed by the clauses. Internal acceptance, source adequacy, arithmetic interpretation, transfinite realization, and coverage remain open.
 
+#### Proposition 6.11 (Native form closure does not certify a record).
+
+In the model of Proposition 6.10, every encoded raw record is generated from ground and satisfies the source's syntax, substance, semantics, form-closure, ground-anchored definition, and discharge conditions. Nevertheless there are two records with the same true, derivable conclusion and opposite checker results. No test of only their conclusions can agree with $K$ on every record.
+
+#### Proof.
+
+Let $c$ assert that ground structurally continues from itself. Set $g=\operatorname{primitive}(\operatorname{groundSelf})$ and $b=\operatorname{projectLeft}(c,c,g)$. Both claim $c$, but $g$ proves $c$ whereas the projection in $b$ requires a premise proving $c\land c$. Thus $K(g,c)=1$ and $K(b,c)=0$.
+
+The model's four unary executive predicates hold on all forms. Each record value $(E(r),0)$ is reached from ground by $E(r)$ applications. The definition and discharge clauses then give the remaining ground-anchored conditions. They hold for $b$ as well as $g$, and $c$ is true and witnessed by $g$. A function of the common conclusion and the claim $c$ receives identical inputs for these two records, so it cannot return both checker values.
+
+This is a failure to certify a particular inference tree, not a false conclusion or an inconsistency. Its checked counterpart retains all 38 clauses and adds no native axiom. Acceptance must bind each rule application and its premises; closure of the represented entity is insufficient.
+
+#### Execution of the represented finite calculus.
+
+To specify the computation that native rules must realize, compile each record $r$ to a postorder instruction sequence $P(r)$. There are seven instruction kinds: primitive introduction, the three predicate closes, conjunction, and the two projections. A state is a stack of formulas or a failure state $\bot$; the successful empty stack is not $\bot$. A primitive pushes its instantiated conclusion. Each close or projection checks the exact required top formula and replaces it with its conclusion. Conjunction consumes the two premises in order. A mismatch or stack underflow produces $\bot$, which every subsequent instruction preserves. These transitions do not call $K$ or receive an external proof object.
+
+#### Proposition 6.12 (Exact execution and trace acceptance).
+
+Write $c(r)$ for the computed conclusion and $V(r)=K(r,c(r))$ for validity. For every record $r$ and stack $\Gamma$, $$\operatorname{run}(P(r),\Gamma)=
+\begin{cases}
+c(r)::\Gamma,&V(r)=1,\\
+\bot,&V(r)=0.
+\end{cases}$$ Consequently the machine accepts a claim $s$ exactly when $K(r,s)=1$. Let $\tau(r)$ list every resulting state when $P(r)$ runs from the empty stack. A submitted trace $t$ is accepted for $(r,s)$ exactly when $t=\tau(r)$ and $K(r,s)=1$. There is one instruction and one resulting state per retained record node.
+
+#### Proof.
+
+Induct on $r$, retaining an arbitrary surrounding stack. Each primitive case pushes its conclusion. Each unary case first executes its premise, then performs precisely the annotation test in $V$. For conjunction, both premise programs execute before their conclusions are combined. A failed premise remains failed in every case. This proves the displayed equation, including invalid records. Comparing the final stack with the singleton $[s]$ gives agreement with $K$, and hence its relative soundness from Proposition 6.8.
+
+Replay compares each submitted state with the next state prescribed by its instruction, rejecting missing or extra states. Induction on the instruction sequence makes the replayed trace unique. Requiring its final state to be $[s]$ gives the trace-acceptance equivalence. Structural induction on $r$ counts one instruction per node; execution records one state per instruction.
+
+A faithful trace of a failed run passes replay but fails acceptance. State traces alone need not identify records: projecting either side of $c\land c$ can produce the same trace from distinct valid records. The record or instruction identity must therefore accompany the states. The node count excludes formula comparison, packed decoding, program construction, and storage of whole stacks; it is not a time or compression bound.
+
+These statements are checked in `RecordMachine.lean` \[16\]. Its exact dependency reports use no admission, classical choice, or native Hypermath axiom. They establish host computation, using inductive data, equality, lists, and recursion. A native realization must represent the instructions and states, justify their transitions from specified source rules, and derive an acceptance formula that can itself be reified at the next rank. The source kernel's proposed identification of substituted rule application with unary application still needs a translation retaining the rule, substitution, premises, and conclusion. This computation and these obligations supply neither an arithmetic inference rule nor a transfinite coverage proof.
+
 # Why a truth stage cannot certify its own full truth
 
 #### Theorem 7.1 (Undefinability at each stage).
@@ -416,7 +450,7 @@ National Institute of Standards and Technology. Digital Library of Mathematical 
 
 #### \[16\]
 
-Tyler Roost. *Hypermath: Fractal meta-representation and Gödelian completeness research target*. Development source and proof audit at commit [34c9c99345bb3cdeac7be9a67713d9aa0c99d6da](https://github.com/TimeLordRaps/hypermath/tree/34c9c99345bb3cdeac7be9a67713d9aa0c99d6da), 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
+Tyler Roost. *Hypermath: Fractal meta-representation and Gödelian completeness research target*. Development source and proof audit at commit [6c4c4c152713d8aff8f85d96b90d8e01b6ec3a79](https://github.com/TimeLordRaps/hypermath/tree/6c4c4c152713d8aff8f85d96b90d8e01b6ec3a79), 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
 
 #### \[17\]
 

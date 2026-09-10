@@ -2,21 +2,25 @@
 
 Tyler Roost
 
+Manuscript draft, September 10, 2026
+
 ## Abstract
 
-Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function model for a value layer of Ordinatics with a partial specialization $W(X)=-1/2$, and prove why neither ordinary ordinal addition nor all nonzero field elements can pass through that specialization unchanged. These results separate ordinal order, algebraic evaluation, and semantic authority. The contribution is an explicit interface and dependency analysis for the Ordinatics proposal, rather than a new undefinability theorem or a derivation of arithmetic truth from numerical compression alone.
+Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function value layer with partial specialization $W(X)=-1/2$. To formalize the stronger objective of Gödelian completeness through fractal meta-representations, we specify a ranked self-closing meta-surface in which closed derivations and their acceptance derivations can be reified at successive ranks. We formalize observation-exactness as an information-preservation condition, compare the target with Feferman's completeness theorem for transfinite reflection progressions, and prove a conditional record-coverage theorem whose conclusion quantifies over native records alone. A Hypermath-derived realization, record-only checker binding, arithmetic interpretation, and soundness proof remain open. The contribution is therefore an explicit interface and proof-obligation analysis, not a new completeness theorem or a derivation of arithmetic truth from numerical compression alone.
 
-**Keywords:** Ordinatics; ordinal arithmetic; satisfaction; ramified truth; partial specialization; derivation paths.
+**Keywords:** Ordinatics; ordinal arithmetic; satisfaction; ramified truth; uniform reflection; fractal meta-representation; derivation paths.
 
 # The foundational question
 
 What would it mean to make ordinal arithmetic the underlying foundation of a Tarski-definable arithmetic? The phrase needs a language and a domain of definability. In this paper it means that the truth and satisfaction relations for an arithmetic object language are definable in a specified richer framework, with explicit ordinal bounds on the languages to which each truth predicate applies. It does not mean decidability of arithmetic or an unrestricted truth predicate definable inside its own language.
 
-We use *Ordinatics* as the name of the overall framework. The motivating notes distinguish a layer of ordinary ordinal operations, an intended extension admitting reciprocals and fractional powers, and a further complex-valued extension \[5\]. We retain these as distinct layers within Ordinatics. They also distinguish derivation-path identity, written $=$ in those notes, from outcome congruence $\equiv$ and continuation similarity $\sim$. This separation suggests that an expression should retain more information than its numerical image. We preserve that design question while making the mathematical interpretation explicit.
+Here "ordinal-first" refers to the arithmetic domain and the ordering of semantic dependencies. The ambient metalanguage is the set theory specified below; the paper does not assert definability of arithmetic truth in the ordinal-arithmetic structure alone.
+
+We use *Ordinatics* as the name of the overall framework. The motivating notes distinguish a layer of ordinary ordinal operations, an intended extension admitting reciprocals and fractional powers, and a further complex-valued extension \[17\]. We retain these as distinct layers within Ordinatics. They also distinguish derivation-path identity, written $=$ in those notes, from outcome congruence $\equiv$ and continuation similarity $\sim$. This separation suggests that an expression should retain more information than its numerical image. We preserve that design question while making the mathematical interpretation explicit.
 
 Three roles of ordinals must be distinguished. First, finite ordinals carry ordinary arithmetic. Second, transfinite ordinals organize the dependencies of semantic definitions. Third, ordinal expressions can motivate algebraic expressions that admit division. These roles can coexist in a typed framework, but their operations need not agree. An ordinal rank is not automatically a field value, and a field value is not a truth predicate.
 
-The established background is the definition of truth through satisfaction and the restriction on truth definitions for semantically closed languages \[1\]. Transfinite progressions also have a substantial prior history; Feferman's work studies progressions of axiomatic theories \[2\]. Our construction below is a semantic hierarchy, not an identification with any particular progression of reflection principles. The elementary results are proved here to make the proposed interface independently assessable. No priority claim is made for ordinal-indexed truth hierarchies, polynomial fields, or localization.
+The established background is the definition of truth through satisfaction and the restriction on truth definitions for semantically closed languages \[1\]. Typed and ordinal-indexed truth hierarchies are also established constructions \[2\]. Feferman's work studies transfinite progressions of axiomatic theories \[5\], and a modern proof and complexity analysis makes the associated arithmetic completeness theorem explicit \[6\]. Iterated Tarskian truth, induction, and reflection have been connected directly in proof-theoretic analyses \[3\], \[4\]. Recursive and cyclic representations of proofs with global correctness conditions form another developed literature \[10\], \[11\]. Recent Reflective Grounded Arithmetic gives machine-checked same-language proof machinery and internal truth under paracomplete grounded semantics \[8\], \[9\]. Our construction below begins as a classical semantic hierarchy, not an identification with any of those systems. No priority claim is made for ordinal-indexed truth hierarchies, completeness of reflection progressions, recursive proof graphs, internal proof checking, polynomial fields, or localization. The project-specific open target is a sound bridge from the native path-retaining record calculus to a named reflection progression covering standard classical arithmetic truth. Establishing its novelty requires comparison with these adjacent systems as well as completion of the bridge.
 
 #### Ambient assumptions.
 
@@ -27,7 +31,7 @@ We work in ordinary classical mathematics formalizable in Zermelo--Fraenkel set 
 Let $\omega$ be the least infinite ordinal. Write $+_o$ and $\cdot_o$ for ordinary ordinal addition and multiplication, defined recursively in the right argument. In particular, $$\begin{align*}
 \alpha+_o0&=\alpha,&\alpha+_o(\beta+1)&=(\alpha+_o\beta)+1,\\
 \alpha\cdot_o0&=0,&\alpha\cdot_o(\beta+1)&=(\alpha\cdot_o\beta)+_o\alpha.
-\end{align*}$$ At a nonzero limit, take the supremum of the earlier values. This is the standard ordinal recursion construction \[3\]. It gives $$1+_o\omega=\omega,\qquad \omega+_o1>\omega,
+\end{align*}$$ At a nonzero limit, take the supremum of the earlier values. This is the standard ordinal recursion construction \[12\]. It gives $$1+_o\omega=\omega,\qquad \omega+_o1>\omega,
 \qquad 2\cdot_o\omega=\omega,\qquad \omega\cdot_o2=\omega+_o\omega.$$ Thus even the expression "twice an ordinal" needs an operand order.
 
 #### Proposition 2.1 (Absorption obstructs a unital additive field interpretation).
@@ -57,11 +61,11 @@ Consequently an ordinal foundation retains arithmetic's capacity to encode synta
 # A bounded value layer for Ordinatics
 
 The source wrap anchor $W(\omega)=-1/2$ is useful as a proposed numerical evaluation. To interpret it coherently, introduce an indeterminate $X$ distinct from the ordinal $\omega$. Let $$K=\mathbb Q(X),\qquad c=-\tfrac12,
-\qquad S=\{q\in\mathbb Q[X]:q(c)\ne0\},\qquad R=S^{-1}\mathbb Q[X].$$ Here $K$ is the field of rational functions. The ring $R$ consists of rational functions admitting a representation with denominator nonzero at $c$. Define $$W:R\longrightarrow\mathbb Q,\qquad W(p/q)=p(c)/q(c).$$ We call $K$ a *bounded value model of Ordinatics*: it realizes division in a value layer motivated by ordinal forms. It is not asserted to be the full Subreal type of the notes, an algebraically closed field, or a model of every $\square$ axiom.
+\qquad S=\{q\in\mathbb Q[X]:q(c)\ne0\},\qquad R=S^{-1}\mathbb Q[X].$$ Here $K$ is the field of rational functions. The ring $R$ consists of rational functions admitting a representation with denominator nonzero at $c$; this is the standard localization construction \[14\]. Define $$W:R\longrightarrow\mathbb Q,\qquad W(p/q)=p(c)/q(c).$$ We call $K$ a *bounded value model of Ordinatics*: it realizes division in a value layer motivated by ordinal forms. It is not asserted to be the full Subreal type of the notes, an algebraically closed field, or a model of every $\square$ axiom.
 
 #### Theorem 3.1 (Scope of wrap specialization).
 
-The map $W$ is a well-defined surjective unital ring homomorphism on $R$. Its kernel is $(X-c)R$. It cannot extend to a unital field homomorphism $K\to\mathbb Q$. For $r\in R$, the inverse $r^{-1}$ belongs to $R$ exactly when $W(r)\ne0$.
+The map $W$ is a well-defined surjective unital ring homomorphism on $R$. Its kernel is $(X-c)R$. It cannot extend to a unital field homomorphism $K\to\mathbb Q$. An element $r\in R$ is a unit of $R$ (has a multiplicative inverse in $R$) if and only if $W(r)\ne0$.
 
 #### Proof.
 
@@ -79,7 +83,7 @@ If fractional monomials are added, choose a coherent branch explicitly. For inst
 \qquad \chi(r)=\exp(r\ell)$$ satisfies $\chi(r+s)=\chi(r)\chi(s)$ and $\chi(1)=c$. However, $\chi(1/3)=2^{-1/3}e^{i\pi/3}$ is not the real cube root $-2^{-1/3}$. Choosing a real cube root at $1/3$ and the principal value $2^{-1/6}e^{i\pi/6}$ at $1/6$ violates $\chi(1/3)=\chi(1/6)^2$. A mixed root convention is therefore not a single multiplicative character. Also, a collection of nonzero monomial values is not itself a field: it does not contain zero, let alone automatically supply all sums.
 
 For complex $z$, the same expression $\Phi(z)=\exp(\ell z)$ is surjective onto $\mathbb C\setminus\{0\}$, but $$\Phi(z)=\Phi(z')\quad\Longleftrightarrow\quad
-z-z'\in\frac{2\pi i}{\ell}\mathbb Z.$$ This follows from the kernel of the complex exponential. Thus $\Phi$ gives a bijection only after quotienting by that lattice, or after an appropriate branch restriction. A numerical image generally does not identify its source expression. Neither the real-root convention nor complex injectivity is needed for the truth construction below.
+z-z'\in\frac{2\pi i}{\ell}\mathbb Z.$$ This follows from the kernel of the complex exponential. Thus $\Phi$ induces a bijection from the quotient by that lattice onto $\mathbb C\setminus\{0\}$. Restricting its domain to the half-open strip $-\pi<\operatorname{Im}(\ell z)\le\pi$ also gives a set bijection onto $\mathbb C\setminus\{0\}$, but its inverse is discontinuous across the negative real axis. An analytic logarithm branch instead uses a slit codomain, for example $\mathbb C\setminus(-\infty,0]$ \[15\]. A numerical image generally does not identify its source expression. Neither the real-root convention nor complex injectivity is needed for the truth construction below.
 
 # Expressions, outcomes, and information loss
 
@@ -103,7 +107,7 @@ Regularized sums require a similar precaution. The ordinary ordinal sums $1+_o1+
 
 # An ordinal-indexed language of arithmetic truth
 
-Let $L_0=\{0,1,+,\cdot,<\}$ be the first-order language of arithmetic, with equality. Fix a finite-string coding into $\mathbb N$ of terms and formulas, including codes for ordinal polynomial indices below $\theta$. The symbol $T_\beta$ is a unary predicate for each $\beta<\theta$. For $\alpha\le\theta$, put $$L_\alpha=L_0\cup\{T_\beta:\beta<\alpha\}.$$ The predicate $T_\alpha$ will express truth for *sentences of $L_\alpha$*; it first occurs in $L_{\alpha+1}$ when that language is within the chosen range. At $\theta$ we construct the truth set externally without adding its symbol to $L_\theta$.
+Let $L_0=\{0,1,+,\cdot,<\}$ be the first-order language of arithmetic, with equality. Fix an injective effective coding into $\mathbb N$ of finite terms and formulas, including canonical finite-tuple codes for ordinal polynomial indices below $\theta$. Choose the coding so that parsing, numeral formation, and capture-avoiding substitution are computable, as with the usual coding of finite strings over an effectively indexed vocabulary. The symbol $T_\beta$ is a unary predicate for each $\beta<\theta$. For $\alpha\le\theta$, put $$L_\alpha=L_0\cup\{T_\beta:\beta<\alpha\}.$$ The predicate $T_\alpha$ will express truth for *sentences of $L_\alpha$*; it first occurs in $L_{\alpha+1}$ when that language is within the chosen range. At $\theta$ we construct the truth set externally without adding its symbol to $L_\theta$.
 
 #### Effective syntax, not effective truth.
 
@@ -149,23 +153,87 @@ Stage compatibility concerns the intended models. It is not a conservativity the
 
 ## Ranks and limit stages
 
-Define the static language rank of an arithmetic atom to be $0$, that of $T_\beta(t)$ to be $\beta+1$, that of a negation or quantification to be the subformula rank, and that of a conjunction to be the maximum of its two ranks. Then $\varphi\in L_\alpha$ exactly when $\operatorname{rk}(\varphi)\le\alpha$. This rank measures which predicate symbols occur; it need not measure the depth of truth references hidden in a numeral supplied to a predicate.
+Define the static language rank of an arithmetic atom to be $0$, that of $T_\beta(t)$ to be $\beta+1$, that of a negation or quantification to be the subformula rank, and that of a conjunction to be the maximum of its two ranks. For a well-formed formula $\varphi$ over $L_\theta$, $\varphi$ is an $L_\alpha$ formula exactly when $\operatorname{rk}(\varphi)\le\alpha$. This rank measures which predicate symbols occur; it need not measure the depth of truth references hidden in a numeral supplied to a predicate.
 
 At a nonzero limit $\lambda\le\theta$, every $L_\lambda$ formula uses finitely many earlier predicate symbols, so it already belongs to some $L_\alpha$ with $\alpha<\lambda$. Stage compatibility therefore yields $$\mathsf{Tr}_\lambda=\bigcup_{\alpha<\lambda}\mathsf{Tr}_\alpha.$$ No infinitary conjunction has been silently added. Successor stages add a new truth predicate to the language; limit stages collect all earlier finite sentences and their stable interpretations.
 
 For example, let $\varphi$ be $1+1=1+1$. It is true in $M_0$, and $T_0(\ulcorner \varphi\urcorner)$ is true in $M_1$. The sentence $T_1(\ulcorner T_0(\ulcorner \varphi\urcorner)\urcorner)$ is true in $M_2$. At level $\omega+1$, $T_\omega$ can refer to any sentence involving finitely many finite-level predicates. These are semantic examples, not computed decisions of arbitrary arithmetic sentences.
 
+# Fractal meta-representation: the completeness target
+
+The adjective *fractal* is used here in a syntactic, not geometric, sense. The repeated pattern is that a closed derivation becomes a typed record in the same grammar, its acceptance is again represented by a closed derivation, and that derivation may itself be reified at a later rank. The phrase carries no physical dimension and asserts no fractal dimension. A finite cyclic record may denote an infinite unfolding only after a global validity condition has been specified. Existing cyclic proof systems demonstrate that finite recursive proof graphs and global trace conditions are mathematically workable, while also showing that the trace condition and its soundness proof are substantive parts of the calculus \[10\], \[11\].
+
+#### Definition 6.1 (Ranked self-closing meta-surface).
+
+Let $\Lambda$ be a nonzero limit ordinal. For each $\alpha<\Lambda$, let $S_\alpha$ be a set of well-typed native expressions, let $D_\alpha$ be a set of closed native derivations, and let $c_\alpha:D_\alpha\to S_\alpha$ give their conclusions. Require cumulative inclusions for earlier ranks, with the conclusion maps preserved, and require $$S_\lambda=\bigcup_{\alpha<\lambda}S_\alpha,
+\qquad
+D_\lambda=\bigcup_{\alpha<\lambda}D_\alpha$$ at each nonzero limit $\lambda<\Lambda$. For every $\alpha$ with $\alpha+1<\Lambda$, supply a reification map $e_\alpha:D_\alpha\to S_{\alpha+1}$, an acceptance-forming constructor $$\mathsf{Acc}_{\alpha+1}:S_{\alpha+1}\times S_\alpha\to S_{\alpha+1},$$ and an acceptance-derivation map $v_\alpha:D_\alpha\to D_{\alpha+1}$ satisfying $$c_{\alpha+1}(v_\alpha(d))
+=\mathsf{Acc}_{\alpha+1}(e_\alpha(d),c_\alpha(d)).$$ Such a family is a *ranked self-closing meta-surface*. It is self-closing because each acceptance derivation $v_\alpha(d)$ is eligible for reification at the next rank. Call it *internally self-derivable* relative to native rule systems $(\mathcal R_\alpha)_{\alpha<\Lambda}$ when each $D_\alpha$ consists of the closed derivations generated by $\mathcal R_\alpha$ and $v_\alpha$ is a rule-defined constructor whose output is checkable as an $\mathcal R_{\alpha+1}$ derivation. This is a syntactic condition. Calling its accepted conclusions semantically valid additionally requires a soundness theorem. The successor shift is part of the typing discipline; the definition supplies no same-rank predicate for the full truth of $S_\alpha$.
+
+An Ordinatics instance must place the translated rank-$\alpha$ arithmetic expressions and claims in $S_\alpha$. It is Hypermath-derived only when the sets, derivations, reification maps, acceptance constructor, acceptance-derivation maps, and any claimed native rule checkers are constructed from a specified Hypermath grammar and its inference rules. The displayed definition is an abstract interface. The current Hypermath source does not yet supply this complete instance, its arithmetic interpretation, or the soundness theorem for $\mathsf{Acc}$.
+
+#### Definition 6.2 (Observation-exact reification).
+
+Let $\mathcal D$ be a set of derivations, $\mathcal R$ a set of records, $\mathcal Q$ a set of admissible observations, and $B$ a set of outcomes. For an encoding $e:\mathcal D\to\mathcal R$ and an observation semantics $b:\mathcal D\times\mathcal Q\to B$, say that $e$ is observation-exact for $\mathcal Q$ if there is a decoder $\bar b:e[\mathcal D]\times\mathcal Q\to B$ such that $$\bar b(e(d),q)=b(d,q)
+\qquad(d\in\mathcal D,\ q\in\mathcal Q).$$
+
+#### Theorem 6.3 (Reification factorization criterion).
+
+An observation-exact decoder exists if and only if, for all $d,d'\in\mathcal D$ and $q\in\mathcal Q$, $$e(d)=e(d')\quad\Longrightarrow\quad
+b(d,q)=b(d',q).$$ When it exists, the decoder is unique on $e[\mathcal D]\times\mathcal Q$.
+
+#### Proof.
+
+If a decoder exists, equal records receive equal decoded outcomes, which gives the displayed implication. Conversely, for $r\in e[\mathcal D]$ choose any $d$ with $e(d)=r$ and put $\bar b(r,q)=b(d,q)$. The implication makes this value independent of the chosen preimage, and it also gives uniqueness.
+
+Literal recovery of an entire derivation is sufficient for this criterion, but is not necessary. A pointer to a retained derivation preserves its information only because the pointed-to store remains part of the representation. If an encoding collapses records that differ on stage, formula, dependency, branch, or global-trace evidence, then those features cannot be recovered by a decoder. In particular, the value $W(j(\alpha))$ cannot replace the ordinal rank and derivation record; Lemma 4.1 already shows the obstruction when comparable ranks collapse.
+
+The semantic hierarchy of Section 5 contains no proof predicate or recursively axiomatized progression. The nearest established proof-theoretic comparison starts with Peano arithmetic, abbreviated $\mathsf{PA}$, and iterates full uniform reflection. Schematically, if $U$ is a recursively presented arithmetic theory, its full uniform reflection scheme contains $$\forall \vec x\bigl(\operatorname{Pr}_{U}(\ulcorner
+\varphi(\dot{\vec x})\urcorner)\to\varphi(\vec x)\bigr)$$ for each arithmetic formula $\varphi$, where $\operatorname{Pr}_{U}$ is the arithmetized proof predicate and the dots denote numeral substitution. A notation-indexed progression has $U_0=\mathsf{PA}$, adds this scheme at successor notations, and takes the indicated union at limit notations. This description is schematic until the ordinal-notation system, predecessor relation, limit presentation, proof coding, and accepted well-foundedness evidence are fixed.
+
+Feferman's completeness theorem and its modern sharp bound give the external coverage statement $$\mathbb N\models\varphi
+\quad\Longrightarrow\quad
+\exists a\in\mathcal O_{\mathrm K}\,
+\bigl(|a|<\omega^\omega\ \land\ U_a\vdash\varphi\bigr)$$ for every arithmetic sentence $\varphi$, where $|a|$ is the ordinal denoted by the Kleene notation $a$ \[5\], \[6\]. More precisely, a true $\Pi_{2n+1}$ sentence can be reached at a notation of order type $\omega^{n+1}+1$ \[6\]. This external coverage across a family must be distinguished from stagewise completeness: no fixed sound recursively enumerable stage is thereby claimed to decide all arithmetic truth. It also supplies neither effective decidability nor an effective procedure that selects a valid notation from $\varphi$. Membership in $\mathcal O_{\mathrm K}$ is itself not an arithmetical decision problem. Moreover, the theory reached can depend on the notation and path, not only on the denoted ordinal; Feferman records both the completeness of suitable full-uniform-reflection paths and the failure of invariance across arbitrary paths \[7\]. The bound explains the use of $\omega^\omega$ here, but a canonical polynomial code for an ordinal below that bound is not thereby a Kleene notation or a well-foundedness certificate.
+
+The connection between iterated Tarskian truth and reflection is itself established: Beklemishev and Pakhomov analyze transfinitely iterated truth definitions with reflection and canonical ordinal notations, while Leigh characterizes iterated reflection over typed and disquotational truth theories \[3\], \[4\]. Reflective Grounded Arithmetic, abbreviated RGA, is still closer to the same-language machinery: recent machine-checked developments internalize proof checking and truth in a paracomplete arithmetic \[8\], \[9\]. Its open completeness concerns grounded truth and coexists with $\omega$-incompleteness; it does not claim classical coverage of all standard arithmetic truth. The target here instead retains classical semantics and asks for a path-retaining native realization of the external reflection coverage above.
+
+This comparison gives a precise reading of the project's phrase *Gödelian complete ordinal arithmetic*: sound external coverage of standard arithmetic truth by a transfinite family of stages, with notation and derivation evidence retained. It does not mean decidability, truth definable in its own object language, or a recursively enumerable theory that proves every arithmetic truth.
+
+#### Theorem 6.4 (Conditional record coverage).
+
+Let $\mathcal O$ be an accepted notation class and $(U_a)_{a\in\mathcal O}$ have the external coverage property above. Let $\mathcal A$ be the set of arithmetic sentences and let $$\mathcal D=\{(a,p):a\in\mathcal O,\ p\in\mathbb N\}$$ be the set of notation and candidate-proof-code pairs. Define the proof observation $b:\mathcal D\times\mathcal A\to\{0,1\}$ by $$b((a,p),\varphi)=1
+\quad\Longleftrightarrow\quad
+\operatorname{Proof}_{U_a}(p,\varphi).$$ Let $e:\mathcal D\to\mathcal R$ be observation-exact for these sentence queries, with decoder $\bar b:e[\mathcal D]\times\mathcal A\to\{0,1\}$. Suppose a native calculus $H$ supplies a translation $\iota$ and a record-only checker $\mathsf{Check}_H$ such that $$\mathsf{Check}_H(r,\iota(\varphi))=\bar b(r,\varphi)
+\qquad(r\in e[\mathcal D],\ \varphi\in\mathcal A),$$ and suppose the checker is arithmetically sound: $$\mathsf{Check}_H(r,\iota(\varphi))=1
+\quad\Longrightarrow\quad
+\mathbb N\models\varphi
+\qquad(r\in e[\mathcal D],\ \varphi\in\mathcal A).$$ Then, for every arithmetic sentence $\varphi$, $$\mathbb N\models\varphi
+\quad\Longleftrightarrow\quad
+\exists r\in e[\mathcal D]\;
+\mathsf{Check}_H(r,\iota(\varphi))=1.$$
+
+#### Proof.
+
+For the forward direction, external coverage supplies a notation $a$ and a code $p$ that proves $\varphi$. The proof observation therefore equals one. Observation-exactness and checker agreement show that the reified record is accepted for $\iota(\varphi)$. The reverse direction is the checker-soundness assumption.
+
+The conclusion refers to the native record alone; the external proof code appears only in the construction of that record. Observation-exactness prevents an encoding from merging proof packages that the checker must distinguish. The checker-agreement equation is still a substantive realization obligation, and soundness must be proved independently of the truth it is intended to establish. For $\iota$ to be a structure-preserving arithmetic interpretation, it must preserve arithmetic operations, negation, and quantification. A realization as a ranked self-closing meta-surface must additionally place each record and its acceptance derivation at the specified successor ranks. Accepted notation evidence and any cyclic global condition must be checked by stated rules.
+
+If $\iota$ is computable, $e[\mathcal D]$ is effectively enumerable, and $\mathsf{Check}_H$ is uniformly decidable, total sound coverage would decide arithmetic truth by parallel searches for records checking a sentence and its negation. At least one of those effectiveness properties must therefore fail for full classical coverage.
+
+The current Hypermath development supplies finite traces, a proposed self-derivation target, and explicit audit surfaces, but its checked countermodels separate that target from the required arithmetic action and interpretation bridges \[16\]. Neither that development nor the Python companion below currently supplies the ranked surface, checker agreement, arithmetic interpretation, or soundness hypothesis of the record-coverage theorem. Their recursively grounded arithmetic completeness status is therefore unresolved, rather than established by the conditional result.
+
 # Why a truth stage cannot certify its own full truth
 
-#### Theorem 6.1 (Undefinability at each stage).
+#### Theorem 7.1 (Undefinability at each stage).
 
 For every $\alpha\le\theta$, there is no $L_\alpha$ formula $\tau(x)$ that defines $\mathsf{Tr}_\alpha$ in $M_\alpha$.
 
 #### Proof.
 
-The arithmetic part represents the syntactic substitution operation for the fixed effective language coding. Apply the diagonal lemma to $\neg\tau(x)$ to obtain an $L_\alpha$ sentence $\lambda$ satisfying $$M_\alpha\models\lambda\leftrightarrow\neg\tau(\ulcorner \lambda\urcorner).$$ If $\tau$ defined $\mathsf{Tr}_\alpha$, the same structure would satisfy $\tau(\ulcorner \lambda\urcorner)\leftrightarrow\lambda$. Together these force $\lambda\leftrightarrow\neg\lambda$, impossible in the classical two-valued structure. The diagonal lemma's syntactic construction uses only finitely many symbols of the candidate formula, so the countable predicate vocabulary causes no problem \[4\].
+The arithmetic part represents the syntactic substitution operation for the fixed effective language coding. Apply the diagonal lemma to $\neg\tau(x)$ to obtain an $L_\alpha$ sentence $\lambda$ satisfying $$M_\alpha\models\lambda\leftrightarrow\neg\tau(\ulcorner \lambda\urcorner).$$ If $\tau$ defined $\mathsf{Tr}_\alpha$, the same structure would satisfy $\tau(\ulcorner \lambda\urcorner)\leftrightarrow\lambda$. Together these force $\lambda\leftrightarrow\neg\lambda$, impossible in the classical two-valued structure. The diagonal lemma's syntactic construction uses only finitely many symbols of the candidate formula, so the countable predicate vocabulary causes no problem \[13\].
 
-The next predicate $T_\alpha$ is not in $L_\alpha$, which is exactly why typed disquotation is compatible with this theorem. A sentence in $L_{\alpha+1}$ may apply $T_\alpha$ to its own code, but if that sentence uses $T_\alpha$, its code is outside $\operatorname{Sent}(L_\alpha)$ and the predicate returns false under our convention. Such an application is not a correct assertion of that sentence's own truth.
+For $\alpha<\theta$, the next predicate $T_\alpha$ is not in $L_\alpha$, which is exactly why typed disquotation is compatible with this theorem. A sentence in $L_{\alpha+1}$ may apply $T_\alpha$ to its own code, but if that sentence uses $T_\alpha$, its code is outside $\operatorname{Sent}(L_\alpha)$ and the predicate returns false under our convention. Such an application is not a correct assertion of that sentence's own truth.
 
 #### A precise positive answer.
 
@@ -175,17 +243,19 @@ The result is a semantic construction and assumes the resources of the metatheor
 
 # Computational companion
 
-The accompanying Python library, `ordinatics` version 0.1.0, implements a computable fragment of the construction and its algebraic interfaces.[^1] It uses exact integer coefficient tuples for ordinals below $\omega^\omega$. The operators `+` and `*` implement ordinary ordinal operations; `natural_add` and `natural_mul` implement the commutative polynomial operations. Conversion through `to_sympy` makes the representation map $j$ explicit. The resulting expressions can be used with SymPy symbolic calculus, matrices, and solvers, or converted to numerical functions for NumPy and SciPy. Numerical evaluation of a polynomial image is distinct from ordinal arithmetic.
+The accompanying Python library, `ordinatics` development version 0.2.0.dev0, implements a computable fragment of the construction and its algebraic interfaces.[^1] It uses exact integer coefficient tuples for ordinals below $\omega^\omega$. The operators `+` and `*` implement ordinary ordinal operations; `natural_add` and `natural_mul` implement the commutative polynomial operations. Conversion through `to_sympy` makes the representation map $j$ explicit. The resulting expressions can be used with SymPy symbolic calculus, matrices, and solvers, or converted to numerical functions for NumPy and SciPy. Numerical evaluation of a polynomial image is distinct from ordinal arithmetic.
 
-The functions `rational_function`, `specialize`, and `wrap` operate on exact rational functions. They cancel common factors before specialization and raise a distinct pole exception when the reduced denominator vanishes. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
+The function `rational_function` validates and reduces exact rational functions. The functions `specialize` and `wrap` evaluate the reduced forms and raise a distinct pole exception when the reduced denominator vanishes at the evaluation point. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
 
-For semantics, the library supplies immutable arithmetic term and formula trees, static ordinal ranks, and an iterative evaluator. The constructors `Exists` and `ForAll` require a bound term and range over $0\le n<b$. The constructor `Truth(beta, sentence)` quotes a closed formula of rank at most `beta`; its language rank is $\beta+1$. For example:
+For semantics, the library supplies immutable arithmetic term and formula trees, static ordinal ranks, and an iterative evaluator. The constructors `Exists` and `ForAll` require a bound term and range over $0\le n<b$; the bound is evaluated in the outer assignment, and the quantifier binds its variable only in the body. A valid `Truth(beta, sentence)` node quotes a closed formula of rank at most `beta`; its language rank is $\beta+1$. The `rank` and `evaluate` functions enforce these conditions before evaluation. For example:
 
     from ordinatics import Add, Eq, Nat, Truth, ZERO, ONE, evaluate
     phi = Eq(Add(Nat(1), Nat(1)), Nat(2))
     assert evaluate(Truth(ZERO, phi), stage=ONE)
 
 This quotation interface operates on explicit finite syntax trees. It is not an implementation of unrestricted numerical sentence codes. Invalid quotations are rejected before evaluation, whereas the mathematical truth sets defined above exclude malformed numerical codes by convention. The difference is part of the interface contract.
+
+Ordinal labels enforce language membership. Evaluation of a valid quotation directly evaluates its closed quoted tree; it does not execute through preceding transfinite stages or construct their truth sets. Consequently the quotation nodes supply a typing discipline within this computable fragment, not an oracle for the full hierarchy.
 
 Every quantifier iteration and tree traversal is charged against an explicit work-step budget. Exhaustion raises an exception rather than returning false. The budget bounds these steps, not the bit complexity of arbitrarily large integers or the execution time of external symbolic routines. The implementation does not construct $\mathsf{Tr}_\alpha$ for the full unbounded language. Its executable claims concern bounded formulas and exact algebraic examples; software tests do not replace the proofs of the semantic theorems.
 
@@ -197,7 +267,7 @@ The dependency structure is deliberately revealing. The truth-hierarchy theorems
 
 The source's path-sensitive viewpoint has a concrete consequence nonetheless: semantic records should retain the formula, its language, its ordinal level, and its interpretation, even when numerical evaluations coincide. A verification record could therefore contain $(\alpha,\ulcorner \varphi\urcorner,s,v,p)$, where $v$ is a claimed satisfaction value and $p$ is a proof or evaluation certificate in a separately specified calculus. The existence theorem does not generate $p$. For an implementation, failure to obtain such a certificate must remain an unestablished claim, rather than being converted into either truth or falsity.
 
-Three formal questions remain. First, a derivation from the $\square$ axioms needs a defined syntax, inference rules, and an interpretation theorem that actually produces the ordinal domain and the required recursion. Second, a complete treatment of Ordinatics needs a specified field or other algebra, a coherent root convention, and exact partiality conditions for wrap. Third, beyond the bounded evaluator, a proof-certificate checker needs a specified calculus and a soundness theorem relating accepted certificates to the displayed satisfaction clauses. These questions are separable and permit bounded progress without claiming a universal truth algorithm.
+Four formal questions remain. First, a derivation from the $\square$ axioms needs a defined syntax, inference rules, and an interpretation theorem that actually produces the ordinal domain and the required recursion. Second, a complete treatment of Ordinatics needs a specified field or other algebra, a coherent root convention, and exact partiality conditions for wrap. Third, beyond the bounded evaluator, a proof-certificate checker needs a specified calculus and a soundness theorem relating accepted certificates to the displayed satisfaction clauses. Fourth, the intended fractal meta-representation must realize a named reflection progression, preserve the observations used after recursive reuse, and bind notation presentations to well-foundedness evidence. These questions are separable and permit bounded progress without claiming a universal truth algorithm.
 
 The mathematically supportable thesis is therefore that ordinal structure can organize a typed foundation for arithmetic satisfaction while preserving both operational distinctions and semantic limits. The present reconstruction makes that thesis explicit. Its elementary obstructions and constructive model are offered as a technical foundation note; independent mathematical review and a broader novelty assessment remain appropriate before a stronger research claim.
 
@@ -209,17 +279,65 @@ Alfred Tarski. The Semantic Conception of Truth and the Foundations of Semantics
 
 #### \[2\]
 
-Solomon Feferman. Transfinite Recursive Progressions of Axiomatic Theories. *The Journal of Symbolic Logic* 27(3), 259--316, 1962. [doi:10.2307/2964649](https://doi.org/10.2307/2964649).
+Volker Halbach. *Axiomatic Theories of Truth*. Second edition, Cambridge University Press, 2014. [doi:10.1017/CBO9781139696586](https://doi.org/10.1017/CBO9781139696586).
 
 #### \[3\]
 
-Lorenz Halbeisen. The Axioms of Set Theory ZFC, Chapter 13, especially Theorem 13.3 and the ordinal arithmetic section. [Author-hosted chapter](https://people.math.ethz.ch/~halorenz/4students/LogikGT/Ch13.pdf), accessed September 6, 2026.
+Lev D. Beklemishev and Fedor N. Pakhomov. Reflection Algebras and Conservation Results for Theories of Iterated Truth. *Annals of Pure and Applied Logic* 173(5), 103093, 2022. [doi:10.1016/j.apal.2022.103093](https://doi.org/10.1016/j.apal.2022.103093).
 
 #### \[4\]
 
-Michael Beeson. Lecture 13: The First Incompleteness Theorem. Stanford logic lecture slides, especially the self-reference lemma and undefinability discussion. [Author-hosted slides](https://www.michaelbeeson.com/teaching/StanfordLogic/Lecture13Slides.pdf), accessed September 6, 2026.
+Graham E. Leigh. Reflecting on Truth. *IfCoLog Journal of Logics and their Applications* 3(4), 557--594, 2016. [Author-hosted journal issue](https://www.collegepublications.co.uk/downloads/ifcolog00008.pdf).
 
 #### \[5\]
+
+Solomon Feferman. Transfinite Recursive Progressions of Axiomatic Theories. *The Journal of Symbolic Logic* 27(3), 259--316, 1962. [doi:10.2307/2964649](https://doi.org/10.2307/2964649).
+
+#### \[6\]
+
+Fedor Pakhomov, Michael Rathjen, and Dino Rossegger. Feferman's Completeness Theorem. [arXiv:2405.09275 \[math.LO\]](https://doi.org/10.48550/arXiv.2405.09275), 2024; published in *Bulletin of Symbolic Logic* 31(3), 462--487, 2025, [doi:10.1017/bsl.2025.2](https://doi.org/10.1017/bsl.2025.2).
+
+#### \[7\]
+
+Solomon Feferman. Turing's Thesis. *Notices of the American Mathematical Society* 53(10), 1200--1205, 2006. [Author-hosted article](https://math.stanford.edu/~feferman/papers/turing.pdf).
+
+#### \[8\]
+
+Bryan Ford. Computable Quantification in Reflective Grounded Arithmetic. [arXiv:2607.25533 \[math.LO\]](https://doi.org/10.48550/arXiv.2607.25533), 2026.
+
+#### \[9\]
+
+Bryan Ford. Internalized Truth in Reflective Grounded Arithmetic. [arXiv:2608.16140 \[math.LO\]](https://doi.org/10.48550/arXiv.2608.16140), 2026.
+
+#### \[10\]
+
+James Brotherston and Alex Simpson. Sequent Calculi for Induction and Infinite Descent. *Journal of Logic and Computation* 21(6), 1177--1216, 2011. [doi:10.1093/logcom/exq052](https://doi.org/10.1093/logcom/exq052).
+
+#### \[11\]
+
+Anupam Das. On the Logical Complexity of Cyclic Arithmetic. *Logical Methods in Computer Science* 16(1:1), 1--39, 2020. [doi:10.23638/LMCS-16(1:1)2020](https://doi.org/10.23638/LMCS-16(1:1)2020).
+
+#### \[12\]
+
+Lorenz Halbeisen. The Axioms of Set Theory ZFC, Chapter 13, especially Theorem 13.3 and the ordinal arithmetic section. [Author-hosted chapter](https://people.math.ethz.ch/~halorenz/4students/LogikGT/Ch13.pdf), accessed September 6, 2026.
+
+#### \[13\]
+
+Michael Beeson. Lecture 13: The First Incompleteness Theorem. Stanford logic lecture slides, especially the self-reference lemma and undefinability discussion. [Author-hosted slides](https://www.michaelbeeson.com/teaching/StanfordLogic/Lecture13Slides.pdf), accessed September 6, 2026.
+
+#### \[14\]
+
+The Stacks Project Authors. Section 10.9: Localization. [Tag 00CM](https://stacks.math.columbia.edu/tag/00CM), accessed September 7, 2026.
+
+#### \[15\]
+
+National Institute of Standards and Technology. Digital Library of Mathematical Functions, Section 4.2: Definitions, Logarithm, Exponential, Powers. [DLMF Section 4.2](https://dlmf.nist.gov/4.2), accessed September 7, 2026.
+
+#### \[16\]
+
+Tyler Roost. *Hypermath: Fractal meta-representation and Gödelian completeness research target*. Development source and proof audit at commit [6b050fc292ca2e9fc3169dce70388e3b79431bea](https://github.com/TimeLordRaps/hypermath/tree/6b050fc292ca2e9fc3169dce70388e3b79431bea), 2026. The repository records open proof obligations and countermodels; it is not an independent completeness certificate.
+
+#### \[17\]
 
 Tyler Roost. Unpublished working notes on Ordinatics: *Ordinatics* (Chapter 48), *The Wrap Operation W* (Chapter 50), *The Four-Level Ordinate Hierarchy* (Chapter 97), and *Dimensional Transition Operators* (Chapter 98), with accompanying ordinal-extension specifications. Manuscripts consulted September 6, 2026; Chapters 97--98 dated August 6, 2026. These are sources of the research proposal, not independently validated proof certificates. All definitions required for the present results are given in this paper.
 

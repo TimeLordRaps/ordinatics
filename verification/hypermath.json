@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "repository": "https://github.com/TimeLordRaps/hypermath.git",
-  "commit": "2b6aa260b25f01de2bc40accf5d6c6a3f550e683",
+  "commit": "6b050fc292ca2e9fc3169dce70388e3b79431bea",
   "distribution": "hypermath-foundations",
   "version": "0.1.0"
 }

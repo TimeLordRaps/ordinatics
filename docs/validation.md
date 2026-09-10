@@ -1,25 +1,40 @@
-# Validation of version 0.1.0
+# Validation of development version 0.2.0.dev0
 
-These observations describe the initial distribution's exercised behavior. Tests support specific cases; they are not a formal soundness proof, a proof of the manuscript's novelty, or evidence of PyPI publication.
+These observations were recorded on September 10, 2026. They establish the
+listed behavior at the reviewed source state and exact dependency coordinate.
+They are not a formal soundness proof, a proof of novelty, evidence of Python
+Package Index publication, or evidence that the open completeness target holds.
 
-## Local checks
+## Local software checks
 
-On Windows with Python 3.12.8, SymPy 1.14.0, NumPy 2.5.3, and SciPy 1.18.1:
+The primary local environment used Windows, Python 3.12.8, SymPy 1.14.0,
+NumPy 2.5.3, and SciPy 1.18.1.
 
-- `python -m pytest -vv -s --durations=10 --timeout=60`: 102 passed.
-- Both example scripts and the README/interoperability Python blocks completed successfully.
-- `python -m ruff check src tests examples scripts`: passed.
-- `python -m build`: built a wheel and source distribution.
-- `python -m twine check dist/*`: both distributions passed metadata/rendering checks.
+- `python -m pytest tests -vv -s --durations=10 --timeout=60`: 231 passed in
+  272.07 seconds.
+- Both examples, Ruff, and `python -m pip check` passed.
+- Build and Twine checks passed for the wheel and source distribution.
+- Both artifacts retained the exact committed Hypermath pin; the archive
+  checker also rejected case-folding, trailing-dot, and Unicode-normalization
+  path collisions in its regression tests.
+- An isolated environment installed and exercised both project wheels.
 
-A separate environment installed the wheel with the minimum supported SymPy version, 1.13.3. The imported package came from the environment's installed `site-packages`. Its test run passed 99 cases and skipped three NumPy-dependent cases because the optional scientific dependencies were absent.
+## Grounding
 
-The tests exercise ordinary ordinal absorption, operation order, finite powers, natural operations, polynomial conversions, exact specialization, poles, the chosen exponential branch, binder scope, quotation closure and rank, malformed syntax, and budget exhaustion. Bounds and samples in those tests limit the evidence they provide.
+The locked Hypermath commit is
+[`6b050fc292ca2e9fc3169dce70388e3b79431bea`](https://github.com/TimeLordRaps/hypermath/tree/6b050fc292ca2e9fc3169dce70388e3b79431bea).
+Its audit completed and preserved `UNKNOWN` for self-derivation, source adequacy,
+and recursive arithmetic completeness. The strict gate returned nonzero and
+reported that the arithmetic bridge or completeness proof is missing, as intended.
 
 ## Paper
 
-The LaTeX source compiled twice without the script's layout/reference warnings. All nine rendered pages were visually inspected. The title, references, equations, and computational companion are included in the PDF and Markdown reading copy. The manuscript states its external set-theoretic assumptions and distinguishes the executable bounded fragment from the full satisfaction hierarchy.
+`python scripts/build_paper.py --render` completed two LaTeX passes and rendered
+13 pages. All pages were visually inspected. The PDF title is exact, all 17
+bibliography entries are cited, and no clipping or overlap was observed.
 
-## Hosted checks
+PDF SHA-256: `1A1B25489CF3352E1FFD6510193CD76171B6A5BCD87E1CE7CC14E7D7C94A7D36`.
 
-The repository's [checks workflow](https://github.com/TimeLordRaps/ordinatics/actions/workflows/ci.yml) tests Linux on Python 3.10, 3.12, and 3.13, and Windows on Python 3.12. Consult a run at the exact commit being used for current hosted results. A later source, dependency, interpreter, or build change can invalidate these local observations and requires the relevant checks to be rerun.
+Hosted results must be read from the
+[checks workflow](https://github.com/TimeLordRaps/ordinatics/actions/workflows/ci.yml)
+at the exact commit. Later source or dependency changes invalidate these observations.

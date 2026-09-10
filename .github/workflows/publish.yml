@@ -40,9 +40,14 @@ jobs:
         with:
           name: foundation-distribution-ubuntu-latest-3.12
           path: build/qualified-foundation
+      - name: Recheck the packaged Hypermath pin after artifact download
+        run: >-
+          python -u scripts/check_packaged_pin.py
+          --lock verification/hypermath.json --dist dist
       - name: Require the mandatory dependency to be available to package-index users
         run: >-
-          python -m pip download --only-binary=:all: --no-deps
+          python -m pip download --index-url https://pypi.org/simple
+          --only-binary=:all: --no-deps
           hypermath-foundations==0.1.0 --dest build/index-dependency
       - name: Bind the indexed dependency to the qualified foundation payload
         run: >-

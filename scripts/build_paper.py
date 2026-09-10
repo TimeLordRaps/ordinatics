@@ -1,6 +1,7 @@
 """Build the paper with bounded, visible LaTeX runs and an optional page render.
 
-Requires pdflatex and pandoc on PATH. Rendering additionally needs PyMuPDF.
+Requires pdflatex and pandoc on PATH. Rendering uses PyMuPDF when available
+and otherwise falls back to Poppler's pdftoppm.
 Run from any directory: python scripts/build_paper.py --render
 """
 
@@ -11,6 +12,7 @@ import json
 import re
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,7 +44,9 @@ def main() -> None:
     source = re.sub(r"\\cite\{([^}]+)\}",
                     lambda m: "[" + str(keys.index(m[1]) + 1) + "]", source)
     source = source.replace(r"\eqref{eq:structure}", "(1)").replace(r"\eqref{eq:truth}", "(2)")
-    source = source.replace(r"\begin{thebibliography}{9}", r"\section*{References}")
+    source = re.sub(
+        r"\\begin\{thebibliography\}\{[^}]+\}", r"\\section*{References}", source
+    )
     source = source.replace(r"\end{thebibliography}", "")
     source = re.sub(r"\\bibitem\{([^}]+)\}",
                     lambda m: r"\paragraph{[" + str(keys.index(m[1]) + 1) + "]}", source)
@@ -67,6 +71,7 @@ def main() -> None:
     prefix = [
         {"t": "Header", "c": [1, ["", [], []], meta["title"]["c"]]},
         {"t": "Para", "c": [{"t": "Str", "c": "Tyler Roost"}]},
+        {"t": "Para", "c": meta["date"]["c"]},
         {"t": "Header", "c": [2, ["", [], []], [{"t": "Str", "c": "Abstract"}]]},
     ]
     ast["blocks"] = prefix + meta["abstract"]["c"] + ast["blocks"]
@@ -75,17 +80,44 @@ def main() -> None:
                     "-o", str(PAPER / "ordinal_arithmetic.md")],
                    input=json.dumps(ast), text=True, check=True, timeout=30)
     if args.render:
-        import fitz
-
         directory = PAPER / "render"
         directory.mkdir(exist_ok=True)
-        doc = fitz.open(PAPER / "ordinal_arithmetic.pdf")
-        for i, page in enumerate(doc):
-            print(f"Render page {i + 1}/{len(doc)}", flush=True)
-            page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5), alpha=False).save(
-                directory / f"page-{i + 1:02}.png"
-            )
-        print(f"Rendered {len(doc)} pages. Inspect before distributing.", flush=True)
+        with tempfile.TemporaryDirectory(prefix="ordinatics-paper-render-") as temporary:
+            staging = Path(temporary)
+            try:
+                import fitz
+            except ModuleNotFoundError:
+                pdftoppm = shutil.which("pdftoppm")
+                if pdftoppm is None:
+                    raise SystemExit("Rendering requires PyMuPDF or pdftoppm on PATH") from None
+                print("PyMuPDF unavailable; rendering with pdftoppm (90 second timeout)", flush=True)
+                subprocess.run(
+                    [
+                        pdftoppm,
+                        "-png",
+                        "-r",
+                        "108",
+                        str(PAPER / "ordinal_arithmetic.pdf"),
+                        str(staging / "page"),
+                    ],
+                    check=True,
+                    timeout=90,
+                )
+            else:
+                with fitz.open(PAPER / "ordinal_arithmetic.pdf") as doc:
+                    for i, page in enumerate(doc):
+                        print(f"Render page {i + 1}/{len(doc)}", flush=True)
+                        page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5), alpha=False).save(
+                            staging / f"page-{i + 1:02}.png"
+                        )
+            rendered = sorted(staging.glob("page-*.png"))
+            if not rendered:
+                raise SystemExit("Renderer produced no manuscript pages")
+            for old_page in directory.glob("page-*.png"):
+                old_page.unlink()
+            for page in rendered:
+                shutil.move(str(page), directory / page.name)
+            print(f"Rendered {len(rendered)} pages. Inspect before distributing.", flush=True)
     print("Built paper/ordinal_arithmetic.pdf and .md", flush=True)
 
 

@@ -8,20 +8,38 @@ Ordinatics implements the computable parts of the paper using exact integers and
 
 ## Install
 
-Python 3.10 or newer is required. Install directly from GitHub:
+Python 3.10 or newer is required. For this development version, provision the
+pinned Hypermath dependency from a checkout of this repository before installing
+Ordinatics:
 
 ```console
-python -m pip install "ordinatics[scientific] @ git+https://github.com/TimeLordRaps/ordinatics.git"
+python scripts/bootstrap_foundation.py
+python -m pip install '.[scientific,verification]'
 ```
 
-Or from a checkout of this repository:
+The bootstrap builds `hypermath-foundations` from the exact commit in
+`verification/hypermath.json`, then installs its local wheel. It rejects a
+different or modified foundation checkout. The package named `hypermath` on the
+Python Package Index is an unrelated project. See [grounding](docs/grounding.md)
+and [release instructions](docs/releasing.md) for the dependency and publication
+requirements.
+
+## Hypermath grounding
+
+Ordinatics requires Hypermath's audit package and exposes `verify_grounding` to
+recompute its self-derivation evidence. Verification binds the installed package
+to the pinned source and can produce a Verifier Standard (VSTD) evidence record:
 
 ```console
-python -m pip install .
-python -m pip install '.[scientific]'
+python -u scripts/check_grounding.py --require-self-derivation --require-complete
 ```
 
-The distribution name is `ordinatics`. See [release instructions](https://github.com/TimeLordRaps/ordinatics/blob/main/docs/releasing.md) for package-index publication status and reproducible build commands.
+The command retains its evidence before failing an unresolved mathematical gate.
+The existing arithmetic functions remain usable as their documented computable
+fragment. The source-to-library interpretation and recursively grounded
+completeness theorem remain `UNKNOWN`; bounded evaluations do not supply those
+proofs. Continuous integration (CI) tests software behavior separately and blocks
+publication until the stronger grounding requirements are met.
 
 ## Ordinary and natural ordinal arithmetic
 
@@ -102,7 +120,8 @@ See [semantics](https://github.com/TimeLordRaps/ordinatics/blob/main/docs/semant
 ## Development
 
 ```console
-python -m pip install -e '.[dev,scientific]'
+python scripts/bootstrap_foundation.py
+python -m pip install -e '.[dev,scientific,verification]'
 python -m pytest -vv -s --durations=10 --timeout=60
 python -m ruff check src tests examples scripts
 python -m build

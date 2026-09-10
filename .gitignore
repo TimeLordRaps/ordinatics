@@ -13,3 +13,4 @@ build/
 paper/render/
 .coverage
 htmlcov/
+.dependencies/

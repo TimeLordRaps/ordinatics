@@ -1,33 +1,56 @@
 name: publish to PyPI
 
-# Run manually after configuring the exact PyPI Trusted Publisher described
-# in docs/releasing.md. Repository pushes do not trigger a package upload.
+# Publication remains manual. The full checks workflow must pass on this revision.
 on:
   workflow_dispatch:
-
-env:
-  PYTHONUTF8: "1"
 
 permissions:
   contents: read
 
+concurrency:
+  group: ordinatics-publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  qualification:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/ci.yml
+
   release:
+    needs: qualification
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 10
     environment: pypi
     permissions:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
-      - run: python -m pip install -e ".[dev,scientific]"
-      - run: python -m pytest -vv -s --durations=10 --timeout=60
-      - run: python -m ruff check src tests examples scripts
-      - run: python -m build
-      - run: python -m twine check dist/*
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: distributions-ubuntu-latest-3.12
+          path: dist
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: foundation-distribution-ubuntu-latest-3.12
+          path: build/qualified-foundation
+      - name: Require the mandatory dependency to be available to package-index users
+        run: >-
+          python -m pip download --only-binary=:all: --no-deps
+          hypermath-foundations==0.1.0 --dest build/index-dependency
+      - name: Bind the indexed dependency to the qualified foundation payload
+        run: >-
+          python scripts/check_index_dependency.py --qualified build/qualified-foundation
+          --published build/index-dependency
+      - run: python scripts/bootstrap_foundation.py --checkout-only
+      - name: Check installation with the actual indexed dependency
+        run: >-
+          python -u .dependencies/hypermath/scripts/check_installed_wheel.py
+          --package ordinatics --wheel-dir dist --foundation-wheel-dir build/index-dependency
       - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1

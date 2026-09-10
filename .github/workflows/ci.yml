@@ -72,6 +72,31 @@ jobs:
           path: dist/*
           if-no-files-found: error
 
+  foundation-artifacts:
+    name: foundation wheel consistency
+    needs: software
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: foundation-distribution-ubuntu-latest-3.12
+          path: build/linux-foundation
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: foundation-distribution-windows-latest-3.12
+          path: build/windows-foundation
+      - name: Compare independently built foundation payloads
+        run: >-
+          python scripts/check_index_dependency.py --qualified build/linux-foundation
+          --published build/windows-foundation
+
   foundation:
     name: foundation and completeness gate
     runs-on: ubuntu-latest

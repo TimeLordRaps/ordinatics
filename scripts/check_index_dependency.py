@@ -1,9 +1,11 @@
 """Compare an index wheel with the foundation wheel qualified in continuous integration.
 
-Only a separately validated RECORD manifest and the nonsemantic WHEEL Generator
-header may differ. ZIP compression and timestamps are container properties; every
-named payload member is compared after decompression. Explicit archive directory
-entries are unsupported. This checks artifact identity,
+Only a separately validated RECORD manifest, the nonsemantic WHEEL Generator
+header, and METADATA carriage-return/line-feed versus line-feed serialization
+may differ. RECORD hashes and sizes are validated against original bytes before
+normalization; other payload members are never normalized. ZIP compression and
+timestamps are container properties. Explicit archive directory entries are
+unsupported. This checks artifact identity,
 not mathematical proof status. The checker requires only Python's standard library.
 """
 
@@ -171,6 +173,7 @@ def _payload(wheel: Path) -> dict[str, bytes]:
         raise WheelQualificationError("wheel metadata must identify hypermath-foundations 0.1.0")
     _validate_record(payload, record_name)
     del payload[record_name]
+    payload[metadata_name] = payload[metadata_name].replace(b"\r\n", b"\n")
     payload[wheel_name] = _without_generator(payload[wheel_name])
     return payload
 

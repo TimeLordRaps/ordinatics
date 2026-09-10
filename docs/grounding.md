@@ -165,7 +165,7 @@ the declared clauses. Their exact propositions remain named definitions:
 `pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
 does not prove them. The reviewed foundation retains 16 admissions and
 67 declared assumptions: 29 source parameters and 38 logical clauses. Its
-fresh audit binds 58 stable inputs and checks 35 individually reviewed proved
+fresh audit binds 60 stable inputs and checks 35 individually reviewed proved
 milestone declarations.
 
 The reviewed observation layer also checks decoder factorization, uniqueness on
@@ -234,18 +234,44 @@ encoded record and encoded formula: their tags differ, and every such path is
 empty. This refutes that direct transition in this model, not all possible
 native computation mechanisms. Together with the collapsing six-form model,
 it distinguishes possible faithful interpretation from faithfulness entailed
-by the clauses. Its 20 dependency reports are matched exactly, including
-classical choice where used. No admission appears in this group.
+by the clauses. It also proves that the source's executive closure and ground
+anchoring hold for a record with an invalid projection, even though its
+conclusion has a separate valid derivation. A conclusion-only check cannot
+certify the exact inference tree. The expanded full-model group has 26 exact
+dependency reports, including classical choice where used. No admission
+appears in this group.
 
-The fresh audit requires ten native processes: `lean_build`,
+`RecordMachine.lean` compiles every composed record into explicit instructions
+for the seven inference kinds. Execution checks premise formulas and
+annotations, visits both conjunction branches, and preserves failure. Its
+result agrees with the recursive checker on every record, including invalid
+records and every surrounding stack. Trace acceptance requires every recorded
+state to match that execution and the final state to establish the supplied
+claim. State sequences need not uniquely identify a record; the exact record
+and its instructions remain inputs to the check.
+
+The machine group requires 40 exact dependency reports and executable rejection
+probes. No report uses an admission, classical choice, or a native Hypermath
+axiom. One instruction per record node is a structural count, excluding
+decoding, comparisons, construction, and stored-state costs. This is an
+explicit host computation; a native simulation and ranked acceptance
+derivation are still missing.
+
+The fresh audit requires eleven Lean processes: `lean_build`,
 `dependency_output`, `countermodel`, `finite_trace`, `observation`, `full_model`,
-`finite_action`, `ground_syntax`, `ground_derivation`, and `record_encoding`.
-The last three require the primitive, composed, and encoded-record reports;
+`finite_action`, `ground_syntax`, `ground_derivation`, `record_encoding`, and
+`record_machine`. The last four require the primitive, composed, encoded-record,
+and explicit-machine reports;
 `finite_action` checks the six-form countermodel and
 its failure witnesses. Observation probes exercise preservation and cases where an endpoint
 alone cannot determine the recorded length. Both full-clause models cover the
 38 declared logical clauses; their coverage does not extend to stronger prose
 descriptions, admitted theorems, or adequacy of the native source language.
+The default Lean library imports every module needed by these reporters, and
+the current foundation was audited from a checkout with no preexisting build
+cache. A regression checks those dependencies. In job names, "native" refers
+to running Lean rather than accepting a saved report; it does not assert that
+Hypermath's represented rules execute the checker internally.
 
 These checks can pass while self-derivation remains unresolved. The full-clause
 countermodel also satisfies the exact proposition currently exported as

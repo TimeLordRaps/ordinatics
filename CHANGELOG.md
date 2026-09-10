@@ -3,14 +3,18 @@
 ## 0.2.0.dev0 — unreleased
 
 - Required `hypermath-foundations` dependency built from a reviewed Git commit.
-- Advanced the exact foundation pin to `34c9c99345bb3cdeac7be9a67713d9aa0c99d6da`.
-  Ten mandatory native processes now include primitive records, composed
+- Advanced the exact foundation pin to `6c4c4c152713d8aff8f85d96b90d8e01b6ec3a79`.
+  Eleven mandatory Lean processes now include primitive records, composed
   derivations with complete rule-tree recovery, and single-term record encodings.
   One model of all 38 clauses retains the encoded records faithfully, but its
   congruence-preserving paths cannot implement a direct record-to-formula
   transition. The checker remains a host function; native ranked acceptance
-  and full arithmetic coverage remain open. Paper Propositions 6.8–6.10 give
-  these bounded results and their proofs.
+  and full arithmetic coverage remain open. Paper Propositions 6.8–6.12 give
+  these bounded results and their proofs, including a closed but invalid
+  record and an explicit instruction machine with exact trace acceptance.
+  The machine has 40 exact reports and adds no native axioms or admissions.
+  Fresh builds include every reporter dependency without relying on cached
+  compiled modules.
 - Checked observation-factorization and finite-reuse preservation results from
   Hypermath. Preserving all standard numeral-equality queries requires injective
   native numeral representation; the existing countermodel refutes a decoder
@@ -42,10 +46,11 @@
   successor, and path-length computation claims. Their exact propositions remain
   named `Claim` definitions; their withdrawal is not proof completion. The
   reviewed foundation retains 16 admissions and 67 declared assumptions; its
-  fresh audit binds 58 stable inputs and checks 35 proved milestone declarations,
+  fresh audit binds 60 stable inputs and checks 35 proved milestone declarations,
   plus separate groups of 23 primitive, 26 composed-calculus, 45 encoded-record,
-  and 20 full-model dependency reports. Exact dependency checks retain classical
-  choice where used; none of these four groups uses an admission.
+  26 full-model, and 40 record-machine dependency reports. Exact dependency
+  checks retain classical choice where used; none of these five groups uses
+  an admission.
 - Separate software and mathematical CI gates, installed-wheel checks, and
   publication dependent on the complete checks workflow.
 - Wheel and source-distribution qualification now require the exact committed

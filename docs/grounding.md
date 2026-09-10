@@ -165,7 +165,7 @@ the declared clauses. Their exact propositions remain named definitions:
 `pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
 does not prove them. The reviewed foundation retains 16 admissions and
 67 declared assumptions: 29 source parameters and 38 logical clauses. Its
-fresh audit binds 53 stable inputs and checks 35 individually reviewed proved
+fresh audit binds 58 stable inputs and checks 35 individually reviewed proved
 milestone declarations.
 
 The reviewed observation layer also checks decoder factorization, uniqueness on
@@ -202,9 +202,10 @@ principle. It adds no native axiom or admitted proof.
 The concrete reuse operation reinstantiates a primitive rule at the next
 generated argument. `reuse_many_encode` proves exact record preservation after
 any finite number of these steps. Its 23 dependency reports are a separate
-group from the 35 production milestones. The construction does not yet encode
-composed derivations, represent the checker internally, or derive its own
-acceptance claims. Lean recursion and inductive types remain host infrastructure.
+group from the 35 production milestones. The composed construction below
+extends this primitive fragment. Neither construction represents the checker
+internally or derives its own acceptance claims. Lean recursion and inductive
+types remain host infrastructure.
 
 The six-form model now also identifies the interpretations of the different
 records `diff ground` and `box ground`. No decoder from that semantic value
@@ -212,10 +213,35 @@ alone recovers every primitive instance under this encoding. The three new
 countermodel results have no axiom dependencies. They constrain this encoding,
 not every possible alternative representation.
 
-The fresh audit requires eight native processes: `lean_build`,
+`GroundDerivation.lean` adds typed finite derivations, predicate closes,
+conjunction, and projections. Its raw records retain every premise and
+annotation. Acceptance reconstructs the entire typed rule tree, whose quotation
+recovers the original record. Soundness is relative to four primitive and
+three predicate-close premises; adequacy for native propositions remains open.
+This composed group has 26 exact dependency reports.
+
+`GroundCode.lean` and `RecordEncoding.lean` encode those records and formulas
+as single free ground terms, with exact recovery and agreement with the composed
+checker. The 45-report encoding group checks tagged sorts, malformed records,
+premise failures, observations, and reuse. The executable interface uses packed
+numbers: a unary ground term can be exponentially larger than its prefix code.
+There is no compression theorem or native internal acceptance result here.
+
+The two-chain model in `FullAxiomModel.lean` now interprets those terms
+faithfully while satisfying all 38 clauses. Decoding and checking operate on
+its model values. The same model has no congruence-preserving path between any
+encoded record and encoded formula: their tags differ, and every such path is
+empty. This refutes that direct transition in this model, not all possible
+native computation mechanisms. Together with the collapsing six-form model,
+it distinguishes possible faithful interpretation from faithfulness entailed
+by the clauses. Its 20 dependency reports are matched exactly, including
+classical choice where used. No admission appears in this group.
+
+The fresh audit requires ten native processes: `lean_build`,
 `dependency_output`, `countermodel`, `finite_trace`, `observation`, `full_model`,
-`finite_action`, and `ground_syntax`. The last requires the primitive-record
-checker and reuse reports; `finite_action` checks the six-form countermodel and
+`finite_action`, `ground_syntax`, `ground_derivation`, and `record_encoding`.
+The last three require the primitive, composed, and encoded-record reports;
+`finite_action` checks the six-form countermodel and
 its failure witnesses. Observation probes exercise preservation and cases where an endpoint
 alone cannot determine the recorded length. Both full-clause models cover the
 38 declared logical clauses; their coverage does not extend to stronger prose

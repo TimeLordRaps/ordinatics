@@ -87,8 +87,14 @@ The result contains:
 Requesting `receipt_directory` uses the Verifier Standard (VSTD) adapter in
 Hypermath. The `verification` extra includes the pinned `verifier-standard`
 dependency through Hypermath. The adapter receives the verified foundation root
-for a fresh replay using the same audit implementation. Its receipt binds evidence to named claims; receipt
-creation does not imply that every mathematical claim passed. The foundation
+for a fresh replay using the same audit implementation. The pinned
+`audit-replay-2` mechanism compares the complete report, including every check,
+claim, admission, runner, toolchain, execution, and source-coordinate field.
+Only Lake's `Built`/`Replayed` wording, the scheduling numerator on those build
+progress lines, and parallel line ordering are normalized. The total job count,
+marker, target, message, line ending, and multiplicity remain bound.
+Its receipt binds evidence to named claims; receipt creation does not imply that
+every mathematical claim passed. The foundation
 and the source-to-library bridge remain separate verification obligations.
 A requested replay that fails or contradicts its bound evidence raises an error
 after preserving the receipt bundle; the earlier report cannot override it.
@@ -121,22 +127,56 @@ composition and reusable-expression expansion. This does not assert that distinc
 iteration counts denote distinct Forms, or that native `ordinalApply` agrees
 with the observation.
 
+Write `E(n) = f2f^n(ground)`. Addition of these finite numeral representations
+respects equality unconditionally: if `E(m) = E(n)` and `E(p) = E(q)`, then
+`E(m+p) = E(n+q)`. Equal numeral representations also act equally on every
+starting Form in the finite ground orbit. Neither result requires numeral
+injectivity or an action on all Forms.
+
+An exact action on every Form satisfying `A(E(n), x) = f2f^n(x)` exists if and
+only if equal numeral Forms induce equal iterates on every starting Form:
+`E(m) = E(n)` implies `f2f^m(x) = f2f^n(x)` for all `x`. The existence
+construction uses classical choice in Lean and is conditional on this
+representative-independence compatibility. It does not establish an executable
+native action or agreement with `ordinalApply`.
+
+The foundation's six-form countermodel satisfies all 38 current logical
+clauses, with Congruent an equivalence relation, but refutes both exact and
+congruence-valued uniform finite actions. Ground's first and third numeral
+Forms coincide, while one and three applications to a Form on another cycle
+give noncongruent results. This leaves finite-orbit addition intact. The model
+does not encode the stronger, unformalized native intent that all Forms arise
+from ground.
+
+The same model shows that the former admitted `ordinalZeroIdentity`,
+`ordinalSuccApplies`, and `pathLengthArithmetic` statements do not follow from
+the declared clauses. Their exact propositions remain named definitions:
+`ordinalZeroIdentityClaim`, `ordinalSuccAppliesClaim`, and
+`pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
+does not prove them. The reviewed foundation retains 16 admissions and
+67 declared assumptions: 29 source parameters and 38 logical clauses. Its
+fresh audit binds 51 stable inputs and checks 29 individually reviewed proved
+milestone declarations.
+
 Under the declared logical clauses, `ordinalLimit` lies outside that finite
 closure and cannot be reached from ground through the finite `D` relation.
 Universal finite ground-spanning is therefore refuted. The corresponding
 admitted theorem was withdrawn; its proposition remains an explicit claim.
 This withdrawal is distinct from completing its proof.
 
-The fresh audit requires the `observation` and `full_model` processes as well as
-the finite-trace checks. Observation probes exercise preservation and cases where
-an endpoint alone cannot determine the recorded length. The full-model process
-checks an interpretation of every declared logical axiom clause. Its coverage
-does not extend to stronger prose descriptions, admitted theorems, or adequacy
-of the native source language.
+The fresh audit requires seven native processes: `lean_build`,
+`dependency_output`, `countermodel`, `finite_trace`, `observation`, `full_model`,
+and `finite_action`. The last checks the six-form countermodel and its failure
+witnesses. Observation probes exercise preservation and cases where an endpoint
+alone cannot determine the recorded length. Both full-clause models cover the
+38 declared logical clauses; their coverage does not extend to stronger prose
+descriptions, admitted theorems, or adequacy of the native source language.
 
-These checks can pass while self-derivation remains unresolved. Native `Form`
-reification, transfinite paths, the interpretation into Ordinatics arithmetic,
-and recursive arithmetic completeness remain separate proof obligations.
+These checks can pass while self-derivation remains unresolved. Native
+generativity, correspondence with `ordinalApply`, source adequacy, and recursive
+arithmetic completeness remain unestablished (`UNKNOWN`). Native `Form`
+reification, transfinite paths, and the interpretation into Ordinatics arithmetic
+remain separate proof obligations.
 These results therefore do not promote the self-derivation, interpretation-bridge,
 or completeness claims to `PASS` by themselves.
 

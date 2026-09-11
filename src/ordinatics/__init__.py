@@ -13,6 +13,13 @@ from .algebra import (
     specialize,
     wrap,
 )
+from .grounding import (
+    GroundingError,
+    GroundingEvidenceError,
+    GroundingNotEstablishedError,
+    GroundingResult,
+    verify_grounding,
+)
 from .ordinals import OMEGA, ONE, ZERO, Ordinal
 from .semantics import (
     Add,
@@ -38,7 +45,7 @@ from .semantics import (
     rank,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0.dev0"
 
 __all__ = [
     "OMEGA", "ONE", "ZERO", "X", "Ordinal", "PoleError", "complex_period",
@@ -47,4 +54,6 @@ __all__ = [
     "FreeVariableError", "LanguageMembershipError", "Lt", "MalformedSyntaxError",
     "Mul", "Nat", "Not", "OrdinaticsSemanticsError", "Term", "Truth", "Var",
     "evaluate", "free_variables", "rank",
+    "GroundingError", "GroundingEvidenceError", "GroundingNotEstablishedError",
+    "GroundingResult", "verify_grounding",
 ]

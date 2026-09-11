@@ -1,25 +1,79 @@
-# Validation of version 0.1.0
+# Validation of development version 0.2.0.dev0
 
-These observations describe the initial distribution's exercised behavior. Tests support specific cases; they are not a formal soundness proof, a proof of the manuscript's novelty, or evidence of PyPI publication.
+This earlier validation record is superseded for the current review by
+[the cycle-correction integration record](validation-cycle-integration.md).
+The observations below are preserved for their original foundation coordinate
+`34c9c99345bb3cdeac7be9a67713d9aa0c99d6da` and 16-page manuscript.
 
-## Local checks
+These observations were recorded on September 10, 2026. They establish the
+listed behavior at the reviewed source state and exact dependency coordinate.
+They are not a formal soundness proof, a proof of novelty, evidence of Python
+Package Index publication, or evidence that the open completeness target holds.
 
-On Windows with Python 3.12.8, SymPy 1.14.0, NumPy 2.5.3, and SciPy 1.18.1:
+## Local software checks
 
-- `python -m pytest -vv -s --durations=10 --timeout=60`: 102 passed.
-- Both example scripts and the README/interoperability Python blocks completed successfully.
-- `python -m ruff check src tests examples scripts`: passed.
-- `python -m build`: built a wheel and source distribution.
-- `python -m twine check dist/*`: both distributions passed metadata/rendering checks.
+The primary local environment used Windows, Python 3.12.8, SymPy 1.14.0,
+NumPy 2.5.3, and SciPy 1.18.1.
 
-A separate environment installed the wheel with the minimum supported SymPy version, 1.13.3. The imported package came from the environment's installed `site-packages`. Its test run passed 99 cases and skipped three NumPy-dependent cases because the optional scientific dependencies were absent.
+- `python -m pytest tests -vv -s --durations=10 --timeout=60`: 237 passed in
+  21.12 seconds with the updated foundation installed.
+- Both examples, Ruff, and `python -m pip check` passed.
+- Build and Twine checks passed for the wheel and source distribution.
+- Both artifacts retained the exact committed Hypermath pin; the archive
+  checker also rejected case-folding, trailing-dot, and Unicode-normalization
+  path collisions in its regression tests.
+- An isolated environment installed and exercised both project wheels.
 
-The tests exercise ordinary ordinal absorption, operation order, finite powers, natural operations, polynomial conversions, exact specialization, poles, the chosen exponential branch, binder scope, quotation closure and rank, malformed syntax, and budget exhaustion. Bounds and samples in those tests limit the evidence they provide.
+## Grounding
+
+The locked Hypermath commit is
+[`34c9c99345bb3cdeac7be9a67713d9aa0c99d6da`](https://github.com/TimeLordRaps/hypermath/tree/34c9c99345bb3cdeac7be9a67713d9aa0c99d6da).
+Its fresh audit and replay completed: all ten native processes and the
+assumption policy passed. Proof admissibility failed because the current
+self-derivation proof still depends on admissions. Self-derivation, source
+adequacy, and recursive arithmetic completeness remained `UNKNOWN`.
+
+The reviewed foundation now includes decoder factorization, finite-reuse
+preservation, and the equivalence between native numeral injectivity and
+preservation of all standard numeral-equality queries. Its six-form model
+refutes an equality-query decoder for the current encoding. These checked
+results identify requirements for the arithmetic bridge; they do not supply it.
+
+The `ground_syntax` process checks 23 dependency reports for the primitive
+record checker, round-trip decoding, soundness relative to four source rules,
+and finite rule-reinstantiation. Three additional countermodel results show
+that interpreted semantic values need not retain these records. The audit
+binds 58 stable inputs and retains 67 source assumptions and 16 admission sites.
+The `ground_derivation` process checks 26 reports for composed derivations,
+full rule-tree reconstruction, and relative soundness. The `record_encoding`
+process checks 45 reports for single-term encodings, exact recovery, checker
+agreement, malformed inputs, and representation cost.
+
+The `full_model` process now checks 20 exact reports, including a faithful
+interpretation of those records in one model of all 38 clauses. Its preserving
+paths cannot carry encoded records directly to encoded formulas. This is a
+boundary on that specific transition, not all native computation. Model
+checking remains a host operation. The native ranked acceptance construction,
+source adequacy, and arithmetic interpretation remain open.
+
+The integrity commands now reject an absent, unattempted, or non-passing
+assumption-policy result even when all native processes finish. The foundation
+also preserves the two new checker-source files as line-feed bytes on Windows.
+Regression tests reproduce both failure modes. Matching replay alone can
+reproduce a policy failure; it must not be treated as an integrity pass.
 
 ## Paper
 
-The LaTeX source compiled twice without the script's layout/reference warnings. All nine rendered pages were visually inspected. The title, references, equations, and computational companion are included in the PDF and Markdown reading copy. The manuscript states its external set-theoretic assumptions and distinguishes the executable bounded fragment from the full satisfaction hierarchy.
+`python scripts/build_paper.py --render` completed two LaTeX passes and rendered
+16 pages. All pages were visually inspected. The PDF title is exact, all 17
+bibliography entries are cited, and no clipping or overlap was observed.
+Proposition 6.7 gives the primitive-record result. Propositions 6.8–6.10 add
+composed reconstruction, ground-term encoding with explicit cost, and the
+faithful model with its operational boundary. The conditional coverage result
+remains Theorem 6.6; its hypotheses have not been discharged.
 
-## Hosted checks
+PDF SHA-256: `190F24063EE9B0654FABDDA1316EFABBE59B48FDC291348F241C77981EBD8F26`.
 
-The repository's [checks workflow](https://github.com/TimeLordRaps/ordinatics/actions/workflows/ci.yml) tests Linux on Python 3.10, 3.12, and 3.13, and Windows on Python 3.12. Consult a run at the exact commit being used for current hosted results. A later source, dependency, interpreter, or build change can invalidate these local observations and requires the relevant checks to be rerun.
+Hosted results must be read from the
+[checks workflow](https://github.com/TimeLordRaps/ordinatics/actions/workflows/ci.yml)
+at the exact commit. Later source or dependency changes invalidate these observations.

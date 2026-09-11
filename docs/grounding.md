@@ -163,9 +163,9 @@ The same model shows that the former admitted `ordinalZeroIdentity`,
 the declared clauses. Their exact propositions remain named definitions:
 `ordinalZeroIdentityClaim`, `ordinalSuccAppliesClaim`, and
 `pathLengthArithmeticClaim`. Their withdrawal from the admitted theorem list
-does not prove them. The reviewed foundation retains 16 admissions and
+does not prove them. The reviewed foundation retains 11 admissions and
 67 declared assumptions: 29 source parameters and 38 logical clauses. Its
-fresh audit binds 60 stable inputs and checks 35 individually reviewed proved
+fresh audit binds 60 stable inputs and checks 38 individually reviewed proved
 milestone declarations.
 
 The reviewed observation layer also checks decoder factorization, uniqueness on
@@ -202,7 +202,7 @@ principle. It adds no native axiom or admitted proof.
 The concrete reuse operation reinstantiates a primitive rule at the next
 generated argument. `reuse_many_encode` proves exact record preservation after
 any finite number of these steps. Its 23 dependency reports are a separate
-group from the 35 production milestones. The composed construction below
+group from the 38 production milestones. The composed construction below
 extends this primitive fragment. Neither construction represents the checker
 internally or derives its own acceptance claims. Lean recursion and inductive
 types remain host infrastructure.
@@ -237,7 +237,7 @@ it distinguishes possible faithful interpretation from faithfulness entailed
 by the clauses. It also proves that the source's executive closure and ground
 anchoring hold for a record with an invalid projection, even though its
 conclusion has a separate valid derivation. A conclusion-only check cannot
-certify the exact inference tree. The expanded full-model group has 26 exact
+certify the exact inference tree. The expanded full-model group has 30 exact
 dependency reports, including classical choice where used. No admission
 appears in this group.
 
@@ -268,13 +268,12 @@ alone cannot determine the recorded length. Both full-clause models cover the
 38 declared logical clauses; their coverage does not extend to stronger prose
 descriptions, admitted theorems, or adequacy of the native source language.
 The default Lean library imports every module needed by these reporters, and
-the current foundation was audited from a checkout with no preexisting build
-cache. A regression checks those dependencies. In job names, "native" refers
+a regression checks those dependencies. In job names, "native" refers
 to running Lean rather than accepting a saved report; it does not assert that
 Hypermath's represented rules execute the checker internally.
 
-These checks can pass while self-derivation remains unresolved. The full-clause
-countermodel also satisfies the exact proposition currently exported as
+These checks can pass while self-derivation remains unresolved. The six-form
+countermodel also satisfies the exact proposition named
 `Hypermath.selfDerivation` while refuting the uniform finite action and all
 three proposed ordinal computation laws. Thus that target alone cannot supply
 the required arithmetic bridge. Native generativity, correspondence with
@@ -283,6 +282,30 @@ unestablished (`UNKNOWN`). Native `Form` reification, transfinite paths, and the
 interpretation into Ordinatics arithmetic remain separate proof obligations.
 These results therefore do not promote the self-derivation, interpretation-bridge,
 or completeness claims to `PASS` by themselves.
+
+The separate two-chain model refutes the same self-derivation target and the
+nontrivial simulation-pair claim while satisfying all 38 clauses. The
+foundation's `selfDerivation` declaration now names its original proposition;
+it is not a proof. `selfDerivationOfCycle` and
+`selfDerivation_iff_driverCycleClaim` show that the other three conjuncts leave
+exactly the cycle obligation. Their proof dependencies contain the existing
+ground-self and path-identity clauses and source parameters, without an
+admission. The target's definition dependencies describe its vocabulary only.
+
+Five admitted proof sites were withdrawn, reducing the foundation's count
+from 16 to 11. Its `driverCycleClaim` and `simulationPairExistsClaim` retain
+the unsupported statements. The three negative model results have no axiom
+dependencies; the combined full-clause model theorem retains Lean's explicit
+foundation dependencies. Paper Proposition 6.13 presents the result.
+
+An exact `def` report can pass the audit-integrity policy and replay while its
+proof admissibility stays `FAIL` and its self-derivation status stays `UNKNOWN`.
+The strict gate continues to require a theorem of the original closed target.
+It rejects a weakened proposition, a conditional theorem assuming the cycle,
+and forged proof-summary fields. Source adequacy must justify the actual
+simulation and generation rules; adding the cycle as an axiom would assume
+the remaining obligation. The arithmetic and ranked-acceptance bridges are
+still separate requirements.
 
 ## Explicit requirements and rejection boundaries
 

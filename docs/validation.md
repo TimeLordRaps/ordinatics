@@ -1,5 +1,10 @@
 # Validation of development version 0.2.0.dev0
 
+This earlier validation record is superseded for the current review by
+[the cycle-correction integration record](validation-cycle-integration.md).
+The observations below are preserved for their original foundation coordinate
+`34c9c99345bb3cdeac7be9a67713d9aa0c99d6da` and 16-page manuscript.
+
 These observations were recorded on September 10, 2026. They establish the
 listed behavior at the reviewed source state and exact dependency coordinate.
 They are not a formal soundness proof, a proof of novelty, evidence of Python

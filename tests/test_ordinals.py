@@ -213,3 +213,102 @@ def test_numpy_exact_integer_interoperation_and_boolean_rejection():
         Ordinal.from_int(np.bool_(True))
     with pytest.raises(TypeError):
         Ordinal.from_int(np.float64(2))
+
+
+def test_powers_of_omega_laws_and_absorption():
+    w0 = Ordinal.omega_power(0)
+    w1 = Ordinal.omega_power(1)
+    w2 = Ordinal.omega_power(2)
+    w3 = Ordinal.omega_power(3)
+
+    assert w0 == ONE
+    assert w1 == OMEGA
+    assert w0 < w1 < w2 < w3
+
+    # Ordinary power of omega
+    assert (OMEGA**2) == w2
+    assert (OMEGA**3) == w3
+    assert (OMEGA**0) == ONE
+    assert (ZERO**0) == ONE
+    assert (ZERO**5) == ZERO
+
+    # Absorption: a < b implies omega^a + omega^b == omega^b
+    assert w0 + w1 == w1
+    assert w1 + w2 == w2
+    assert w2 + w3 == w3
+    assert (w2 + w1 + 5) + w3 == w3
+
+    # Product of powers
+    assert w1 * w1 == w2
+    assert w1 * w2 == w3
+
+
+def test_hessenberg_strict_monotonicity_and_distributivity():
+    # Theorem: natural addition is strictly monotonic, whereas ordinary addition is not
+    a = Ordinal.from_int(1)
+    b = Ordinal.from_int(2)
+    assert a < b
+
+    # Ordinary addition absorbs: monotonicity fails
+    assert (a + OMEGA) == (b + OMEGA) == OMEGA
+
+    # Natural addition preserves strict inequality
+    gamma_samples = [ZERO, ONE, OMEGA, OMEGA + 1, Ordinal.omega_power(2)]
+    for gamma in gamma_samples:
+        assert a.natural_add(gamma) < b.natural_add(gamma)
+
+    # Hessenberg multiplication distributes over Hessenberg addition
+    for g1 in [ONE, OMEGA, OMEGA + 2]:
+        lhs = g1.natural_mul(a.natural_add(b))
+        rhs = (g1.natural_mul(a)).natural_add(g1.natural_mul(b))
+        assert lhs == rhs
+
+
+def test_order_trichotomy_and_transitivity():
+    candidates = [
+        ZERO, ONE, Ordinal.from_int(2),
+        OMEGA, OMEGA + 1, OMEGA * 2,
+        Ordinal.omega_power(2),
+        Ordinal((3, 2, 1)),
+        Ordinal((0, 0, 5)),
+    ]
+    # Check trichotomy
+    for x in candidates:
+        for y in candidates:
+            lt = x < y
+            eq = x == y
+            gt = x > y
+            # Exactly one must be True
+            assert sum([lt, eq, gt]) == 1
+
+    # Check transitivity
+    for x in candidates:
+        for y in candidates:
+            for z in candidates:
+                if x < y and y < z:
+                    assert x < z
+
+
+def test_constructor_edge_cases_and_to_int():
+    # Empty tuple
+    assert Ordinal(()).coefficients == ()
+    assert Ordinal(()).to_int() == 0
+    assert Ordinal.from_int(0) == ZERO
+
+    # Large finite ordinal
+    big = Ordinal.from_int(10**18)
+    assert big.is_finite
+    assert big.to_int() == 10**18
+
+    # Infinite ordinal to_int raises
+    with pytest.raises(ValueError, match="infinite ordinal"):
+        OMEGA.to_int()
+
+    # Negative coefficient rejected
+    with pytest.raises(ValueError, match="nonnegative"):
+        Ordinal((-1,))
+    with pytest.raises(ValueError, match="nonnegative"):
+        Ordinal.from_int(-5)
+    with pytest.raises(ValueError, match="nonnegative"):
+        Ordinal.omega_power(-1)
+

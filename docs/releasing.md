@@ -7,7 +7,7 @@ The source repository contains a package ready to build. Availability on the Pyt
 ## Build locally
 
 ```console
-python -m pip install -e '.[dev,scientific]'
+python -m pip install '.[dev,scientific]'
 python -m pytest -vv -s --durations=10 --timeout=60
 python -m ruff check src tests examples scripts
 python -m build
@@ -16,23 +16,46 @@ python -m twine check dist/*
 
 The wheel contains only the `ordinatics` Python package and its license/metadata. The source distribution also includes tests, examples, documentation, and the paper's text sources. Generated local audit files, private research directories, and credentials are excluded.
 
-## PyPI Trusted Publisher
+## Reproducible release builds and verification
 
-The repository includes a manually dispatched publishing workflow. To authorize its first upload, the package owner must configure a pending publisher on PyPI with these exact values:
+Use `scripts/release_artifacts.py` to produce canonical source archives, deterministic wheels, normalized source distributions, and an external release manifest binding artifact digests:
+
+```console
+python -m pip install '.[test,scientific,release]'
+python -m pytest -q
+python scripts/check_presentation.py
+python scripts/release_artifacts.py build --ref HEAD --release 0.1.0 --output-dir dist
+python scripts/release_artifacts.py verify dist/ordinatics-0.1.0.manifest.json
+python -m twine check dist/*.whl dist/*.tar.gz
+python scripts/check_release_boundary.py dist/*.zip dist/*.whl dist/*.tar.gz
+python scripts/check_installed_wheel.py --wheel-dir dist
+```
+
+To verify byte-identical reproducibility across independent builds (e.g. Linux and Windows):
+
+```console
+python scripts/release_artifacts.py compare PATH_TO_LINUX_ARTIFACTS PATH_TO_WINDOWS_ARTIFACTS
+```
+
+## Tagged releases and PyPI Trusted Publishing
+
+The canonical publication workflow (`.github/workflows/release.yml`) triggers on signed Git tags (`v*`):
+1. Verifies protected-main lineage, matching version coordinates, and green `conformance-gate`.
+2. Builds exact source archive, deterministic wheel, normalized sdist, and external manifest via `release_artifacts.py`.
+3. Runs twine check, release boundary scanning, and isolated-wheel smoke testing.
+4. Generates cryptographic GitHub Artifact Attestations for all published assets (`zip`, `whl`, `tar.gz`, `manifest.json`).
+5. Publishes a GitHub Release with attested assets.
+6. Publishes the wheel and sdist to PyPI using OIDC Trusted Publishing (no long-lived credentials).
+
+To configure PyPI Trusted Publishing for Ordinatics, the package owner sets up a pending publisher on PyPI:
 
 | Field | Value |
 |---|---|
 | PyPI project name | `ordinatics` |
 | GitHub owner | `TimeLordRaps` |
 | Repository | `ordinatics` |
-| Workflow filename | `publish.yml` |
+| Workflow filename | `release.yml` (and optionally `publish.yml` for manual runs) |
 | Environment | `pypi` |
-
-Configure it at [PyPI publishing settings](https://pypi.org/manage/account/publishing/). The publisher is limited by the named repository, workflow, and environment. See the [official PyPI Trusted Publisher documentation](https://docs.pypi.org/trusted-publishers/using-a-publisher/) and [pending publisher guidance](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/).
-
-After the account owner has configured it and authorized the release, run **publish to PyPI** from the repository's Actions tab on `main`. The workflow reruns tests and distribution checks before requesting the short-lived publishing token. It does not run on ordinary pushes and does not require a long-lived token committed to the repository.
-
-A missing project at PyPI's JSON endpoint does not guarantee that its name is available for registration; the registry's upload response is authoritative. Existing version files cannot be overwritten. Increment the version in `pyproject.toml` and `src/ordinatics/__init__.py` for subsequent releases, and update the changelog.
 
 ## After publication
 

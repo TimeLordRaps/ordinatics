@@ -89,6 +89,40 @@ class Ordinal:
             raise ValueError("an infinite ordinal has no finite integer value")
         return self.coefficients[0] if self.coefficients else 0
 
+    @property
+    def is_limit(self) -> bool:
+        """Whether this ordinal is a limit ordinal (> 0 with no immediate predecessor)."""
+        return bool(self.coefficients) and self.coefficients[0] == 0
+
+    @property
+    def is_successor(self) -> bool:
+        """Whether this ordinal is a successor ordinal (has an immediate predecessor)."""
+        return bool(self.coefficients) and self.coefficients[0] > 0
+
+    @property
+    def predecessor(self) -> Ordinal:
+        """Return the immediate predecessor of a successor ordinal."""
+        if not self.is_successor:
+            raise ValueError("zero and limit ordinals have no immediate predecessor")
+        values = list(self.coefficients)
+        values[0] -= 1
+        return Ordinal(tuple(values))
+
+    def fundamental_sequence(self, n: object) -> Ordinal:
+        """Return the n-th element of the canonical fundamental sequence for a limit ordinal.
+
+        As nonnegative integer n -> omega, fundamental_sequence(n) strictly increases to this limit ordinal.
+        """
+        if not self.is_limit:
+            raise ValueError("fundamental sequence is only defined for limit ordinals")
+        n_val = _nonnegative_index(n, "index")
+        min_exp = next(i for i, c in enumerate(self.coefficients) if i > 0 and c > 0)
+        values = list(self.coefficients)
+        values[min_exp] -= 1
+        mu = Ordinal(tuple(values))
+        step = Ordinal.omega_power(min_exp - 1) * (n_val + 1)
+        return mu + step
+
     @staticmethod
     def _operand(value: object) -> Ordinal | NotImplementedType:
         if isinstance(value, Ordinal):
@@ -147,6 +181,44 @@ class Ordinal:
         if other is NotImplemented:
             return NotImplemented
         return other + self
+
+    def left_sub(self, other: object) -> Ordinal:
+        """Ordinal left subtraction: unique gamma such that other + gamma == self.
+
+        Defined when other <= self. Raises ValueError if other > self.
+        """
+        other_ord = self._operand(other)
+        if other_ord is NotImplemented:
+            raise TypeError("left_sub expects an Ordinal or exact integer")
+        if other_ord > self:
+            raise ValueError("cannot subtract larger ordinal from smaller ordinal")
+        if other_ord == self:
+            return ZERO
+        if not other_ord:
+            return self
+        max_len = max(len(self.coefficients), len(other_ord.coefficients))
+        self_c = self.coefficients + (0,) * (max_len - len(self.coefficients))
+        other_c = other_ord.coefficients + (0,) * (max_len - len(other_ord.coefficients))
+        diff_k = 0
+        for k in range(max_len - 1, -1, -1):
+            if self_c[k] != other_c[k]:
+                diff_k = k
+                break
+        res_coeffs = list(self_c[:diff_k]) + [self_c[diff_k] - other_c[diff_k]]
+        return Ordinal(tuple(res_coeffs))
+
+    def __sub__(self, other: object) -> Ordinal:
+        """Ordinal subtraction (left subtraction): unique gamma such that other + gamma == self."""
+        other_ord = self._operand(other)
+        if other_ord is NotImplemented:
+            return NotImplemented
+        return self.left_sub(other_ord)
+
+    def __rsub__(self, other: object) -> Ordinal:
+        other_ord = self._operand(other)
+        if other_ord is NotImplemented:
+            return NotImplemented
+        return other_ord.left_sub(self)
 
     def __mul__(self, other: object) -> Ordinal:
         """Ordinary ordinal product; e.g. ``2 * OMEGA == OMEGA``."""

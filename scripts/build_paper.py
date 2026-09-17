@@ -67,6 +67,7 @@ def main() -> None:
     prefix = [
         {"t": "Header", "c": [1, ["", [], []], meta["title"]["c"]]},
         {"t": "Para", "c": [{"t": "Str", "c": "Tyler Roost"}]},
+        {"t": "Para", "c": meta["date"]["c"]},
         {"t": "Header", "c": [2, ["", [], []], [{"t": "Str", "c": "Abstract"}]]},
     ]
     ast["blocks"] = prefix + meta["abstract"]["c"] + ast["blocks"]

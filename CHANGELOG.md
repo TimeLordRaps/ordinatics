@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.0
+## 0.1.0 - 2026-09-07
 
-Initial experimental release:
+Initial release:
 
 - Exact ordinary and natural ordinal operations below `omega**omega`.
 - Explicit conversion between ordinal coefficient representations and SymPy polynomials.

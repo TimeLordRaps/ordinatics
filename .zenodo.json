@@ -1,0 +1,21 @@
+{
+  "creators": [
+    {
+      "name": "Roost, Tyler"
+    }
+  ],
+  "description": "Exact ordinal arithmetic, ordinal calculus, dynamical systems, symbolic specialization, and bounded typed satisfaction.",
+  "keywords": [
+    "ordinal arithmetic",
+    "ordinal calculus",
+    "veblen hierarchy",
+    "ordinal dynamics",
+    "mathematical logic",
+    "typed satisfaction",
+    "definable arithmetic truth"
+  ],
+  "license": "Apache-2.0",
+  "title": "Ordinatics: Exact Ordinal Arithmetic and Bounded Satisfaction",
+  "version": "0.1.0",
+  "upload_type": "software"
+}

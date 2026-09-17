@@ -2,6 +2,8 @@
 
 Tyler Roost
 
+Preprint, version 1.0 --- September 7, 2026
+
 ## Abstract
 
 Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function model for a value layer of Ordinatics with a partial specialization $W(X)=-1/2$, and prove why neither ordinary ordinal addition nor all nonzero field elements can pass through that specialization unchanged. These results separate ordinal order, algebraic evaluation, and semantic authority. The contribution is an explicit interface and dependency analysis for the Ordinatics proposal, rather than a new undefinability theorem or a derivation of arithmetic truth from numerical compression alone.
@@ -12,7 +14,9 @@ Ordinatics proposes an arithmetic of ordinal forms with division and a finite-va
 
 What would it mean to make ordinal arithmetic the underlying foundation of a Tarski-definable arithmetic? The phrase needs a language and a domain of definability. In this paper it means that the truth and satisfaction relations for an arithmetic object language are definable in a specified richer framework, with explicit ordinal bounds on the languages to which each truth predicate applies. It does not mean decidability of arithmetic or an unrestricted truth predicate definable inside its own language.
 
-We use *Ordinatics* as the name of the overall framework. The motivating notes distinguish a layer of ordinary ordinal operations, an intended extension admitting reciprocals and fractional powers, and a further complex-valued extension \[5\]. We retain these as distinct layers within Ordinatics. They also distinguish derivation-path identity, written $=$ in those notes, from outcome congruence $\equiv$ and continuation similarity $\sim$. This separation suggests that an expression should retain more information than its numerical image. We preserve that design question while making the mathematical interpretation explicit.
+Here "ordinal-first" refers to the arithmetic domain and the ordering of semantic dependencies. The ambient metalanguage is the set theory specified below; the paper does not assert definability of arithmetic truth in the ordinal-arithmetic structure alone.
+
+We use *Ordinatics* as the name of the overall framework. The motivating notes distinguish a layer of ordinary ordinal operations, an intended extension admitting reciprocals and fractional powers, and a further complex-valued extension \[7\]. We retain these as distinct layers within Ordinatics. They also distinguish derivation-path identity, written $=$ in those notes, from outcome congruence $\equiv$ and continuation similarity $\sim$. This separation suggests that an expression should retain more information than its numerical image. We preserve that design question while making the mathematical interpretation explicit.
 
 Three roles of ordinals must be distinguished. First, finite ordinals carry ordinary arithmetic. Second, transfinite ordinals organize the dependencies of semantic definitions. Third, ordinal expressions can motivate algebraic expressions that admit division. These roles can coexist in a typed framework, but their operations need not agree. An ordinal rank is not automatically a field value, and a field value is not a truth predicate.
 
@@ -40,7 +44,7 @@ The absorption equation would imply $1+f(\omega)=f(\omega)$. Cancellation gives 
 
 This obstruction does not depend on injectivity or on the field being Archimedean. Passing to an ordered field with infinite elements does not repair it. One may introduce new field operations on representations of ordinals, but that is a change of operations and must be marked as such.
 
-For a concrete set-sized ordinal domain, fix $$\theta=\omega^\omega,\qquad \mathcal O=\{\alpha:\alpha<\theta\},
+For a concrete set-sized ordinal domain, fix $$\theta=\omega^\omega,\qquad \mathcal O=\{\alpha : \alpha<\theta\},
 \qquad \mathcal A=(\mathcal O,0,1,\omega,<,+_o,\cdot_o).$$ Every element has a unique finite ordinal polynomial representation $$\alpha=\omega^k a_k+_o\cdots+_o\omega a_1+_o a_0,
 \quad a_j\in\mathbb N,$$ where coefficients multiply on the right and the leading coefficient is nonzero unless $\alpha=0$. Finite addition and multiplication of these ordinals remain below $\theta$: the highest exponent of a sum is at most the maximum of the input exponents, and that of a nonzero product is at most their sum. This representation is the restricted Cantor normal form. It gives computable finite codes and a computable comparison relation for the ranks used below. The bound is a convenient concrete choice, not a proposed ultimate ordinal of the theory.
 
@@ -57,11 +61,11 @@ Consequently an ordinal foundation retains arithmetic's capacity to encode synta
 # A bounded value layer for Ordinatics
 
 The source wrap anchor $W(\omega)=-1/2$ is useful as a proposed numerical evaluation. To interpret it coherently, introduce an indeterminate $X$ distinct from the ordinal $\omega$. Let $$K=\mathbb Q(X),\qquad c=-\tfrac12,
-\qquad S=\{q\in\mathbb Q[X]:q(c)\ne0\},\qquad R=S^{-1}\mathbb Q[X].$$ Here $K$ is the field of rational functions. The ring $R$ consists of rational functions admitting a representation with denominator nonzero at $c$. Define $$W:R\longrightarrow\mathbb Q,\qquad W(p/q)=p(c)/q(c).$$ We call $K$ a *bounded value model of Ordinatics*: it realizes division in a value layer motivated by ordinal forms. It is not asserted to be the full Subreal type of the notes, an algebraically closed field, or a model of every $\square$ axiom.
+\qquad S=\{q\in\mathbb Q[X]:q(c)\ne0\},\qquad R=S^{-1}\mathbb Q[X].$$ Here $K$ is the field of rational functions. The ring $R$ consists of rational functions admitting a representation with denominator nonzero at $c$; this is the standard localization construction \[5\]. Define $$W:R\longrightarrow\mathbb Q,\qquad W(p/q)=p(c)/q(c).$$ We call $K$ a *bounded value model of Ordinatics*: it realizes division in a value layer motivated by ordinal forms. It is not asserted to be the full Subreal type of the notes, an algebraically closed field, or a model of every $\square$ axiom.
 
 #### Theorem 3.1 (Scope of wrap specialization).
 
-The map $W$ is a well-defined surjective unital ring homomorphism on $R$. Its kernel is $(X-c)R$. It cannot extend to a unital field homomorphism $K\to\mathbb Q$. For $r\in R$, the inverse $r^{-1}$ belongs to $R$ exactly when $W(r)\ne0$.
+The map $W$ is a well-defined surjective unital ring homomorphism on $R$. Its kernel is $(X-c)R$. It cannot extend to a unital field homomorphism $K\to\mathbb Q$. An element $r\in R$ is a unit of $R$ (has a multiplicative inverse in $R$) if and only if $W(r)\ne0$.
 
 #### Proof.
 
@@ -69,7 +73,7 @@ If $p/q=p'/q'$ then $pq'=p'q$; evaluating at $c$ and dividing by the nonzero den
 
 This construction recovers $W(X^n)=(-1/2)^n$ for every integer $n$, including $W(X^{-1})=-2$. It also exposes a necessary limitation: $2X+1$ is a nonzero field element with wrap value zero, so its inverse has no wrap value under this specialization. Undefined evaluation is distinct from zero evaluation.
 
-There is a faithful *representation map* $$j:\mathcal O\longrightarrow\mathbb N[X]\subset K,\qquad
+There is a faithful *representation map* $$j\colon \mathcal O\longrightarrow\mathbb N[X]\subset K,\qquad
 j(\omega^k a_k+_o\cdots+_o a_0)=a_kX^k+\cdots+a_0.$$ It is a bijection onto polynomials with nonnegative integer coefficients, by uniqueness of the normal form. Pulling polynomial addition and multiplication back along $j$ gives commutative operations $\oplus,\otimes$ on $\mathcal O$. By construction, $$j(\alpha\oplus\beta)=j(\alpha)+j(\beta),\qquad
 j(\alpha\otimes\beta)=j(\alpha)j(\beta).$$ They agree with ordinary arithmetic on finite ordinals, but $1\oplus\omega=\omega+_o1$ whereas $1+_o\omega=\omega$. These are the natural ordinal operations on this restricted domain; their distinction from ordinary ordinal operations is essential. The field is generated by $j(\mathcal O)$ over $\mathbb Q$, but $j$ is not an embedding for $+_o,\cdot_o$.
 
@@ -79,7 +83,7 @@ If fractional monomials are added, choose a coherent branch explicitly. For inst
 \qquad \chi(r)=\exp(r\ell)$$ satisfies $\chi(r+s)=\chi(r)\chi(s)$ and $\chi(1)=c$. However, $\chi(1/3)=2^{-1/3}e^{i\pi/3}$ is not the real cube root $-2^{-1/3}$. Choosing a real cube root at $1/3$ and the principal value $2^{-1/6}e^{i\pi/6}$ at $1/6$ violates $\chi(1/3)=\chi(1/6)^2$. A mixed root convention is therefore not a single multiplicative character. Also, a collection of nonzero monomial values is not itself a field: it does not contain zero, let alone automatically supply all sums.
 
 For complex $z$, the same expression $\Phi(z)=\exp(\ell z)$ is surjective onto $\mathbb C\setminus\{0\}$, but $$\Phi(z)=\Phi(z')\quad\Longleftrightarrow\quad
-z-z'\in\frac{2\pi i}{\ell}\mathbb Z.$$ This follows from the kernel of the complex exponential. Thus $\Phi$ gives a bijection only after quotienting by that lattice, or after an appropriate branch restriction. A numerical image generally does not identify its source expression. Neither the real-root convention nor complex injectivity is needed for the truth construction below.
+z-z'\in\frac{2\pi i}{\ell}\mathbb Z.$$ This follows from the kernel of the complex exponential. Thus $\Phi$ induces a bijection from the quotient by that lattice onto $\mathbb C\setminus\{0\}$. Restricting its domain to the half-open strip $-\pi<\operatorname{Im}(\ell z)\le\pi$ also gives a set bijection onto $\mathbb C\setminus\{0\}$, but its inverse is discontinuous across the negative real axis. An analytic logarithm branch instead uses a slit codomain, for example $\mathbb C\setminus(-\infty,0]$ \[6\]. A numerical image generally does not identify its source expression. Neither the real-root convention nor complex injectivity is needed for the truth construction below.
 
 # Expressions, outcomes, and information loss
 
@@ -103,7 +107,7 @@ Regularized sums require a similar precaution. The ordinary ordinal sums $1+_o1+
 
 # An ordinal-indexed language of arithmetic truth
 
-Let $L_0=\{0,1,+,\cdot,<\}$ be the first-order language of arithmetic, with equality. Fix a finite-string coding into $\mathbb N$ of terms and formulas, including codes for ordinal polynomial indices below $\theta$. The symbol $T_\beta$ is a unary predicate for each $\beta<\theta$. For $\alpha\le\theta$, put $$L_\alpha=L_0\cup\{T_\beta:\beta<\alpha\}.$$ The predicate $T_\alpha$ will express truth for *sentences of $L_\alpha$*; it first occurs in $L_{\alpha+1}$ when that language is within the chosen range. At $\theta$ we construct the truth set externally without adding its symbol to $L_\theta$.
+Let $L_0=\{0,1,+,\cdot,<\}$ be the first-order language of arithmetic, with equality. Fix an injective effective coding into $\mathbb N$ of finite terms and formulas, including canonical finite-tuple codes for ordinal polynomial indices below $\theta$. Choose the coding so that parsing, numeral formation, and capture-avoiding substitution are computable, as with the usual coding of finite strings over an effectively indexed vocabulary. The symbol $T_\beta$ is a unary predicate for each $\beta<\theta$. For $\alpha\le\theta$, put $$L_\alpha=L_0\cup\{T_\beta : \beta<\alpha\}.$$ The predicate $T_\alpha$ will express truth for *sentences of $L_\alpha$*; it first occurs in $L_{\alpha+1}$ when that language is within the chosen range. At $\theta$ we construct the truth set externally without adding its symbol to $L_\theta$.
 
 #### Effective syntax, not effective truth.
 
@@ -149,7 +153,7 @@ Stage compatibility concerns the intended models. It is not a conservativity the
 
 ## Ranks and limit stages
 
-Define the static language rank of an arithmetic atom to be $0$, that of $T_\beta(t)$ to be $\beta+1$, that of a negation or quantification to be the subformula rank, and that of a conjunction to be the maximum of its two ranks. Then $\varphi\in L_\alpha$ exactly when $\operatorname{rk}(\varphi)\le\alpha$. This rank measures which predicate symbols occur; it need not measure the depth of truth references hidden in a numeral supplied to a predicate.
+Define the static language rank of an arithmetic atom to be $0$, that of $T_\beta(t)$ to be $\beta+1$, that of a negation or quantification to be the subformula rank, and that of a conjunction to be the maximum of its two ranks. For a well-formed formula $\varphi$ over $L_\theta$, $\varphi$ is an $L_\alpha$ formula exactly when $\operatorname{rk}(\varphi)\le\alpha$. This rank measures which predicate symbols occur; it need not measure the depth of truth references hidden in a numeral supplied to a predicate.
 
 At a nonzero limit $\lambda\le\theta$, every $L_\lambda$ formula uses finitely many earlier predicate symbols, so it already belongs to some $L_\alpha$ with $\alpha<\lambda$. Stage compatibility therefore yields $$\mathsf{Tr}_\lambda=\bigcup_{\alpha<\lambda}\mathsf{Tr}_\alpha.$$ No infinitary conjunction has been silently added. Successor stages add a new truth predicate to the language; limit stages collect all earlier finite sentences and their stable interpretations.
 
@@ -165,7 +169,7 @@ For every $\alpha\le\theta$, there is no $L_\alpha$ formula $\tau(x)$ that defin
 
 The arithmetic part represents the syntactic substitution operation for the fixed effective language coding. Apply the diagonal lemma to $\neg\tau(x)$ to obtain an $L_\alpha$ sentence $\lambda$ satisfying $$M_\alpha\models\lambda\leftrightarrow\neg\tau(\ulcorner \lambda\urcorner).$$ If $\tau$ defined $\mathsf{Tr}_\alpha$, the same structure would satisfy $\tau(\ulcorner \lambda\urcorner)\leftrightarrow\lambda$. Together these force $\lambda\leftrightarrow\neg\lambda$, impossible in the classical two-valued structure. The diagonal lemma's syntactic construction uses only finitely many symbols of the candidate formula, so the countable predicate vocabulary causes no problem \[4\].
 
-The next predicate $T_\alpha$ is not in $L_\alpha$, which is exactly why typed disquotation is compatible with this theorem. A sentence in $L_{\alpha+1}$ may apply $T_\alpha$ to its own code, but if that sentence uses $T_\alpha$, its code is outside $\operatorname{Sent}(L_\alpha)$ and the predicate returns false under our convention. Such an application is not a correct assertion of that sentence's own truth.
+For $\alpha<\theta$, the next predicate $T_\alpha$ is not in $L_\alpha$, which is exactly why typed disquotation is compatible with this theorem. A sentence in $L_{\alpha+1}$ may apply $T_\alpha$ to its own code, but if that sentence uses $T_\alpha$, its code is outside $\operatorname{Sent}(L_\alpha)$ and the predicate returns false under our convention. Such an application is not a correct assertion of that sentence's own truth.
 
 #### A precise positive answer.
 
@@ -177,15 +181,17 @@ The result is a semantic construction and assumes the resources of the metatheor
 
 The accompanying Python library, `ordinatics` version 0.1.0, implements a computable fragment of the construction and its algebraic interfaces.[^1] It uses exact integer coefficient tuples for ordinals below $\omega^\omega$. The operators `+` and `*` implement ordinary ordinal operations; `natural_add` and `natural_mul` implement the commutative polynomial operations. Conversion through `to_sympy` makes the representation map $j$ explicit. The resulting expressions can be used with SymPy symbolic calculus, matrices, and solvers, or converted to numerical functions for NumPy and SciPy. Numerical evaluation of a polynomial image is distinct from ordinal arithmetic.
 
-The functions `rational_function`, `specialize`, and `wrap` operate on exact rational functions. They cancel common factors before specialization and raise a distinct pole exception when the reduced denominator vanishes. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
+The function `rational_function` validates and reduces exact rational functions. The functions `specialize` and `wrap` evaluate the reduced forms and raise a distinct pole exception when the reduced denominator vanishes at the evaluation point. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
 
-For semantics, the library supplies immutable arithmetic term and formula trees, static ordinal ranks, and an iterative evaluator. The constructors `Exists` and `ForAll` require a bound term and range over $0\le n<b$. The constructor `Truth(beta, sentence)` quotes a closed formula of rank at most `beta`; its language rank is $\beta+1$. For example:
+For semantics, the library supplies immutable arithmetic term and formula trees, static ordinal ranks, and an iterative evaluator. The constructors `Exists` and `ForAll` require a bound term and range over $0\le n<b$; the bound is evaluated in the outer assignment, and the quantifier binds its variable only in the body. A valid `Truth(beta, sentence)` node quotes a closed formula of rank at most `beta`; its language rank is $\beta+1$. The `rank` and `evaluate` functions enforce these conditions before evaluation. For example:
 
     from ordinatics import Add, Eq, Nat, Truth, ZERO, ONE, evaluate
     phi = Eq(Add(Nat(1), Nat(1)), Nat(2))
     assert evaluate(Truth(ZERO, phi), stage=ONE)
 
 This quotation interface operates on explicit finite syntax trees. It is not an implementation of unrestricted numerical sentence codes. Invalid quotations are rejected before evaluation, whereas the mathematical truth sets defined above exclude malformed numerical codes by convention. The difference is part of the interface contract.
+
+Ordinal labels enforce language membership. Evaluation of a valid quotation directly evaluates its closed quoted tree; it does not execute through preceding transfinite stages or construct their truth sets. Consequently the quotation nodes supply a typing discipline within this computable fragment, not an oracle for the full hierarchy.
 
 Every quantifier iteration and tree traversal is charged against an explicit work-step budget. Exhaustion raises an exception rather than returning false. The budget bounds these steps, not the bit complexity of arbitrarily large integers or the execution time of external symbolic routines. The implementation does not construct $\mathsf{Tr}_\alpha$ for the full unbounded language. Its executable claims concern bounded formulas and exact algebraic examples; software tests do not replace the proofs of the semantic theorems.
 
@@ -220,6 +226,14 @@ Lorenz Halbeisen. The Axioms of Set Theory ZFC, Chapter 13, especially Theorem 1
 Michael Beeson. Lecture 13: The First Incompleteness Theorem. Stanford logic lecture slides, especially the self-reference lemma and undefinability discussion. [Author-hosted slides](https://www.michaelbeeson.com/teaching/StanfordLogic/Lecture13Slides.pdf), accessed September 6, 2026.
 
 #### \[5\]
+
+The Stacks Project Authors. *The Stacks Project*, Section 10.9: Localization (Tag 00CM). <https://stacks.math.columbia.edu/tag/00CM>, accessed September 7, 2026.
+
+#### \[6\]
+
+National Institute of Standards and Technology. *Digital Library of Mathematical Functions*, Section 4.2: Logarithm, Exponential, Powers. <https://dlmf.nist.gov/4.2>, accessed September 7, 2026.
+
+#### \[7\]
 
 Tyler Roost. Unpublished working notes on Ordinatics: *Ordinatics* (Chapter 48), *The Wrap Operation W* (Chapter 50), *The Four-Level Ordinate Hierarchy* (Chapter 97), and *Dimensional Transition Operators* (Chapter 98), with accompanying ordinal-extension specifications. Manuscripts consulted September 6, 2026; Chapters 97--98 dated August 6, 2026. These are sources of the research proposal, not independently validated proof certificates. All definitions required for the present results are given in this paper.
 

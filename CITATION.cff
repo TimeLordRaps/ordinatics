@@ -7,7 +7,14 @@ authors:
   - family-names: Roost
     given-names: Tyler
 repository-code: "https://github.com/TimeLordRaps/ordinatics"
-license: MIT
+abstract: "Exact ordinal arithmetic, ordinal calculus, dynamical systems, and bounded typed satisfaction."
+keywords:
+  - ordinal-arithmetic
+  - ordinal-calculus
+  - veblen-hierarchy
+  - ordinal-dynamics
+  - logic
+license: Apache-2.0
 preferred-citation:
   type: manuscript
   title: "Ordinal Arithmetic: An Ordinal-First Metalanguage Approach to Definable Arithmetic Truth"

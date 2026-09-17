@@ -30,7 +30,7 @@
 \newcommand{\rank}{\operatorname{rk}}
 \title{Ordinal Arithmetic:\\An Ordinal-First Metalanguage Approach\\to Definable Arithmetic Truth}
 \author{Tyler Roost}
-\date{Manuscript draft, September 6, 2026}
+\date{Preprint, version 1.0 --- September 7, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -40,6 +40,8 @@ Ordinatics proposes an arithmetic of ordinal forms with division and a finite-va
 
 \section{The foundational question}
 What would it mean to make ordinal arithmetic the underlying foundation of a Tarski-definable arithmetic? The phrase needs a language and a domain of definability. In this paper it means that the truth and satisfaction relations for an arithmetic object language are definable in a specified richer framework, with explicit ordinal bounds on the languages to which each truth predicate applies. It does not mean decidability of arithmetic or an unrestricted truth predicate definable inside its own language.
+
+Here ``ordinal-first'' refers to the arithmetic domain and the ordering of semantic dependencies. The ambient metalanguage is the set theory specified below; the paper does not assert definability of arithmetic truth in the ordinal-arithmetic structure alone.
 
 We use \emph{Ordinatics} as the name of the overall framework. The motivating notes distinguish a layer of ordinary ordinal operations, an intended extension admitting reciprocals and fractional powers, and a further complex-valued extension \cite{roost}. We retain these as distinct layers within Ordinatics. They also distinguish derivation-path identity, written $=$ in those notes, from outcome congruence $\equiv$ and continuation similarity $\sim$. This separation suggests that an expression should retain more information than its numerical image. We preserve that design question while making the mathematical interpretation explicit.
 
@@ -74,7 +76,7 @@ This obstruction does not depend on injectivity or on the field being Archimedea
 
 For a concrete set-sized ordinal domain, fix
 \[
-\theta=\omega^\omega,\qquad \Ord=\{\alpha:\alpha<\theta\},
+\theta=\omega^\omega,\qquad \Ord=\{\alpha : \alpha<\theta\},
 \qquad \mathcal A=(\Ord,0,1,\omega,<,+_o,\cdot_o).
 \]
 Every element has a unique finite ordinal polynomial representation
@@ -99,14 +101,17 @@ The source wrap anchor $W(\omega)=-1/2$ is useful as a proposed numerical evalua
 K=\Q(X),\qquad c=-\tfrac12,
 \qquad S=\{q\in\Q[X]:q(c)\ne0\},\qquad R=S^{-1}\Q[X].
 \]
-Here $K$ is the field of rational functions. The ring $R$ consists of rational functions admitting a representation with denominator nonzero at $c$. Define
+Here $K$ is the field of rational functions. The ring $R$ consists of rational functions admitting a representation with denominator nonzero at $c$; this is the standard localization construction \cite{stacks}. Define
 \[
 W:R\longrightarrow\Q,\qquad W(p/q)=p(c)/q(c).
 \]
 We call $K$ a \emph{bounded value model of Ordinatics}: it realizes division in a value layer motivated by ordinal forms. It is not asserted to be the full Subreal type of the notes, an algebraically closed field, or a model of every $\square$ axiom.
 
 \begin{theorem}[Scope of wrap specialization]
-The map $W$ is a well-defined surjective unital ring homomorphism on $R$. Its kernel is $(X-c)R$. It cannot extend to a unital field homomorphism $K\to\Q$. For $r\in R$, the inverse $r^{-1}$ belongs to $R$ exactly when $W(r)\ne0$.
+The map $W$ is a well-defined surjective unital ring homomorphism on $R$. Its kernel is $(X-c)R$. It cannot extend to a unital field homomorphism $K\to\Q$. An element $r\in R$ is a unit of $R$ (has a multiplicative inverse in $R$) if and only if $W(r)\ne0$.
+\end{theorem}
+\begin{proof}
+If $p/q=p'/q'$ then $pq'=p'q$; evaluating at $c$ and dividing by the nonzero denominators proves well-definedness. Evaluation respects sums and products and fixes rational constants, which also proves surjectivity. A polynomial vanishes at $c$ exactly when it is divisible by $X-c$, giving the kernel assertion. In $K$, the nonzero element $X-c$ has an inverse. An extension would send
 \end{theorem}
 \begin{proof}
 If $p/q=p'/q'$ then $pq'=p'q$; evaluating at $c$ and dividing by the nonzero denominators proves well-definedness. Evaluation respects sums and products and fixes rational constants, which also proves surjectivity. A polynomial vanishes at $c$ exactly when it is divisible by $X-c$, giving the kernel assertion. In $K$, the nonzero element $X-c$ has an inverse. An extension would send
@@ -117,7 +122,7 @@ This construction recovers $W(X^n)=(-1/2)^n$ for every integer $n$, including $W
 
 There is a faithful \emph{representation map}
 \[
-j:\Ord\longrightarrow\N[X]\subset K,\qquad
+j\colon \Ord\longrightarrow\N[X]\subset K,\qquad
 j(\omega^k a_k+_o\cdots+_o a_0)=a_kX^k+\cdots+a_0.
 \]
 It is a bijection onto polynomials with nonnegative integer coefficients, by uniqueness of the normal form. Pulling polynomial addition and multiplication back along $j$ gives commutative operations $\oplus,\otimes$ on $\Ord$. By construction,
@@ -142,7 +147,7 @@ For complex $z$, the same expression $\Phi(z)=\exp(\ell z)$ is surjective onto $
 \Phi(z)=\Phi(z')\quad\Longleftrightarrow\quad
 z-z'\in\frac{2\pi i}{\ell}\mathbb Z.
 \]
-This follows from the kernel of the complex exponential. Thus $\Phi$ gives a bijection only after quotienting by that lattice, or after an appropriate branch restriction. A numerical image generally does not identify its source expression. Neither the real-root convention nor complex injectivity is needed for the truth construction below.
+This follows from the kernel of the complex exponential. Thus $\Phi$ induces a bijection from the quotient by that lattice onto $\C\setminus\{0\}$. Restricting its domain to the half-open strip $-\pi<\operatorname{Im}(\ell z)\le\pi$ also gives a set bijection onto $\C\setminus\{0\}$, but its inverse is discontinuous across the negative real axis. An analytic logarithm branch instead uses a slit codomain, for example $\C\setminus(-\infty,0]$ \cite{nist}. A numerical image generally does not identify its source expression. Neither the real-root convention nor complex injectivity is needed for the truth construction below.
 
 \section{Expressions, outcomes, and information loss}
 Let $\mathcal E$ be finite typed expression trees. Ordinal constructors use $+_o,\cdot_o$; field constructors use $+_K,\cdot_K$ and inversion of nonzero field values; $j$ is an explicit conversion on normalized ordinal values. An expression has its syntax tree, its typed denotation, and, where applicable, its wrap evaluation. These are different data.
@@ -167,9 +172,9 @@ The operational consequence is specific: a wrap value alone cannot serve as a tr
 Regularized sums require a similar precaution. The ordinary ordinal sums $1+_o1+_o\cdots$ and $1+_o2+_o3+_o\cdots$ both have supremum $\omega$, since their finite partial sums are unbounded finite ordinals. Any assignments of different regularized values therefore act on tagged summation expressions or additional analytic data, not solely on their resulting ordinal. This paper does not assume a summation regularization or derive a negative finite value for an ordinary divergent sum.
 
 \section{An ordinal-indexed language of arithmetic truth}
-Let $L_0=\{0,1,+,\cdot,<\}$ be the first-order language of arithmetic, with equality. Fix a finite-string coding into $\N$ of terms and formulas, including codes for ordinal polynomial indices below $\theta$. The symbol $T_\beta$ is a unary predicate for each $\beta<\theta$. For $\alpha\le\theta$, put
+Let $L_0=\{0,1,+,\cdot,<\}$ be the first-order language of arithmetic, with equality. Fix an injective effective coding into $\N$ of finite terms and formulas, including canonical finite-tuple codes for ordinal polynomial indices below $\theta$. Choose the coding so that parsing, numeral formation, and capture-avoiding substitution are computable, as with the usual coding of finite strings over an effectively indexed vocabulary. The symbol $T_\beta$ is a unary predicate for each $\beta<\theta$. For $\alpha\le\theta$, put
 \[
-L_\alpha=L_0\cup\{T_\beta:\beta<\alpha\}.
+L_\alpha=L_0\cup\{T_\beta : \beta<\alpha\}.
 \]
 The predicate $T_\alpha$ will express truth for \emph{sentences of $L_\alpha$}; it first occurs in $L_{\alpha+1}$ when that language is within the chosen range. At $\theta$ we construct the truth set externally without adding its symbol to $L_\theta$.
 
@@ -221,7 +226,7 @@ All structures have the same arithmetic part, and every earlier predicate keeps 
 Stage compatibility concerns the intended models. It is not a conservativity theorem for recursively axiomatized proof systems, because none has been specified.
 
 \subsection{Ranks and limit stages}
-Define the static language rank of an arithmetic atom to be $0$, that of $T_\beta(t)$ to be $\beta+1$, that of a negation or quantification to be the subformula rank, and that of a conjunction to be the maximum of its two ranks. Then $\varphi\in L_\alpha$ exactly when $\rank(\varphi)\le\alpha$. This rank measures which predicate symbols occur; it need not measure the depth of truth references hidden in a numeral supplied to a predicate.
+Define the static language rank of an arithmetic atom to be $0$, that of $T_\beta(t)$ to be $\beta+1$, that of a negation or quantification to be the subformula rank, and that of a conjunction to be the maximum of its two ranks. For a well-formed formula $\varphi$ over $L_\theta$, $\varphi$ is an $L_\alpha$ formula exactly when $\rank(\varphi)\le\alpha$. This rank measures which predicate symbols occur; it need not measure the depth of truth references hidden in a numeral supplied to a predicate.
 
 At a nonzero limit $\lambda\le\theta$, every $L_\lambda$ formula uses finitely many earlier predicate symbols, so it already belongs to some $L_\alpha$ with $\alpha<\lambda$. Stage compatibility therefore yields
 \[
@@ -245,7 +250,7 @@ If $\tau$ defined $\mathsf{Tr}_\alpha$, the same structure would satisfy
 $\tau(\code{\lambda})\leftrightarrow\lambda$. Together these force $\lambda\leftrightarrow\neg\lambda$, impossible in the classical two-valued structure. The diagonal lemma's syntactic construction uses only finitely many symbols of the candidate formula, so the countable predicate vocabulary causes no problem \cite{beeson}.
 \end{proof}
 
-The next predicate $T_\alpha$ is not in $L_\alpha$, which is exactly why typed disquotation is compatible with this theorem. A sentence in $L_{\alpha+1}$ may apply $T_\alpha$ to its own code, but if that sentence uses $T_\alpha$, its code is outside $\Sent(L_\alpha)$ and the predicate returns false under our convention. Such an application is not a correct assertion of that sentence's own truth.
+For $\alpha<\theta$, the next predicate $T_\alpha$ is not in $L_\alpha$, which is exactly why typed disquotation is compatible with this theorem. A sentence in $L_{\alpha+1}$ may apply $T_\alpha$ to its own code, but if that sentence uses $T_\alpha$, its code is outside $\Sent(L_\alpha)$ and the predicate returns false under our convention. Such an application is not a correct assertion of that sentence's own truth.
 
 \paragraph{A precise positive answer.}
 The ordinal domain gives a definable copy of arithmetic; the metatheory gives its satisfaction relation; and the ordinal hierarchy provides successively richer languages in which earlier truth is available as a predicate. These together furnish the advertised sense of Tarski-definable arithmetic. The theorem rules out treating the union stage, the wrap map, or the name ``ordinal'' as an unrestricted self-truth mechanism.
@@ -255,15 +260,17 @@ The result is a semantic construction and assumes the resources of the metatheor
 \section{Computational companion}
 The accompanying Python library, \texttt{ordinatics} version 0.1.0, implements a computable fragment of the construction and its algebraic interfaces.\footnote{\url{https://github.com/TimeLordRaps/ordinatics}} It uses exact integer coefficient tuples for ordinals below $\omega^\omega$. The operators \texttt{+} and \texttt{*} implement ordinary ordinal operations; \texttt{natural\_add} and \texttt{natural\_mul} implement the commutative polynomial operations. Conversion through \texttt{to\_sympy} makes the representation map $j$ explicit. The resulting expressions can be used with SymPy symbolic calculus, matrices, and solvers, or converted to numerical functions for NumPy and SciPy. Numerical evaluation of a polynomial image is distinct from ordinal arithmetic.
 
-The functions \texttt{rational\_function}, \texttt{specialize}, and \texttt{wrap} operate on exact rational functions. They cancel common factors before specialization and raise a distinct pole exception when the reduced denominator vanishes. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
+The function \texttt{rational\_function} validates and reduces exact rational functions. The functions \texttt{specialize} and \texttt{wrap} evaluate the reduced forms and raise a distinct pole exception when the reduced denominator vanishes at the evaluation point. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
 
-For semantics, the library supplies immutable arithmetic term and formula trees, static ordinal ranks, and an iterative evaluator. The constructors \texttt{Exists} and \texttt{ForAll} require a bound term and range over $0\le n<b$. The constructor \texttt{Truth(beta, sentence)} quotes a closed formula of rank at most \texttt{beta}; its language rank is $\beta+1$. For example:
+For semantics, the library supplies immutable arithmetic term and formula trees, static ordinal ranks, and an iterative evaluator. The constructors \texttt{Exists} and \texttt{ForAll} require a bound term and range over $0\le n<b$; the bound is evaluated in the outer assignment, and the quantifier binds its variable only in the body. A valid \texttt{Truth(beta, sentence)} node quotes a closed formula of rank at most \texttt{beta}; its language rank is $\beta+1$. The \texttt{rank} and \texttt{evaluate} functions enforce these conditions before evaluation. For example:
 \begin{verbatim}
 from ordinatics import Add, Eq, Nat, Truth, ZERO, ONE, evaluate
 phi = Eq(Add(Nat(1), Nat(1)), Nat(2))
 assert evaluate(Truth(ZERO, phi), stage=ONE)
 \end{verbatim}
 This quotation interface operates on explicit finite syntax trees. It is not an implementation of unrestricted numerical sentence codes. Invalid quotations are rejected before evaluation, whereas the mathematical truth sets defined above exclude malformed numerical codes by convention. The difference is part of the interface contract.
+
+Ordinal labels enforce language membership. Evaluation of a valid quotation directly evaluates its closed quoted tree; it does not execute through preceding transfinite stages or construct their truth sets. Consequently the quotation nodes supply a typing discipline within this computable fragment, not an oracle for the full hierarchy.
 
 Every quantifier iteration and tree traversal is charged against an explicit work-step budget. Exhaustion raises an exception rather than returning false. The budget bounds these steps, not the bit complexity of arbitrarily large integers or the execution time of external symbolic routines. The implementation does not construct $\mathsf{Tr}_\alpha$ for the full unbounded language. Its executable claims concern bounded formulas and exact algebraic examples; software tests do not replace the proofs of the semantic theorems.
 
@@ -284,6 +291,8 @@ The mathematically supportable thesis is therefore that ordinal structure can or
 \bibitem{feferman} Solomon Feferman. Transfinite Recursive Progressions of Axiomatic Theories. \emph{The Journal of Symbolic Logic} 27(3), 259--316, 1962. \href{https://doi.org/10.2307/2964649}{doi:10.2307/2964649}.
 \bibitem{halbeisen} Lorenz Halbeisen. The Axioms of Set Theory ZFC, Chapter 13, especially Theorem 13.3 and the ordinal arithmetic section. \href{https://people.math.ethz.ch/~halorenz/4students/LogikGT/Ch13.pdf}{Author-hosted chapter}, accessed September 6, 2026.
 \bibitem{beeson} Michael Beeson. Lecture 13: The First Incompleteness Theorem. Stanford logic lecture slides, especially the self-reference lemma and undefinability discussion. \href{https://www.michaelbeeson.com/teaching/StanfordLogic/Lecture13Slides.pdf}{Author-hosted slides}, accessed September 6, 2026.
+\bibitem{stacks} The Stacks Project Authors. \emph{The Stacks Project}, Section 10.9: Localization (Tag 00CM). \url{https://stacks.math.columbia.edu/tag/00CM}, accessed September 7, 2026.
+\bibitem{nist} National Institute of Standards and Technology. \emph{Digital Library of Mathematical Functions}, Section 4.2: Logarithm, Exponential, Powers. \url{https://dlmf.nist.gov/4.2}, accessed September 7, 2026.
 \bibitem{roost} Tyler Roost. Unpublished working notes on Ordinatics: \emph{Ordinatics} (Chapter 48), \emph{The Wrap Operation W} (Chapter 50), \emph{The Four-Level Ordinate Hierarchy} (Chapter 97), and \emph{Dimensional Transition Operators} (Chapter 98), with accompanying ordinal-extension specifications. Manuscripts consulted September 6, 2026; Chapters 97--98 dated August 6, 2026. These are sources of the research proposal, not independently validated proof certificates. All definitions required for the present results are given in this paper.
 \end{thebibliography}
 \end{document}

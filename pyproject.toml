@@ -5,13 +5,13 @@ build-backend = "hatchling.build"
 [project]
 name = "ordinatics"
 version = "0.1.0"
-description = "Exact ordinal arithmetic, symbolic specialization, and bounded typed satisfaction"
+description = "Exact ordinal arithmetic, ordinal calculus, dynamics, symbolic specialization, and bounded typed satisfaction"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "MIT"
+license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [{name = "Tyler Roost"}]
-keywords = ["ordinal", "arithmetic", "sympy", "symbolic-mathematics", "logic", "satisfaction"]
+keywords = ["ordinal", "arithmetic", "ordinal-calculus", "veblen-hierarchy", "ordinal-dynamics", "sympy", "symbolic-mathematics", "logic", "satisfaction"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Science/Research",
@@ -24,11 +24,34 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Mathematics",
   "Typing :: Typed",
 ]
-dependencies = ["sympy>=1.13.3,<2"]
+dependencies = []
 
 [project.optional-dependencies]
-scientific = ["numpy>=1.26", "scipy>=1.11"]
-dev = ["pytest>=8", "pytest-timeout>=2.3", "ruff>=0.11", "build>=1.2", "twine>=6"]
+symbolic = ["sympy>=1.13.3,<2"]
+scientific = ["sympy>=1.13.3,<2", "numpy>=1.26", "scipy>=1.11"]
+test = [
+  "pytest>=8.0",
+  "pytest-timeout>=2.3",
+  "sympy>=1.13.3,<2",
+  "numpy>=1.26",
+  "scipy>=1.11",
+]
+dev = [
+  "pytest>=8.0",
+  "pytest-timeout>=2.3",
+  "ruff>=0.11",
+  "build>=1.2",
+  "twine>=6.0",
+  "hatchling>=1.27",
+  "sympy>=1.13.3,<2",
+  "numpy>=1.26",
+  "scipy>=1.11",
+]
+release = [
+  "build>=1.2",
+  "twine>=6.0",
+  "hatchling>=1.27",
+]
 
 [project.urls]
 Homepage = "https://github.com/TimeLordRaps/ordinatics"
@@ -45,6 +68,8 @@ include = ["src", "tests", "examples", "docs", "paper/ordinal_arithmetic.tex", "
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
+norecursedirs = ["artifacts_tmp", "build", "dist", ".git", ".venv", "_site"]
 addopts = "-vv -s --durations=10 --timeout=60"
 
 [tool.ruff]

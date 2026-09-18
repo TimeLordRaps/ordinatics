@@ -635,4 +635,127 @@ def test_normal_function_is_continuous_at_limit_coercion():
         f.is_continuous_at_limit(0)
     with pytest.raises(ValueError, match="not a limit ordinal"):
         f.is_continuous_at_limit(5)
+# ============================================================================
+# 9. Normality is two properties, and a finite bound observes only one
+# ============================================================================
 
+# `alpha -> alpha + 1` is the textbook function that is strictly increasing
+# everywhere and normal nowhere: sup {n + 1 : n < omega} == omega, while
+# F(omega) == omega + 1, so it is discontinuous at every limit. Any normality
+# check that samples only finite ordinals sees a perfectly increasing function
+# and has no way to notice. Certifying it as normal reports an unearned
+# positive, which is worse than reporting an unknown.
+
+
+def _successor_function() -> NormalFunction:
+    return NormalFunction(lambda a: a + ONE, name="succ")
+
+
+def _limit_jump_function() -> NormalFunction:
+    # Identity below omega, shifted by omega at and above it: increasing, and
+    # discontinuous exactly where continuity would have to be checked.
+    return NormalFunction(lambda a: a if a.is_finite else a + OMEGA, name="jump")
+
+
+def test_is_normal_rejects_the_successor_function_at_its_default_bound():
+    # The default bound must be high enough to reach a limit ordinal, or the
+    # continuity half of normality is never exercised.
+    succ = _successor_function()
+    assert succ.is_strictly_increasing(range(10))
+    assert succ.is_continuous_at_limit(OMEGA) is False
+    assert succ.is_normal() is False
+
+
+def test_is_normal_rejects_a_function_discontinuous_only_at_limits():
+    assert _limit_jump_function().is_normal() is False
+
+
+def test_is_normal_refuses_to_certify_below_omega_instead_of_guessing():
+    # A finite bound samples no limit ordinal. The honest response is to refuse,
+    # not to return True on the strength of monotonicity alone.
+    succ = _successor_function()
+    for bound in (0, 5, 15, 1000):
+        with pytest.raises(ValueError, match="admits no limit ordinal"):
+            succ.is_normal(test_bound=bound)
+
+
+def test_is_normal_still_returns_false_when_monotonicity_actually_fails():
+    # A False verdict must stay earned: a constant function is refuted by the
+    # finite samples themselves, so no limit ordinal is needed to reject it and
+    # the refusal path must not shadow that.
+    constant = NormalFunction(lambda _a: OMEGA, name="const")
+    assert constant.is_normal(test_bound=15) is False
+    assert constant.is_normal() is False
+
+
+def test_is_normal_accepts_the_genuinely_normal_constructions():
+    for f in (
+        NormalFunction.add_left(0),
+        NormalFunction.add_left(1),
+        NormalFunction.add_left(5),
+        NormalFunction.add_left(OMEGA),
+        NormalFunction.multiply_left(1),
+        NormalFunction.multiply_left(2),
+        NormalFunction.multiply_left(OMEGA),
+    ):
+        assert f.is_normal() is True, f.name
+
+
+def test_is_normal_reports_unknown_not_false_when_the_domain_runs_out():
+    # omega**alpha leaves the bounded representation at alpha == omega, so its
+    # normality is undecidable here. That must surface as DomainError -- an
+    # unknown -- and never be collapsed into False.
+    with pytest.raises(DomainError):
+        NormalFunction.omega_power().is_normal()
+
+
+# ============================================================================
+# 10. ordinal_supremum: collection supremum vs sequence limit
+# ============================================================================
+
+# A finite list cannot say which of the two questions is being asked, so the
+# reading is selectable. These tests pin all three modes, including the legacy
+# default's discontinuity in list length, so it cannot drift unnoticed.
+
+
+def test_ordinal_supremum_exact_reading_is_the_maximum():
+    assert ordinal_supremum([1, 2, 3, 4], infer_limit=False) == Ordinal.from_int(4)
+    assert ordinal_supremum([1, 2, 3], infer_limit=False) == Ordinal.from_int(3)
+    assert ordinal_supremum([3, 1, 4, 1, 5], infer_limit=False) == Ordinal.from_int(5)
+    assert ordinal_supremum(
+        [OMEGA, OMEGA + 1, OMEGA + 2, OMEGA + 3], infer_limit=False
+    ) == OMEGA + 3
+    assert ordinal_supremum([], infer_limit=False) == ZERO
+
+
+def test_ordinal_supremum_limit_reading_ascends():
+    assert ordinal_supremum([1, 2, 3, 4], infer_limit=True) == OMEGA
+    # Two elements are enough once the caller has stated the reading; the legacy
+    # default would have returned max() here.
+    assert ordinal_supremum([1, 2], infer_limit=True) == OMEGA
+    assert ordinal_supremum(
+        [OMEGA, OMEGA * 2, OMEGA * 3, OMEGA * 4], infer_limit=True
+    ) == OMEGA**2
+
+
+def test_ordinal_supremum_default_heuristic_is_discontinuous_in_list_length():
+    # Documented, not endorsed: the default guesses from length, so the same
+    # ascending prefix answers 3 at three elements and omega at four. Pinned so
+    # that any change to the guess is a deliberate, visible one.
+    assert ordinal_supremum([1, 2, 3]) == Ordinal.from_int(3)
+    assert ordinal_supremum([1, 2, 3, 4]) == OMEGA
+    # Constant and non-monotone lists fall through to max() regardless of length.
+    assert ordinal_supremum([2, 2, 2, 2]) == Ordinal.from_int(2)
+    assert ordinal_supremum([3, 1, 4, 1, 5]) == Ordinal.from_int(5)
+
+
+def test_continuity_check_states_its_reading_rather_than_relying_on_length():
+    # is_continuous_at_limit samples a fundamental sequence, so it must ask for
+    # the limit reading explicitly. With sample_count below the heuristic's
+    # four-element threshold the default would have returned max() and reported
+    # a normal function as discontinuous.
+    f = NormalFunction.add_left(1)
+    assert f.is_continuous_at_limit(OMEGA, sample_count=2) is True
+    assert f.is_continuous_at_limit(OMEGA, sample_count=8) is True
+    succ = _successor_function()
+    assert succ.is_continuous_at_limit(OMEGA, sample_count=2) is False

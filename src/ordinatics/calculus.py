@@ -78,15 +78,42 @@ def _sequence_limit(samples: list[Ordinal]) -> Ordinal:
     return Ordinal(tuple(result_coeffs))
 
 
-def ordinal_supremum(ordinals: Iterable[Ordinal | int]) -> Ordinal:
+def ordinal_supremum(
+    ordinals: Iterable[Ordinal | int],
+    *,
+    infer_limit: bool | None = None,
+) -> Ordinal:
     """Return the supremum of an iterable of ordinals.
 
-    For finite collections, returns max(ordinals) (or ZERO if empty).
-    For lists exhibiting monotonic transfinite growth, infers the limit below omega**omega.
+    Two different questions share this name, and a finite list cannot say which
+    one is being asked. `[1, 2, 3, 4]` is both a four-element collection whose
+    supremum is 4 and a prefix of the sequence ascending to omega. Pass
+    `infer_limit` to state which reading is meant.
+
+    Args:
+        ordinals: the ordinals to take the supremum of.
+        infer_limit:
+            * False -- exact supremum of the collection as given: max(), or ZERO
+              if empty. Always correct for a finite collection.
+            * True -- read the argument as a prefix of an increasing sequence and
+              infer the limit it ascends to. Raises DomainError if that limit is
+              at or above omega**omega.
+            * None (default) -- the legacy heuristic, retained for compatibility:
+              infer the limit when the list is increasing, non-constant and has at
+              least four elements; otherwise return max().
+
+    The default is a guess, and it is discontinuous in list length: it returns 3
+    for `[1, 2, 3]` and omega for `[1, 2, 3, 4]`. Callers meaning the exact
+    supremum of a collection SHOULD pass `infer_limit=False`; callers sampling a
+    fundamental sequence SHOULD pass `infer_limit=True`.
     """
     items = [_to_ordinal(x) for x in ordinals]
     if not items:
         return ZERO
+    if infer_limit is True:
+        return _sequence_limit(items)
+    if infer_limit is False:
+        return max(items)
     if len(items) == 1:
         return items[0]
     # Check if monotonic increasing
@@ -241,11 +268,42 @@ class NormalFunction:
         if not lim_ord.is_limit:
             raise ValueError(f"{lim_ord} is not a limit ordinal")
         samples = [self(lim_ord.fundamental_sequence(i)) for i in range(sample_count)]
-        sup = ordinal_supremum(samples)
+        # These samples are a fundamental-sequence prefix, not a bare collection,
+        # so the limit reading is the intended one -- say so rather than leaning
+        # on the length heuristic.
+        sup = ordinal_supremum(samples, infer_limit=True)
         return self(lim_ord) == sup
 
-    def is_normal(self, test_bound: Ordinal | int = 15) -> bool:
-        """Test normality (strictly increasing and continuous at limits) up to test_bound."""
+    def is_normal(self, test_bound: Ordinal | int = OMEGA * 2) -> bool:
+        """Test normality (strictly increasing and continuous at limits) up to test_bound.
+
+        Normality is two independent properties, and the second one -- continuity
+        -- is only observable at limit ordinals. A finite `test_bound` samples no
+        limit ordinal at all, so it leaves continuity wholly untested; returning
+        True from such a run would report an unearned positive rather than an
+        unverified one. This method refuses that outcome: once monotonicity holds,
+        a run that sampled no limit ordinal raises instead of returning a verdict
+        it has no evidence for.
+
+        `alpha -> alpha + 1` is the standard witness. It is strictly increasing
+        everywhere, so a finite bound sees nothing wrong, yet it is discontinuous
+        at every limit: sup {n + 1 : n < omega} == omega while F(omega) == omega + 1.
+
+        A False return is always earned -- it means some sampled ordinal actually
+        witnessed a failure of monotonicity or of continuity.
+
+        Args:
+            test_bound: upper bound on sampled ordinals. MUST admit at least one
+                limit ordinal, so in practice `>= OMEGA`.
+
+        Raises:
+            ValueError: if the sample set contains no limit ordinal, so continuity
+                could not be tested. Normality is unknown there, not False.
+            DomainError: if F cannot be evaluated at a sampled limit because its
+                value leaves the bounded domain (< omega**omega). Also unknown,
+                not False -- `NormalFunction.omega_power()` behaves this way,
+                since omega**omega is not representable here.
+        """
         bound_ord = _to_ordinal(test_bound, "test_bound")
         # Generate finite sample ordinals
         test_samples: list[Ordinal] = [Ordinal.from_int(i) for i in range(min(10, bound_ord.to_int() + 1 if bound_ord.is_finite else 10))]
@@ -258,8 +316,15 @@ class NormalFunction:
         if not self.is_strictly_increasing(test_samples):
             return False
 
-        # Test limit ordinals among samples
+        # Test limit ordinals among samples. If there are none, continuity was
+        # never examined and True would be unearned -- refuse rather than certify.
         limit_samples = [s for s in test_samples if s.is_limit]
+        if not limit_samples:
+            raise ValueError(
+                f"test_bound {bound_ord} admits no limit ordinal, so continuity at "
+                f"limits was never tested and normality cannot be certified from "
+                f"monotonicity alone; pass test_bound >= omega"
+            )
         for lim in limit_samples:
             if not self.is_continuous_at_limit(lim):
                 return False

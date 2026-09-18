@@ -16,6 +16,10 @@ from typing import Callable, Iterable
 from ordinatics.calculus import _sequence_limit, _to_ordinal
 from ordinatics.ordinals import OMEGA, ZERO, Ordinal, _nonnegative_index
 
+# Upper bound on successor stages evaluated past a limit stage. Orbits are
+# computed eagerly, so the transfinite segment is sampled, not enumerated.
+_TRANSFINITE_STEP_CAP = 50
+
 
 @dataclass(frozen=True, slots=True)
 class OrdinalAttractor:
@@ -271,8 +275,28 @@ class OrdinalDynamicalSystem:
                 if max_ord > OMEGA:
                     curr_trans = state_omega
                     trans_traj = [curr_trans]
-                    trans_steps = max_ord.coefficients[0] if max_ord.coefficients else 0
-                    trans_steps = min(trans_steps, 50)
+                    # How many successor stages to evaluate past omega.
+                    #
+                    # This used to be read off the finite part of max_stage,
+                    # which made the orbit non-monotone in its own bound:
+                    # omega * 2 has finite part 0, so it evaluated NO stage past
+                    # omega, while the strictly smaller bound omega + 3
+                    # evaluated three. Asking for a longer orbit returned a
+                    # shorter one, and omega + 1 raised KeyError under the bound
+                    # omega * 2 even though omega + 1 < omega * 2. It also left
+                    # the omega * 2 limit below to be inferred from the
+                    # single-element trajectory [state_omega], which returns
+                    # state_omega itself -- so stage omega * 2 reported omega
+                    # rather than omega * 2.
+                    #
+                    # A bound at or above omega * 2 asks for every successor
+                    # stage in between, so take the cap; otherwise the finite
+                    # part is exactly the number of stages requested.
+                    if max_ord >= OMEGA * 2:
+                        trans_steps = _TRANSFINITE_STEP_CAP
+                    else:
+                        trans_steps = max_ord.coefficients[0] if max_ord.coefficients else 0
+                    trans_steps = min(trans_steps, _TRANSFINITE_STEP_CAP)
                     for k in range(1, trans_steps + 1):
                         curr_trans = self.step(curr_trans)
                         stages[OMEGA + k] = curr_trans

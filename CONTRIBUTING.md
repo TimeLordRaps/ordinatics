@@ -12,6 +12,7 @@ claims.
 - Enforce zero required runtime dependencies on base import paths (`dependencies = []`);
 - Include a falsification condition;
 - Add tests that fail before the change and pass after it;
+- Disclose and classify any skipped tests against the 8-category test skip rubric (`OS_CAPABILITY_GUARD`, `OPTIONAL_DEPENDENCY_ABSENT`, `EXTERNAL_SERVICE_BOUNDARY`, `ARCHITECTURAL_PLATFORM_UNSUPPORTED`, `HARDWARE_DEVICE_UNAVAILABLE`, `PRIVILEGE_OR_CREDENTIAL_BOUNDARY`, `PERFORMANCE_OR_DURATION_EXCLUSION`, `QUARANTINED_DEFECT`) to prevent skip slippage;
 - Run the full test suite (`python -m pytest -q`), presentation check (`python scripts/check_presentation.py`), and pure stdlib smoke probe (`PYTHONPATH=src python -S -c "import ordinatics; print(ordinatics.__version__)"`).
 
 Do not replace `UNKNOWN` or unevaluated semantic formulas with `False`, bypass step

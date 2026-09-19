@@ -42,7 +42,7 @@ def main() -> None:
     source = re.sub(r"\\cite\{([^}]+)\}",
                     lambda m: "[" + str(keys.index(m[1]) + 1) + "]", source)
     source = source.replace(r"\eqref{eq:structure}", "(1)").replace(r"\eqref{eq:truth}", "(2)")
-    source = source.replace(r"\begin{thebibliography}{9}", r"\section*{References}")
+    source = re.sub(r"\\begin\{thebibliography\}\{[^}]+\}", r"\\section*{References}", source)
     source = source.replace(r"\end{thebibliography}", "")
     source = re.sub(r"\\bibitem\{([^}]+)\}",
                     lambda m: r"\paragraph{[" + str(keys.index(m[1]) + 1) + "]}", source)

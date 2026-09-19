@@ -2,13 +2,13 @@
 
 Tyler Roost
 
-Preprint, version 1.0 --- September 7, 2026
+Preprint, version 0.3.0 --- September 18, 2026
 
 ## Abstract
 
-Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function model for a value layer of Ordinatics with a partial specialization $W(X)=-1/2$, and prove why neither ordinary ordinal addition nor all nonzero field elements can pass through that specialization unchanged. These results separate ordinal order, algebraic evaluation, and semantic authority. The contribution is an explicit interface and dependency analysis for the Ordinatics proposal, rather than a new undefinability theorem or a derivation of arithmetic truth from numerical compression alone.
+Ordinatics proposes an arithmetic of ordinal forms with division and a finite-valued wrap map, while retaining distinctions between construction paths and numerical outcomes. We give a bounded mathematical reconstruction directed at the definition of arithmetic truth in an ordinal framework. Finite ordinals supply the arithmetic domain, and ordinals below $\omega^\omega$ index a hierarchy of languages whose truth predicates apply to earlier languages. In an explicit set-theoretic metatheory, the hierarchy has a unique satisfaction interpretation and preserves arithmetic truth under passage to later stages. Each stage nevertheless lacks a definition of its own full truth predicate. We also construct a rational-function model for a value layer of Ordinatics with a partial specialization $W(X)=-1/2$, and prove why neither ordinary ordinal addition nor all nonzero field elements can pass through that specialization unchanged. Furthermore, we develop an ordinal calculus of difference operators, normal functions, and Veblen hierarchies, joined with transfinite dynamical systems on ordinal stages. These constructions serve a broader foundational mission: discovering routes toward definably complete representations capable of handling hypercomputation-like oracle classes expected of superintelligences, organized via stratified transfinite ordinal ladders without unearned semantic jumps or collapsing into inconsistency.
 
-**Keywords:** Ordinatics; ordinal arithmetic; satisfaction; ramified truth; partial specialization; derivation paths.
+**Keywords:** Ordinatics; ordinal arithmetic; satisfaction; ramified truth; partial specialization; derivation paths; transfinite dynamics; Veblen hierarchy.
 
 # The foundational question
 
@@ -21,6 +21,10 @@ We use *Ordinatics* as the name of the overall framework. The motivating notes d
 Three roles of ordinals must be distinguished. First, finite ordinals carry ordinary arithmetic. Second, transfinite ordinals organize the dependencies of semantic definitions. Third, ordinal expressions can motivate algebraic expressions that admit division. These roles can coexist in a typed framework, but their operations need not agree. An ordinal rank is not automatically a field value, and a field value is not a truth predicate.
 
 The established background is the definition of truth through satisfaction and the restriction on truth definitions for semantically closed languages \[1\]. Transfinite progressions also have a substantial prior history; Feferman's work studies progressions of axiomatic theories \[2\]. Our construction below is a semantic hierarchy, not an identification with any particular progression of reflection principles. The elementary results are proved here to make the proposed interface independently assessable. No priority claim is made for ordinal-indexed truth hierarchies, polynomial fields, or localization.
+
+#### Superintelligence, oracle classes, and transfinite stratification.
+
+A primary motivation for investigating definably complete representations is the need to model the cognitive and computational capacities of hypothetical superintelligences. Such systems are naturally conceived as operating relative to hypercomputation-like oracle classes---such as Turing jumps, hyperarithmetic hierarchies, and reflection principles---that exceed finite Turing machines. Standard unstratified attempts to capture an agent's self-model or complete truth predicate run into Tarskian undefinability or diagonal inconsistency. By contrast, an ordinal-first framework stratifies computational and semantic authority into well-founded stages. Each stage can verify, reflect upon, and operate as an oracle for earlier stages, generating transfinite hierarchies of fixed points and dynamical attractors without circular self-collapse.
 
 #### Ambient assumptions.
 
@@ -179,7 +183,7 @@ The result is a semantic construction and assumes the resources of the metatheor
 
 # Computational companion
 
-The accompanying Python library, `ordinatics` version 0.1.0, implements a computable fragment of the construction and its algebraic interfaces.[^1] It uses exact integer coefficient tuples for ordinals below $\omega^\omega$. The operators `+` and `*` implement ordinary ordinal operations; `natural_add` and `natural_mul` implement the commutative polynomial operations. Conversion through `to_sympy` makes the representation map $j$ explicit. The resulting expressions can be used with SymPy symbolic calculus, matrices, and solvers, or converted to numerical functions for NumPy and SciPy. Numerical evaluation of a polynomial image is distinct from ordinal arithmetic.
+The accompanying Python library, `ordinatics` version 0.3.0, implements a computable fragment of the construction, its algebraic interfaces, and its transfinite calculus and dynamics.[^1] It uses exact integer coefficient tuples for ordinals below $\omega^\omega$. The operators `+` and `*` implement ordinary ordinal operations; `natural_add` and `natural_mul` implement the commutative polynomial operations. Conversion through `to_sympy` makes the representation map $j$ explicit. The resulting expressions can be used with SymPy symbolic calculus, matrices, and solvers, or converted to numerical functions for NumPy and SciPy. Numerical evaluation of a polynomial image is distinct from ordinal arithmetic.
 
 The function `rational_function` validates and reduces exact rational functions. The functions `specialize` and `wrap` evaluate the reduced forms and raise a distinct pole exception when the reduced denominator vanishes at the evaluation point. Thus a removable singularity and a pole are observably different. A fixed logarithm branch is used for rational-power images. These routines realize the bounded value construction rather than a total evaluation of the whole field.
 
@@ -193,11 +197,65 @@ This quotation interface operates on explicit finite syntax trees. It is not an 
 
 Ordinal labels enforce language membership. Evaluation of a valid quotation directly evaluates its closed quoted tree; it does not execute through preceding transfinite stages or construct their truth sets. Consequently the quotation nodes supply a typing discipline within this computable fragment, not an oracle for the full hierarchy.
 
-Every quantifier iteration and tree traversal is charged against an explicit work-step budget. Exhaustion raises an exception rather than returning false. The budget bounds these steps, not the bit complexity of arbitrarily large integers or the execution time of external symbolic routines. The implementation does not construct $\mathsf{Tr}_\alpha$ for the full unbounded language. Its executable claims concern bounded formulas and exact algebraic examples; software tests do not replace the proofs of the semantic theorems.
+Beyond static evaluation, version 0.3.0 provides transfinite calculus in `ordinatics.calculus` and discrete transfinite dynamics in `ordinatics.dynamics`. The calculus module provides the discrete difference operator `delta`, difference powers `Delta**n`, normal function wrappers with fixed-point derivatives `derivative()`, least fixed-point acceleration, and the Veblen hierarchy `veblen(alpha, beta)`. The dynamics module provides ordinal transformations $T$, composed maps, orbit evaluation over transfinite stages, and attractor identification classifying fixed points, periodic orbits, and limit stages.
+
+Every quantifier iteration, tree traversal, and dynamical transition is charged against an explicit work-step budget. Exhaustion raises an exception rather than returning false. The budget bounds these steps, not the bit complexity of arbitrarily large integers or the execution time of external symbolic routines. The implementation does not construct $\mathsf{Tr}_\alpha$ for the full unbounded language. Its executable claims concern bounded formulas and exact algebraic examples; software tests do not replace the proofs of the semantic theorems.
+
+# Ordinal calculus and transfinite dynamical systems
+
+Having established the static algebraic and truth-hierarchy layers, we turn to the dynamic and differential structures supported on the ordinal domain $\mathcal O$. These structures formalize how functions on ordinals grow, vary, and stabilize across transfinite stages, providing the mathematical substrate for stratified hypercomputational reflection.
+
+## Difference operators on ordinals
+
+Because ordinal subtraction is only a left-inverse operation ($\alpha \le \beta$ implies there exists a unique $\delta$ such that $\alpha +_o \delta = \beta$), the difference of two ordinal values requires a specific orientation.
+
+#### Definition 8.1 (Left difference and discrete derivative).
+
+Let $f\colon \mathcal O\to \mathcal O$ be weakly increasing ($f(\alpha) \le f(\alpha +_o 1)$ for all $\alpha$). The *forward left difference* $\Delta f$ is defined at $\alpha$ as the unique ordinal $\delta$ satisfying $$f(\alpha) +_o \Delta f(\alpha) = f(\alpha +_o 1).$$ For $n \ge 1$, the $n$-th order difference operator is defined by iteration: $\Delta^1 f = \Delta f$ and $\Delta^{n+1} f = \Delta(\Delta^n f)$, provided each intermediate function remains weakly increasing.
+
+#### Proposition 8.2 (Difference linearity and absorption).
+
+For constant $c$, $\Delta(c) = 0$. For the identity map $\operatorname{id}(\alpha) = \alpha$, $\Delta(\operatorname{id})(\alpha) = 1$. However, because $+_o$ is noncommutative, $\Delta(f +_o g)$ does not generally equal $\Delta f +_o \Delta g$. In particular, for $f(\alpha) = 1$ and $g(\alpha) = \alpha$, $f(\alpha) +_o g(\alpha) = 1 +_o \alpha$, whose value is $\alpha$ for infinite $\alpha$, yielding $\Delta(1 +_o \alpha) = 1$, whereas $\Delta(1) +_o \Delta(\alpha) = 0 +_o 1 = 1$.
+
+## Normal functions and the Veblen hierarchy
+
+A central mechanism for generating hypercomputational oracle stages is the transfinite fixed-point operator.
+
+#### Definition 8.3 (Normal ordinal functions and derivatives).
+
+A function $f\colon \mathcal O\to \mathcal O$ is *normal* if it is strictly increasing ($\alpha < \beta \implies f(\alpha) < f(\beta)$) and continuous at limit ordinals ($\lambda$ limit $\implies f(\lambda) = \sup_{\beta < \lambda} f(\beta)$). The *derivative* of a normal function $f$, denoted $f'$, is the unique normal function enumerating in increasing order the class of fixed points of $f$: $$\operatorname{Fix}(f) = \{\alpha \in \mathcal O: f(\alpha) = \alpha\}.$$
+
+#### Theorem 8.4 (Existence of fixed points via transfinite stage ascent).
+
+Every normal function $f\colon \mathcal O\to \mathcal O$ has arbitrarily large fixed points. For any ordinal $\gamma_0$, the sequence $\gamma_{k+1} = f(\gamma_k)$ ascends to a limit $\gamma_\omega = \sup_{k<\omega} \gamma_k$, which is the least fixed point of $f$ greater than or equal to $\gamma_0$.
+
+#### Proof.
+
+Since $f$ is strictly increasing, $\gamma_0 \le f(\gamma_0) = \gamma_1 \le \gamma_2 \le \cdots$. By continuity at limits, $f(\gamma_\omega) = f(\sup_{k<\omega} \gamma_k) = \sup_{k<\omega} f(\gamma_k) = \sup_{k<\omega} f(\gamma_{k+1}) = \gamma_\omega$. If $\eta \ge \gamma_0$ is any fixed point, induction shows $\gamma_k \le \eta$ for all $k$, so $\gamma_\omega \le \eta$.
+
+The Veblen hierarchy $\varphi_\alpha(\beta)$ iterates this fixed-point derivation transfinitely \[8\]: $$\begin{align*}
+\varphi_0(\beta) &= \omega^\beta,\\
+\varphi_{\alpha+1}(\beta) &= (\varphi_\alpha)'(\beta),\\
+\varphi_\lambda(\beta) &= \text{the $\beta$-th common fixed point of all } (\varphi_\gamma)_{\gamma < \lambda} \quad (\lambda \text{ limit}).
+\end{align*}$$ In particular, $\varphi_1(0) = \varepsilon_0$ is the least fixed point of $\beta \mapsto \omega^\beta$. Within the bounded fragment $\mathcal O$ below $\omega^\omega$, $\varphi_0(\beta) = \omega^\beta$ is computable whenever $\beta < \omega$. The transfinite branches $\varphi_\alpha$ define a canonical ladder of proof-theoretic and computational strengths, bounding the progression of reflection oracles without circularity \[9\].
+
+## Transfinite dynamical systems on ordinals
+
+Beyond monotone normal functions, general ordinal processes can be formalized as dynamical systems.
+
+#### Definition 8.5 (Ordinal dynamical systems and attractors).
+
+An *ordinal dynamical system* is a pair $(D, T)$ where $D \subseteq \mathcal O$ and $T\colon D \to D$ is an ordinal transformation. The *orbit* of an initial state $\alpha_0 \in D$ is the transfinite sequence defined by $$\alpha_{\sigma+1} = T(\alpha_\sigma), \qquad \alpha_\lambda = \limsup_{\beta < \lambda} \alpha_\beta \quad (\lambda \text{ limit}),$$ provided the limit lies in $D$. An *attractor* of $(D, T)$ is a minimal non-empty subset $A \subseteq D$ invariant under $T$ ($T(A) \subseteq A$) such that the orbit of $\alpha_0$ enters and remains in $A$ after an ordinal stage $\sigma^*$. In particular:
+
+- A *fixed-point attractor* satisfies $A = \{\alpha^*\}$ with $T(\alpha^*) = \alpha^*$.
+
+- A *periodic-cycle attractor* of period $p \ge 2$ satisfies $A = \{\alpha_0^*, \ldots, \alpha_{p-1}^*\}$ with $T(\alpha_j^*) = \alpha_{(j+1)\bmod p}^*$.
+
+In a finite or well-founded bounded domain, non-expanding transformations necessarily enter either a fixed point or a finite cycle. In transfinite stages, limit aggregation permits convergence to ordinal attractors that cannot be reached in any finite number of discrete steps. This discrete-to-transfinite passage provides the dynamical substrate for modeling superintelligent reflection cycles that stabilize at ordinal fixed points.
 
 # Contribution, limitations, and the next formal problem
 
-The model joins three components with distinct contracts. The ordinal layer of Ordinatics supplies ordered values, finite arithmetic, and semantic stage indices. The bounded field layer supplies division, while wrap evaluation is restricted to functions regular at the chosen anchor. The satisfaction hierarchy supplies meaning for truth claims at specified language levels. None of these components obtains the other's authority merely by sharing a representation.
+The model joins three components with distinct contracts. The ordinal layer of Ordinatics supplies ordered values, finite arithmetic, semantic stage indices, and transfinite dynamical stages. The bounded field layer supplies division, while wrap evaluation is restricted to functions regular at the chosen anchor. The satisfaction hierarchy supplies meaning for truth claims at specified language levels. None of these components obtains the other's authority merely by sharing a representation.
 
 The dependency structure is deliberately revealing. The truth-hierarchy theorems require ordinal well-foundedness, syntax, and set-theoretic satisfaction, but they do not require the anchor $-1/2$, fractional powers, or a complex spiral. Thus the paper establishes a coherent interface *for* Ordinatics rather than proving that the value layer of Ordinatics is necessary for arithmetic truth. A stronger claim of necessity would require an additional theorem showing a semantic construction that depends essentially on that layer. No such theorem is asserted here.
 
@@ -236,5 +294,13 @@ National Institute of Standards and Technology. *Digital Library of Mathematical
 #### \[7\]
 
 Tyler Roost. Unpublished working notes on Ordinatics: *Ordinatics* (Chapter 48), *The Wrap Operation W* (Chapter 50), *The Four-Level Ordinate Hierarchy* (Chapter 97), and *Dimensional Transition Operators* (Chapter 98), with accompanying ordinal-extension specifications. Manuscripts consulted September 6, 2026; Chapters 97--98 dated August 6, 2026. These are sources of the research proposal, not independently validated proof certificates. All definitions required for the present results are given in this paper.
+
+#### \[8\]
+
+Oswald Veblen. Continuous Increasing Functions of Finite and Transfinite Ordinals. *Transactions of the American Mathematical Society* 9(3), 280--292, 1908. [doi:10.2307/1988605](https://doi.org/10.2307/1988605).
+
+#### \[9\]
+
+Wolfram Pohlers. *Proof Theory: The First Step into Impredicativity*. Springer-Verlag, Berlin Heidelberg, 2009. [doi:10.1007/978-3-540-69319-2](https://doi.org/10.1007/978-3-540-69319-2).
 
 [^1]: <https://github.com/TimeLordRaps/ordinatics>

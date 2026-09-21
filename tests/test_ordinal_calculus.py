@@ -381,6 +381,45 @@ def test_veblen_symbolic_terms_and_ordering():
     assert v_om2 == OMEGA**2
     assert v_om2 < e0
 
+    # Classification properties on finite vs transfinite terms
+    v_one = VeblenTerm(0, 0)
+    assert v_one.is_finite
+    assert not v_one.is_limit
+    assert v_one.is_successor
+    assert not e0.is_finite
+    assert e0.is_limit
+    assert not e0.is_successor
+
+    # Nested transfinite Veblen terms (towers up to Gamma_0)
+    # epsilon_{epsilon_0} = phi_1(phi_1(0))
+    e_e0 = VeblenTerm(1, e0)
+    assert e_e0.is_epsilon
+    assert not e_e0.is_zeta
+    assert str(e_e0) == "ε_ε_0"
+
+    # zeta_{epsilon_0} = phi_2(phi_1(0))
+    z_e0 = VeblenTerm(2, e0)
+    assert z_e0.is_zeta
+    assert str(z_e0) == "ζ_ε_0"
+
+    # phi_{epsilon_0}(0)
+    phi_e0_0 = VeblenTerm(e0, 0)
+    assert str(phi_e0_0) == "φ(ε_0, 0)"
+
+    # Transfinite order progression: e0 < e1 < e_e0 < z0 < z_e0 < phi_{e0}(0)
+    assert e0 < e1 < e_e0
+    assert e_e0 < z0
+    assert z0 < z_e0
+    assert z_e0 < phi_e0_0
+
+    # Hashing, dictionary indexing, and structural equality
+    assert e_e0 == veblen(1, e0, symbolic=True)
+    assert hash(e_e0) == hash(VeblenTerm(1, e0))
+    mapping = {e_e0: "nested_epsilon", phi_e0_0: "gamma_stratum"}
+    assert mapping[VeblenTerm(1, e0)] == "nested_epsilon"
+    assert mapping[VeblenTerm(e0, 0)] == "gamma_stratum"
+
+
 
 def test_veblen_hierarchy_levels():
     level0 = VeblenHierarchy.level(0)

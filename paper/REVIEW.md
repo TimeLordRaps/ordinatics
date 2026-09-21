@@ -1,5 +1,12 @@
 # Manuscript review, September 7, 2026
 
+> **Coordinates superseded.** The digests in this review identify local
+> corrections on commit `1bdeb75`, not the files beside it today. The
+> findings and corrections below are live and were verified present in the
+> current manuscript; only the coordinates went stale. **Section 8 of the
+> current manuscript is unreviewed.** See the re-dating addendum at the end
+> of this file for current digests and coverage.
+
 This records an assisted mathematical and implementation review of **Ordinal
 Arithmetic: An Ordinal-First Metalanguage Approach to Definable Arithmetic Truth**,
 by Tyler Roost. It is not external peer review or a proof-assistant certificate.
@@ -120,3 +127,97 @@ deposit, or Digital Object Identifier (DOI) was created during this review. The
 existing software release's attached manuscript is the earlier revision.
 Formal release remains a separate next action; external peer review and a
 broader novelty assessment remain outstanding.
+
+---
+
+## Re-dating addendum, September 20, 2026
+
+The review above is preserved unchanged as a dated record of what was checked on
+September 7, 2026. This addendum exists because its digests no longer identify
+the files beside it, and a digest-bearing review that does not match the current
+bytes is worse than no review: it invites a reader to believe the current bytes
+were checked.
+
+### What the September 7 digests actually referred to
+
+They referred to **local, uncommitted corrections** sitting on base commit
+`1bdeb7593bc043c949ba9ec3912ae148608b967d`. The review says so in its own
+coordinate block, and its closing section records that the corrected revision
+remained local. Those corrections were later committed in `af92dbb`, together
+with new material the review never saw.
+
+This was confirmed rather than assumed. Diffing `1bdeb75` against the current
+manuscript shows every correction in the "Corrections incorporated" table
+present in the current bytes: the injective effective coding requirement, the
+unit-of-the-localization form of the inverse criterion, the quotient-by-the-lattice
+statement for the complex exponential, the restriction of the successor
+discussion to stages below the bound, and the rest. **The review's findings and
+corrections are live.** Only its coordinates went stale.
+
+### Current coordinates
+
+- Source: `paper/ordinal_arithmetic.tex`
+- Source SHA-256, over actual file bytes:
+  `1e7af9a1266ffd928e13e0ed9e5f621811ee546dd60c05204fdab8e21af73afb`
+- Source SHA-256 after normalizing line endings to line feeds:
+  `a007b794e6577cfd84a68005941da7649b936f17833cfc37a4b982c6a9a8e726`
+- PDF SHA-256:
+  `f1ad110ff530e6c26e202d9b06859e35125db3af6332426fd38f1bb07ddb3e25`
+- Manuscript label: Preprint, version 0.3.0, September 18, 2026. Twelve pages.
+
+### The PDF digest is only now meaningful
+
+At the time of the September 7 review the PDF build was **not reproducible**.
+Two consecutive builds from byte-identical source produced different PDFs,
+because pdfTeX wrote the wall clock into `/CreationDate` and `/ModDate` and a
+fresh trailer `/ID` on each run. A PDF digest recorded under those conditions
+identified one build artifact, not the document, and would have gone stale on
+the next build even with no edit to the source.
+
+This is fixed as of this addendum. `scripts/build_paper.py` pins
+`SOURCE_DATE_EPOCH` to the manuscript's stated date and sets
+`FORCE_SOURCE_DATE`; the preamble sets `\pdftrailerid{}` and
+`\pdfsuppressptexinfo=-1`. Two consecutive builds now produce identical bytes,
+verified. The PDF digest above is therefore a claim about the document and can
+be rechecked by rebuilding.
+
+The source digests changed for this reason too: the five-line reproducibility
+block is the only edit to the manuscript source made by this addendum. No
+mathematical content was touched.
+
+### What this addendum does NOT cover
+
+**Section 8, "Ordinal calculus and transfinite dynamical systems", is
+unreviewed.** It did not exist at the reviewed commit. It was added in
+`af92dbb` and `1564656` and comprises:
+
+- 8.1 Difference operators on ordinals
+- 8.2 Normal functions and the Veblen hierarchy
+- 8.3 Transfinite dynamical systems on ordinals
+
+No reviewer examined its statements, its proofs, or its correspondence with the
+implementation. Nothing in the September 7 review bears on it. It should be
+read as unreviewed manuscript material until a review of it exists.
+
+Two further items added after the review are also uncovered: the
+"Superintelligence, oracle classes, and transfinite stratification" paragraph in
+Section 1, and the Section 7 revisions describing direct evaluation of closed
+quoted trees and the dynamical-transition work-step budget.
+
+The library was version 0.1.0 when reviewed and is 0.3.0 now. The
+implementation reviewer's reproduction was against 0.1.0.
+
+### On the version label
+
+The September 7 review recorded the manuscript label as "version 1.0". The
+manuscript now reads "version 0.3.0". The label moved **backwards**, and that
+was deliberate and correct: 1.0 asserted a completeness that external peer
+review had not supplied and still has not. 0.3.0 tracks the library version and
+claims less. The reversal is recorded here so that a reader encountering both
+labels does not have to guess which way the document moved.
+
+### Standing position
+
+External peer review and a broader novelty assessment remain outstanding, as the
+September 7 review stated. Nothing in this addendum is a new mathematical check.
+It re-establishes coordinates and states coverage; it reviews nothing.

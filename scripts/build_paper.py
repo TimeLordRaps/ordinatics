@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -17,6 +18,11 @@ ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
 
 
+# 2026-09-18, the manuscript's stated preprint date. Changing it changes every
+# subsequent PDF digest, so it moves only when the manuscript date moves.
+SOURCE_DATE_EPOCH = 1789689600
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--render", action="store_true")
@@ -24,12 +30,18 @@ def main() -> None:
     for executable in ("pdflatex", "pandoc"):
         if not shutil.which(executable):
             raise SystemExit(f"Install {executable} and make it available on PATH")
+    # Pin the clock so identical source yields identical PDF bytes. Without
+    # this, two consecutive builds differ and any recorded PDF digest
+    # identifies one build artifact rather than the document.
+    env = dict(os.environ)
+    env.setdefault("SOURCE_DATE_EPOCH", str(SOURCE_DATE_EPOCH))
+    env["FORCE_SOURCE_DATE"] = "1"
     for run in range(2):
         print(f"LaTeX pass {run + 1}/2; timeout 90 seconds", flush=True)
         subprocess.run(
             ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", "-file-line-error",
              "ordinal_arithmetic.tex"],
-            cwd=PAPER, check=True, timeout=90,
+            cwd=PAPER, check=True, timeout=90, env=env,
         )
     log = (PAPER / "ordinal_arithmetic.log").read_text(encoding="utf-8", errors="replace")
     issues = [line for line in log.splitlines() if any(term in line for term in

@@ -1,4 +1,9 @@
 \documentclass[11pt]{article}
+% Reproducible build: fix the PDF trailer id and suppress the pdfTeX banner
+% so identical source yields identical bytes. The build script additionally
+% pins SOURCE_DATE_EPOCH, which pdfTeX honours for /CreationDate and /ModDate.
+\pdfsuppressptexinfo=-1
+\pdftrailerid{}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}

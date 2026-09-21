@@ -36,6 +36,13 @@ def _to_ordinal(value: object, name: str = "value") -> Ordinal:
     return Ordinal.from_int(idx)
 
 
+def _to_ordinal_or_term(value: object, name: str = "value") -> Ordinal | VeblenTerm:
+    if isinstance(value, (Ordinal, VeblenTerm)):
+        return value
+    return _to_ordinal(value, name)
+
+
+
 def _sequence_limit(samples: list[Ordinal]) -> Ordinal:
     """Infer the ordinal limit of an increasing sequence of ordinals below omega**omega.
 
@@ -477,14 +484,15 @@ class VeblenTerm:
     phi_1(beta) = epsilon_beta (fixed points of phi_0)
     phi_2(beta) = zeta_beta (fixed points of phi_1)
     phi_{alpha + 1}(beta) enumerates fixed points of phi_alpha.
+    Supports transfinite arguments and nested towers (e.g. epsilon_{epsilon_0}).
     """
 
-    alpha: Ordinal
-    beta: Ordinal
+    alpha: Ordinal | VeblenTerm
+    beta: Ordinal | VeblenTerm
 
     def __init__(self, alpha: object, beta: object) -> None:
-        object.__setattr__(self, "alpha", _to_ordinal(alpha, "alpha"))
-        object.__setattr__(self, "beta", _to_ordinal(beta, "beta"))
+        object.__setattr__(self, "alpha", _to_ordinal_or_term(alpha, "alpha"))
+        object.__setattr__(self, "beta", _to_ordinal_or_term(beta, "beta"))
 
     @property
     def is_epsilon(self) -> bool:
@@ -496,9 +504,33 @@ class VeblenTerm:
         """Whether this term is in the zeta sequence (alpha == 2)."""
         return self.alpha == Ordinal.from_int(2)
 
+    @property
+    def is_finite(self) -> bool:
+        """Whether this term evaluates to a finite ordinal (< omega)."""
+        try:
+            return self.eval().is_finite
+        except DomainError:
+            return False
+
+    @property
+    def is_limit(self) -> bool:
+        """Whether this term is a limit ordinal."""
+        try:
+            return self.eval().is_limit
+        except DomainError:
+            return True
+
+    @property
+    def is_successor(self) -> bool:
+        """Whether this term is a successor ordinal."""
+        try:
+            return self.eval().is_successor
+        except DomainError:
+            return False
+
     def eval(self) -> Ordinal:
         """Evaluate to an exact Ordinal if within bounded domain (< omega**omega)."""
-        if not self.alpha and self.beta.is_finite:
+        if not self.alpha and isinstance(self.beta, Ordinal) and self.beta.is_finite:
             return Ordinal.omega_power(self.beta.to_int())
         raise DomainError(
             f"{self} >= omega**omega exceeds bounded Ordinal representation. "
@@ -560,7 +592,7 @@ class VeblenTerm:
                 return "1"
             if self.beta == ONE:
                 return "ω"
-            if self.beta.is_finite:
+            if isinstance(self.beta, Ordinal) and self.beta.is_finite:
                 return f"ω^{self.beta.to_int()}"
             return f"φ(0, {self.beta})"
         if self.alpha == ONE:
@@ -578,8 +610,8 @@ class VeblenHierarchy:
 
     @staticmethod
     def phi(
-        alpha: Ordinal | int,
-        beta: Ordinal | int,
+        alpha: Ordinal | VeblenTerm | int,
+        beta: Ordinal | VeblenTerm | int,
         symbolic: bool = False,
     ) -> Ordinal | VeblenTerm:
         """Evaluate phi_alpha(beta) in the Veblen hierarchy."""
@@ -598,8 +630,8 @@ class VeblenHierarchy:
 
 
 def veblen(
-    alpha: Ordinal | int,
-    beta: Ordinal | int,
+    alpha: Ordinal | VeblenTerm | int,
+    beta: Ordinal | VeblenTerm | int,
     symbolic: bool = False,
 ) -> Ordinal | VeblenTerm:
     """Evaluate or construct phi_alpha(beta) in the Veblen hierarchy.
@@ -607,13 +639,15 @@ def veblen(
     If symbolic is False and alpha == 0 and beta < omega: returns exact Ordinal.
     Otherwise raises DomainError (or returns VeblenTerm if symbolic=True).
     """
-    alpha_ord = _to_ordinal(alpha, "alpha")
-    beta_ord = _to_ordinal(beta, "beta")
+    alpha_val = _to_ordinal_or_term(alpha, "alpha")
+    beta_val = _to_ordinal_or_term(beta, "beta")
     if not symbolic:
-        if not alpha_ord and beta_ord.is_finite:
-            return Ordinal.omega_power(beta_ord.to_int())
+        if isinstance(alpha_val, Ordinal) and isinstance(beta_val, Ordinal):
+            if not alpha_val and beta_val.is_finite:
+                return Ordinal.omega_power(beta_val.to_int())
         raise DomainError(
-            f"phi({alpha_ord}, {beta_ord}) >= omega**omega exceeds bounded Ordinal domain. "
+            f"phi({alpha_val}, {beta_val}) >= omega**omega exceeds bounded Ordinal domain. "
             f"Pass symbolic=True to obtain a VeblenTerm."
         )
-    return VeblenTerm(alpha_ord, beta_ord)
+    return VeblenTerm(alpha_val, beta_val)
+

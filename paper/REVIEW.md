@@ -6,6 +6,20 @@
 > current manuscript; only the coordinates went stale. **Section 8 of the
 > current manuscript is unreviewed.** See the re-dating addendum at the end
 > of this file for current digests and coverage.
+>
+> **Commit identifiers rewritten on 2026-10-02.** This repository's history was
+> rewritten to remove text that should not have been published. The commits this
+> review names now exist only under new identifiers, each one with the identical
+> tree:
+>
+> | Named here | Now |
+> |---|---|
+> | `1bdeb7593bc043c949ba9ec3912ae148608b967d` | `d061628efeab8c7e7add35078d00c859933d86fc` |
+> | `af92dbb` | `7efaf454621ff05fd3e6bc41df31abb1cec39add` |
+> | `1564656` | `ded754dd7b64410ee5c1ec0b0c47688c78fdcca1` |
+>
+> The file digests are unaffected, because they are over file bytes rather than
+> commits.
 
 This records an assisted mathematical and implementation review of **Ordinal
 Arithmetic: An Ordinal-First Metalanguage Approach to Definable Arithmetic Truth**,

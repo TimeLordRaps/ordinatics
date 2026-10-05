@@ -14,6 +14,19 @@ All names below can be imported directly from `ordinatics`. Source docstrings sp
 - `a.to_sympy(symbol=None)`, `Ordinal.from_sympy(expr, symbol=None)`: exact polynomial representation. The symbol must be a commutative SymPy symbol; the default is `X`.
 - Ordinals support comparison, hashing, and readable string output. Finite ordinals compare equal to corresponding exact integers and share their hashes.
 
+## Fundamental sequences and Hardy hierarchy
+
+Lazily exported from `ordinatics.fundamental`; standard library only. Every call that runs a descent takes `max_steps` (default 1,000,000).
+
+- `hardy_fundamental(alpha, n)`: `alpha[n]` for a limit `alpha` below `omega**omega` (index is the Hardy argument; `hardy_fundamental(a, n) == a.fundamental_sequence(n - 1)` for `n >= 1`).
+- `omega_omega_fundamental(n)`: `omega**omega[n] = omega**n`.
+- `hardy(alpha, n, *, max_steps=...)`: `H_alpha(n)` as an exact integer.
+- `hardy_descent(alpha, n, *, max_steps=...)`: a `HardyDescent(value, steps, limit_steps)`.
+- `hardy_omega_omega(n, *, max_steps=...)`: the descent for `H_(omega**omega)(n) = H_(omega**n)(n)`.
+- `HardyBudgetError`: the budget ran out; no value has been established.
+
+See [exponent axis, rank order and Hardy descent](exponent_axis_and_rank_order.md).
+
 ## Value algebra
 
 - `X`: a commutative SymPy symbol.

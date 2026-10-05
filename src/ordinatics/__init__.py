@@ -25,6 +25,14 @@ _LAZY_EXPORTS: dict[str, tuple[str, str]] = {
     "rational_power_image": ("ordinatics.algebra", "rational_power_image"),
     "specialize": ("ordinatics.algebra", "specialize"),
     "wrap": ("ordinatics.algebra", "wrap"),
+    # fundamental sequences and Hardy hierarchy
+    "HardyBudgetError": ("ordinatics.fundamental", "HardyBudgetError"),
+    "HardyDescent": ("ordinatics.fundamental", "HardyDescent"),
+    "hardy": ("ordinatics.fundamental", "hardy"),
+    "hardy_descent": ("ordinatics.fundamental", "hardy_descent"),
+    "hardy_fundamental": ("ordinatics.fundamental", "hardy_fundamental"),
+    "hardy_omega_omega": ("ordinatics.fundamental", "hardy_omega_omega"),
+    "omega_omega_fundamental": ("ordinatics.fundamental", "omega_omega_fundamental"),
     # semantics
     "Add": ("ordinatics.semantics", "Add"),
     "And": ("ordinatics.semantics", "And"),

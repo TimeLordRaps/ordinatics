@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- `ordinatics.fundamental`: Hardy-indexed fundamental sequences and the Hardy hierarchy below `omega**omega`, with an explicit step budget and `HardyBudgetError`; lazily exported.
+- Tests: exact exponent-axis checks of `rational_power_image` (needs the `scientific` extra), a bounded-grid property test of the rank order of the omegas, and a differential test of the Hardy descent.
+- Docs: `docs/exponent_axis_and_rank_order.md` records checked claims separately from owner statements and open items.
+
 ## 0.3.0 - 2026-09-18
 
 - Ordinal calculus and transfinite dynamical systems: difference operators, ordinal derivatives, Veblen hierarchy enumeration, discrete orbits, and limit-stage fixed points formalized in the accompanying mathematical paper (Section 8).

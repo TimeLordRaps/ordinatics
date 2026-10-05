@@ -58,6 +58,7 @@ Verbatim:
 | The image of this exponent map is one-dimensional (a logarithmic spiral: modulus and phase are both functions of `r`) | Checked (exact modulus, numeric phase to 1e-9) | `tests/test_exponent_axis.py` |
 | Rank order below `omega**omega`: strict total order, `omega**j < omega**j'` for `j < j'`, banding, cofinality of the omegas | Checked on bounded grids of coefficient tuples; proved in Lean elsewhere (see below) | `tests/test_rank_order.py` |
 | Descent into the naturals: fundamental sequences and Hardy descent terminate and produce the closed forms `H_omega(n) = 2n`, `H_(omega*2)(n) = 4n`, `H_(omega**2)(n) = n*2**n`, `H_(omega**3)(2) = 2048` | Checked; `H_(omega**4)(2)` is reported as exceeding the budget `10**7`, not computed | `tests/test_fundamental.py` |
+| A rewrite game on pairs (a, b) = `omega*a + b` terminates from every infinite position although its run length is unbounded over the adversary's choices | Checked on bounded grids and random runs; every step strictly lowers the exact `Ordinal` | `tests/test_descent_game.py` |
 
 Grids are evidence for the grid. Irrational exponents are not testable by this
 code: that their phase has infinite order follows from an argument (a finite order
